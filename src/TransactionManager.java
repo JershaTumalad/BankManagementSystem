@@ -22,6 +22,9 @@ public class TransactionManager {
             case "Bills Payment":
                 newTransaction = new BillsPayment(id, amount, date, extra);
                 break;
+            case "Buy Load":
+                newTransaction = new BuyLoad(id, amount, date, extra);
+                break;
             default:
                 System.out.println("Invalid transaction type.");
                 return;

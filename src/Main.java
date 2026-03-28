@@ -15,20 +15,28 @@ public class Main{
             System.out.println("[2] Withdrawal");
             System.out.println("[3] Transfer");
             System.out.println("[4] Bill Payment");
+            System.out.println("[5] Buy Load");
             System.out.print("Enter choice: ");
             int typeChoice = sc.nextInt();
             sc.nextLine();
             
             String transactionType;
             switch (typeChoice) {
-                case 1: transactionType = "Deposit"; 
-                break;
-                case 2: transactionType = "Withdrawal"; 
-                break;
-                case 3: transactionType = "Transfer"; 
-                break;
-                case 4: transactionType = "Bills Payment"; 
-                break;
+                case 1: 
+                    transactionType = "Deposit"; 
+                    break;
+                case 2: 
+                    transactionType = "Withdrawal"; 
+                    break;
+                case 3: 
+                    transactionType = "Transfer"; 
+                    break;
+                case 4: 
+                    transactionType = "Bills Payment"; 
+                    break;
+                case 5:
+                    transactionType = "Buy Load";
+                    break;
                 default: transactionType = "Unknown"; 
                 break;
             }
@@ -66,12 +74,32 @@ public class Main{
                             break;
                     }
                     break;
-                case "Transfer":
-                    System.out.println("Enter Recipient Name: ");
-                    description = sc.nextLine();
-                    break;
+            case "Transfer":
+                System.out.println("Enter Recipient Name: ");
+                description = sc.nextLine();
+                break;
+                
+            case "Buy Load":
+                System.out.println("Select Telco:");
+                System.out.println("[1] Globe");
+                System.out.println("[2] Smart");
+                System.out.println("[3] DITO");
+                System.out.println("[4] TM");
+                System.out.println("[5] TNT");
+                System.out.println("Enter choice:");
+                int telcoChoice = sc.nextInt();
+                sc.nextLine();
+                switch(telcoChoice){
+                    case 1: description = "Globe"; break;
+                    case 2: description = "Smart"; break;
+                    case 3: description = "DITO"; break;
+                    case 4: description = "TM"; break;
+                    case 5: description = "TNT"; break;
+                    default: description = "Other"; break;
+                }
+                break;
             }
-
+            
             double amount = 0;
             boolean validAmount = false;
             while (!validAmount) {

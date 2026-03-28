@@ -25,7 +25,7 @@ public class BankAppGUI extends JFrame{
 
         JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout(null);
-        buttonPanel.setBounds(300, 150, 300, 300);
+        buttonPanel.setBounds(300, 80, 300, 380);
         buttonPanel.setBackground(Color.LIGHT_GRAY);
         add(buttonPanel);
         
@@ -44,6 +44,10 @@ public class BankAppGUI extends JFrame{
         JButton billsBTN = new JButton("Bills Payment");
         billsBTN.setBounds(50, 230, 200, 50);
         buttonPanel.add(billsBTN);
+        
+        JButton loadBTN = new JButton("Buy Load");
+        loadBTN.setBounds(50, 300, 200, 50);
+        buttonPanel.add(loadBTN);
         
         depBTN.addActionListener(e -> {
             new DepositGUI(manager);
