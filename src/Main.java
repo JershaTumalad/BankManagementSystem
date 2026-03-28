@@ -10,10 +10,6 @@ public class Main{
         while (choice == 1) {
             System.out.println("\n===== NEW TRANSACTION =====");
 
-            System.out.print("Enter Transaction ID (e.g., 1001): ");
-            int transactionID = sc.nextInt();
-            sc.nextLine();
-
             System.out.println("Select Transaction Type:");
             System.out.println("[1] Deposit");
             System.out.println("[2] Withdrawal");
@@ -88,11 +84,21 @@ public class Main{
                     System.out.println("❌ Amount must be greater than 0. Try again.");
                 }
             }
+            
+            String date = "";
+            boolean validDate = false;
+            while(!validDate){
+                System.out.print("Enter Date (YYYY-MM-DD): ");
+                date = sc.nextLine();
+                if(Transaction.isValidDate(date)){
+                    validDate = true;
+                }else{
+                    System.out.println("❌ Invalid date format. Try again.");
+                }
+            }
 
-            System.out.print("Enter Date (YYYY-MM-DD): ");
-            String date = sc.nextLine();
 
-            manager.addTransaction(transactionID, transactionType, amount, date, description);
+            manager.addTransaction(transactionType, amount, date, description);
             System.out.print("\nDo you want to add another transaction? [1] Yes  [0] No: ");
             choice = sc.nextInt();
             sc.nextLine();

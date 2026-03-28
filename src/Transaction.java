@@ -1,4 +1,6 @@
 import java.util.*;
+import java.time.*;
+import java.time.format.*;
 
 public class Transaction {
 
@@ -7,15 +9,14 @@ public class Transaction {
     private double amount;
     private String date; // Format: YYYY-MM-DD
     private String status;
-    private String description;
 
-    public Transaction(int transactionID, String transactionType, double amount, String date, String status, String description) {
+    
+    public Transaction(int transactionID, String transactionType, double amount, String date, String status) {
         this.transactionID = transactionID;
         this.transactionType = transactionType;
         this.amount = amount;
         this.date = date;
         this.status = status;
-        this.description = description;
     }
 
     public int getTransactionID() {
@@ -66,26 +67,25 @@ public class Transaction {
         }
     }
     
-    public String getDescriptoin(){
-        return description;
+    public static boolean isValidDate(String date){
+        try{
+            LocalDate.parse(date, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+            return true;
+        }catch(DateTimeParseException e){
+            return false;
+        }
     }
     
-    public void setDescription(String description){
-        this.description = description;
-    }
-
     public void displayTransaction() {
         System.out.println("-----------------------------");
         System.out.println("Transaction ID   : " + transactionID);
         System.out.println("Transaction Type : " + transactionType);
         if(transactionType.equals("Deposit")){
-            System.out.println("Amount       : + PHP " + String.format("%.2f", amount));
+            System.out.println("Amount           : + PHP " + String.format("%.2f", amount));
         }else{
             System.out.println("Amount           : - PHP " + String.format("%.2f", amount));
         }
         System.out.println("Date             : " + date);
         System.out.println("Status           : " + status);
-        System.out.println("Description      : " + description);
-        System.out.println("-----------------------------");
     }
 }
