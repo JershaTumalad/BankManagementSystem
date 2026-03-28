@@ -4,6 +4,7 @@ public class TransactionManager {
     private ArrayList<Transaction> transactionList = new ArrayList<>();
     private int nextID = 1001;
     
+    
     public void addTransaction( String type, double amount, String date, String extra) {
         Transaction newTransaction;
         int id = nextID++;
