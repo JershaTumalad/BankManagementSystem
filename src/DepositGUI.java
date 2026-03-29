@@ -3,38 +3,48 @@ import java.awt.*;
 
 public class DepositGUI extends JFrame{
     private TransactionManager manager;
+    private JLabel billLBL, amountLBL, dateLBL;
+    private JTextField amountFLD, dateFLD;
+    private JTextArea receiptArea;
+    private JButton subBTN;
     
     public DepositGUI(TransactionManager manager){
         this.manager = manager;
         setTitle("Deposit");
-        setSize(900, 600);
+        setSize(390, 700);
         setLayout(null);
         setLocationRelativeTo(null);
         
-        JLabel amountLBL = new JLabel("Amount: ");
+        amountLBL = new JLabel("Amount: ");
         amountLBL.setLayout(null);
         amountLBL.setFont(new Font("Arial", Font.BOLD, 14));
-        amountLBL.setBounds(50, 100, 150, 30);
+        amountLBL.setBounds(20, 100, 340, 30);
         add(amountLBL);
         
-        JTextField amountFLD = new JTextField();
-        amountFLD.setBounds(110, 100, 200, 30);
+        amountFLD = new JTextField();
+        amountFLD.setBounds(20, 130, 340, 30);
         add(amountFLD);
         
-        JLabel dateLBL = new JLabel("Date: ");
+        dateLBL = new JLabel("Date: ");
         dateLBL.setLayout(null);
         dateLBL.setFont(new Font("Arial", Font.BOLD, 14));
-        dateLBL.setBounds(50, 150, 150, 30);
+        dateLBL.setBounds(20, 180, 340, 30);
         add(dateLBL);
         
-        JTextField dateFLD = new JTextField();
-        dateFLD.setBounds(110, 150, 200, 30);
+        dateFLD = new JTextField();
+        dateFLD.setBounds(20, 210, 340, 30);
         add(dateFLD);
         
-        JButton subBTN = new JButton("Submit");
+        subBTN = new JButton("Submit");
         subBTN.setLayout(null);
-        subBTN.setBounds(110, 200, 200, 30);
+        subBTN.setBounds(95, 270, 200, 40);
         add(subBTN);
+        
+        receiptArea = new JTextArea();
+        receiptArea.setFont(new Font("Arial", Font.BOLD, 14));
+        receiptArea.setBounds(20, 320, 340, 200);
+        receiptArea.setEditable(false);
+        add(receiptArea);
         
         subBTN.addActionListener(e -> {
             String date = dateFLD.getText();
@@ -49,8 +59,23 @@ public class DepositGUI extends JFrame{
                     JOptionPane.showMessageDialog(this, "Amount must be greater than 0.");
                     return;
                 }
-                manager.addTransaction("Deposit", amount, date, "");
-                JOptionPane.showMessageDialog(this, "Deposit successful.");
+                String result = manager.addTransaction("Deposit", amount, date, "");
+                if(result.equals("SUCCESS")){
+                    JOptionPane.showMessageDialog(this, "Deposit is succesful.");
+                    receiptArea.setText(
+                        "Transaction Successful!\n" +
+                        "-----------------------------\n" +
+                        "\nTransaction Type : Deposit\n" +
+                        "Amount                 : + PHP " + String.format("%.2f", amount) + "\n" +
+                        "Date                      : " + date + "\n" +
+                        "Status                   : Successful\n" +
+                        "-----------------------------"
+                    );
+                    amountFLD.setText("");
+                    dateFLD.setText("");
+            }else{
+                  JOptionPane.showMessageDialog(this, result);
+                }
             }catch(NumberFormatException ex){
              JOptionPane.showMessageDialog(this, "Invalid amount. Enter a number.");
             }

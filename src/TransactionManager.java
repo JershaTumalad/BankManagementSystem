@@ -2,12 +2,19 @@ import java.util.*;
 
 public class TransactionManager {
     private ArrayList<Transaction> transactionList = new ArrayList<>();
-    private int nextID = 1001;
+    private int nextID = 0;
+    private double balance = 0.0;
     
-    
-    public void addTransaction( String type, double amount, String date, String extra) {
+    public String addTransaction( String type, double amount, String date, String extra) {
         Transaction newTransaction;
         int id = nextID++;
+        
+        if (!type.equals("Deposit") && amount > balance) {
+            return "❌ Insufficient balance. Current balance: PHP " + String.format("%.2f", balance);
+            
+        }
+        
+        
         
         switch(type){
             case "Deposit":
@@ -26,13 +33,22 @@ public class TransactionManager {
                 newTransaction = new BuyLoad(id, amount, date, extra);
                 break;
             default:
-                System.out.println("Invalid transaction type.");
-                return;
+                return "Invalid transaction type.";
+                
+        }
+        
+        if(type.equals("Deposit")){
+            balance += amount;
+        }else{
+            balance -= amount;
         }
         
         transactionList.add(newTransaction);
-        System.out.println("\n✔ Transaction successfully added!\n");
-        newTransaction.displayTransaction();
+        return "SUCCESS";
+    }
+    
+    public double getBalance(){
+        return balance;
     }
     
     public void displayAllTransaction(){
@@ -43,6 +59,8 @@ public class TransactionManager {
             for(Transaction t : transactionList){
                 t.displayTransaction();
             }
+            
+            
         }
     }
 }
