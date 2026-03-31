@@ -51,6 +51,10 @@ public class TransactionManager {
         return balance;
     }
     
+    public ArrayList<Transaction> getTransactionList(){
+        return transactionList;
+    }
+    
     public void displayAllTransaction(){
         if(transactionList.isEmpty()){
             System.out.println("No transaction found.");

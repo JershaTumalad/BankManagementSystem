@@ -5,9 +5,9 @@ import java.time.format.*;
 public class Transaction {
 
     private int transactionID;
-    private String transactionType; // "Deposit", "Withdrawal", "Transfer"
+    private String transactionType; 
     private double amount;
-    private String date; // Format: YYYY-MM-DD
+    private String date; 
     private String status;
 
     
@@ -75,6 +75,10 @@ public class Transaction {
             return false;
         }
     }
+    
+    public String getFormattedAmount() {
+    return String.format("%.2f", amount);
+}
     
     public void displayTransaction() {
         System.out.println("-----------------------------");

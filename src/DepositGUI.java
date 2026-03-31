@@ -3,9 +3,8 @@ import java.awt.*;
 
 public class DepositGUI extends JFrame{
     private TransactionManager manager;
-    private JLabel billLBL, amountLBL, dateLBL;
+    private JLabel billLBL, amountLBL, dateLBL, balanceLBL;
     private JTextField amountFLD, dateFLD;
-    private JTextArea receiptArea;
     private JButton subBTN, backBTN;
     
     public DepositGUI(TransactionManager manager, BankAppGUI mainWindow){
@@ -50,11 +49,11 @@ public class DepositGUI extends JFrame{
             dispose();                   
         });
         
-        receiptArea = new JTextArea();
-        receiptArea.setFont(new Font("Arial", Font.BOLD, 14));
-        receiptArea.setBounds(20, 320, 340, 200);
-        receiptArea.setEditable(false);
-        add(receiptArea);
+        balanceLBL = new JLabel("Balance: PHP " + String.format("%.2f", manager.getBalance()));
+        balanceLBL.setFont(new Font("Arial", Font.BOLD, 14));
+        balanceLBL.setBounds(20, 550, 340, 30);
+        add(balanceLBL);
+        
         
         subBTN.addActionListener(e -> {
             String date = dateFLD.getText();
@@ -72,15 +71,7 @@ public class DepositGUI extends JFrame{
                 String result = manager.addTransaction("Deposit", amount, date, "");
                 if(result.equals("SUCCESS")){
                     JOptionPane.showMessageDialog(this, "Deposit is succesful.");
-                    receiptArea.setText(
-                        "Transaction Successful!\n" +
-                        "-----------------------------\n" +
-                        "\nTransaction Type : Deposit\n" +
-                        "Amount                 : + PHP " + String.format("%.2f", amount) + "\n" +
-                        "Date                      : " + date + "\n" +
-                        "Status                   : Successful\n" +
-                        "-----------------------------"
-                    );
+                    balanceLBL.setText("Balance: PHP " + String.format("%.2f", manager.getBalance()));
                     amountFLD.setText("");
                     dateFLD.setText("");
             }else{

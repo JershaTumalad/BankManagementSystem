@@ -4,7 +4,7 @@ import java.awt.*;
 public class BillPaymentGUI extends JFrame{
     private TransactionManager manager;
     private JRadioButton meralco, pldt, globe, maynilad, skycable;
-    private JLabel billLBL, amountLBL, dateLBL;
+    private JLabel billLBL, amountLBL, dateLBL, balanceLBL;
     private JTextField amountFLD, dateFLD;
     private JButton subBTN, backBTN;
     ButtonGroup group;
@@ -15,6 +15,7 @@ public class BillPaymentGUI extends JFrame{
         setSize(390, 700);
         setLayout(null);
         setLocationRelativeTo(null);
+        
         
         billLBL = new JLabel("Choose Biller: ");
         billLBL.setLayout(null);
@@ -58,6 +59,11 @@ public class BillPaymentGUI extends JFrame{
             dispose();                   
         });
         
+        balanceLBL = new JLabel("Balance: PHP " + String.format("%.2f", manager.getBalance()));
+        balanceLBL.setFont(new Font("Arial", Font.BOLD, 14));
+        balanceLBL.setBounds(20, 550, 340, 30);
+        add(balanceLBL);
+        
         
         meralco = new JRadioButton("Meralco");
         pldt = new JRadioButton("Pldt");
@@ -100,7 +106,16 @@ public class BillPaymentGUI extends JFrame{
                     return;
                 }
                 manager.addTransaction("Bills Payment", amount, date, "");
+                String selectedBiller = "";
+                if(meralco.isSelected()) selectedBiller = "Meralco";
+                else if(pldt.isSelected()) selectedBiller = "PLDT";
+                else if(globe.isSelected()) selectedBiller = "Globe";
+                else if(maynilad.isSelected()) selectedBiller = "Maynilad";
+                else if(skycable.isSelected()) selectedBiller = "Sky Cable";
+
+                manager.addTransaction("Bills Payment", amount, date, selectedBiller);
                 JOptionPane.showMessageDialog(this, "Paid.");
+                balanceLBL.setText("Balance: PHP " + String.format("%.2f", manager.getBalance()));
                     amountFLD.setText("");
                     dateFLD.setText("");
                     meralco.setSelected(false);

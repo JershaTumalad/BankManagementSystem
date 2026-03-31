@@ -4,7 +4,7 @@ import java.awt.*;
 public class BuyLoadGUI extends JFrame{
     private TransactionManager manager;
     private JRadioButton globe, smart, dito, tm, tnt;
-    private JLabel loadLBL, amountLBL, dateLBL;
+    private JLabel loadLBL, amountLBL, dateLBL, balanceLBL;
     private JTextField amountFLD, dateFLD;
     private JButton subBTN, backBTN;
     ButtonGroup group;
@@ -47,7 +47,6 @@ public class BuyLoadGUI extends JFrame{
         add(tm);
         add(tnt);
         
-        
         amountLBL = new JLabel("Amount: ");
         amountLBL.setLayout(null);
         amountLBL.setFont(new Font("Arial", Font.BOLD, 14));
@@ -83,6 +82,11 @@ public class BuyLoadGUI extends JFrame{
             dispose();                   
         });
         
+        balanceLBL = new JLabel("Balance: PHP " + String.format("%.2f", manager.getBalance()));
+        balanceLBL.setFont(new Font("Arial", Font.BOLD, 14));
+        balanceLBL.setBounds(20, 550, 340, 30);
+        add(balanceLBL);
+        
         
         subBTN.addActionListener(e -> {
            String date = dateFLD.getText();
@@ -93,24 +97,41 @@ public class BuyLoadGUI extends JFrame{
          
             try{
                 double amount = Double.parseDouble(amountFLD.getText());
+                if(!globe.isSelected() && !smart.isSelected() && !dito.isSelected() && !tm.isSelected() && !tnt.isSelected()){
+                    JOptionPane.showMessageDialog(this, "Please select a telco.");
+                    return;
+                }
+                
                 if(amount <= 0 ){
                     JOptionPane.showMessageDialog(this, "Amount must be greater than 0.");
                     return;
                 }
-                manager.addTransaction("Buy Load", amount, date, "");
-                JOptionPane.showMessageDialog(this, "Load purchase");
-                    amountFLD.setText("");
-                    dateFLD.setText("");
-                    globe.setSelected(false);
-                    smart.setSelected(false);
-                    dito.setSelected(false);
-                    tm.setSelected(false);
-                    tnt.setSelected(false);
-                    globe.setSelected(true);
+                String selectedTelco = "";
+                if(globe.isSelected()) selectedTelco = "Globe";
+                else if(smart.isSelected()) selectedTelco = "Smart";
+                else if(dito.isSelected()) selectedTelco = "DITO";
+                else if(tm.isSelected()) selectedTelco = "TM";
+                else if(tnt.isSelected()) selectedTelco = "TNT";
+
+                manager.addTransaction("Buy Load", amount, date, selectedTelco);
+                JOptionPane.showMessageDialog(this, "Load Purchased");
+                balanceLBL.setText("Balance: PHP " + String.format("%.2f", manager.getBalance()));
+                amountFLD.setText("");
+                dateFLD.setText("");
+                globe.setSelected(false);
+                smart.setSelected(false);
+                dito.setSelected(false);
+                tm.setSelected(false);
+                tnt.setSelected(false);
+                globe.setSelected(true);
             }catch(NumberFormatException ex){
              JOptionPane.showMessageDialog(this, "Invalid amount. Enter a number.");
             }
-        });
+        }
+        
+                
+        
+        );
         
         setVisible(true);
     }

@@ -3,7 +3,7 @@ import java.awt.*;
 
 public class TransferGUI extends JFrame{
     private TransactionManager manager;
-    private JLabel recLBL,billLBL, amountLBL, dateLBL;
+    private JLabel recLBL,billLBL, amountLBL, dateLBL, balanceLBL;
     private JTextField recFLD, amountFLD, dateFLD;
     private JButton subBTN, backBTN;
     
@@ -14,6 +14,11 @@ public class TransferGUI extends JFrame{
         setLayout(null);
         setLocationRelativeTo(null);
         
+        balanceLBL = new JLabel("Balance: PHP " + String.format("%.2f", manager.getBalance()));
+        balanceLBL.setFont(new Font("Arial", Font.BOLD, 14));
+        balanceLBL.setBounds(20, 550, 340, 30);
+        add(balanceLBL);
+
         recLBL = new JLabel("Enter name of recipient: ");
         recLBL.setLayout(null);
         recLBL.setFont(new Font("Arial", Font.BOLD, 14));
@@ -75,6 +80,7 @@ public class TransferGUI extends JFrame{
                 }
                 manager.addTransaction("Transfer", amount, date, recFLD.getText());
                 JOptionPane.showMessageDialog(this, "Transfer successful.");
+                balanceLBL.setText("Balance: PHP " + String.format("%.2f", manager.getBalance())); 
                     amountFLD.setText("");
                     dateFLD.setText("");
             }catch(NumberFormatException ex){

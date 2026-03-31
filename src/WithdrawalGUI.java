@@ -3,7 +3,7 @@ import javax.swing.*;
 
 public class WithdrawalGUI extends JFrame{
     private TransactionManager manager;
-    private JLabel billLBL, amountLBL, dateLBL;
+    private JLabel billLBL, amountLBL, dateLBL, balanceLBL;
     private JTextField amountFLD, dateFLD;
     private JButton subBTN, backBTN;
     
@@ -49,6 +49,11 @@ public class WithdrawalGUI extends JFrame{
             dispose();                   
         });
         
+        balanceLBL = new JLabel("Balance: PHP " + String.format("%.2f", manager.getBalance()));
+        balanceLBL.setFont(new Font("Arial", Font.BOLD, 14));
+        balanceLBL.setBounds(20, 550, 340, 30);
+        add(balanceLBL);
+        
         
         
         subBTN.addActionListener(e -> {
@@ -66,6 +71,7 @@ public class WithdrawalGUI extends JFrame{
                 }
                 manager.addTransaction("Withdrawal", amount, date, "");
                 JOptionPane.showMessageDialog(this, "Withdrawal successful.");
+                balanceLBL.setText("Balance: PHP " + String.format("%.2f", manager.getBalance()));
                     amountFLD.setText("");
                     dateFLD.setText("");
             }catch(NumberFormatException ex){
