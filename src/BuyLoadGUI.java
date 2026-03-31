@@ -6,10 +6,10 @@ public class BuyLoadGUI extends JFrame{
     private JRadioButton globe, smart, dito, tm, tnt;
     private JLabel loadLBL, amountLBL, dateLBL;
     private JTextField amountFLD, dateFLD;
-    private JButton subBTN;
+    private JButton subBTN, backBTN;
     ButtonGroup group;
  
-    public BuyLoadGUI (TransactionManager manager){
+    public BuyLoadGUI (TransactionManager manager, BankAppGUI mainWindow){
         this.manager = manager;
         setTitle("Buy Load");
         setSize(390, 700);
@@ -19,7 +19,7 @@ public class BuyLoadGUI extends JFrame{
         JLabel loadLBL = new JLabel("Choose Telco: ");
         loadLBL.setLayout(null);
         loadLBL.setFont(new Font("Arial", Font.BOLD, 14));
-        loadLBL.setBounds(20, 50, 340, 30);
+        loadLBL.setBounds(20, 70, 340, 30);
         add(loadLBL);
         
         globe = new JRadioButton("Globe");
@@ -72,6 +72,17 @@ public class BuyLoadGUI extends JFrame{
         subBTN.setLayout(null);
         subBTN.setBounds(95, 430, 200, 40);
         add(subBTN);
+        
+        backBTN= new JButton("Back");
+        backBTN.setLayout(null);
+        backBTN.setBounds(20, 30, 80, 40);
+        add(backBTN);
+        
+        backBTN.addActionListener(e -> {
+            mainWindow.setVisible(true); 
+            dispose();                   
+        });
+        
         
         subBTN.addActionListener(e -> {
            String date = dateFLD.getText();

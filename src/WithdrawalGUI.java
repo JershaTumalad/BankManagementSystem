@@ -5,9 +5,9 @@ public class WithdrawalGUI extends JFrame{
     private TransactionManager manager;
     private JLabel billLBL, amountLBL, dateLBL;
     private JTextField amountFLD, dateFLD;
-    private JButton subBTN;
+    private JButton subBTN, backBTN;
     
-    public WithdrawalGUI(TransactionManager manager){
+    public WithdrawalGUI(TransactionManager manager, BankAppGUI mainWindow){
         this.manager = manager;
         setTitle("Withdraw");
         setSize(390, 700);
@@ -38,6 +38,17 @@ public class WithdrawalGUI extends JFrame{
         subBTN.setLayout(null);
         subBTN.setBounds(95, 270, 200, 40);
         add(subBTN);
+        
+        backBTN= new JButton("Back");
+        backBTN.setLayout(null);
+        backBTN.setBounds(20, 30, 80, 40);
+        add(backBTN);
+        
+        backBTN.addActionListener(e -> {
+            mainWindow.setVisible(true); 
+            dispose();                   
+        });
+        
         
         
         subBTN.addActionListener(e -> {

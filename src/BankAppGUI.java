@@ -44,27 +44,27 @@ public class BankAppGUI extends JFrame{
         buttonPanel.add(loadBTN);
         
         depBTN.addActionListener(e -> {
-            new DepositGUI(manager);
+            new DepositGUI(manager, this);
             dispose();
         });
         
         witBTN.addActionListener(e -> {
-            new WithdrawalGUI(manager);
+            new WithdrawalGUI(manager, this);
             dispose();
         });
         
         tranBTN.addActionListener(e -> {
-            new TransferGUI(manager);
+            new TransferGUI(manager, this);
             dispose();
         });
         
         billsBTN.addActionListener(e -> {
-            new BillPaymentGUI(manager);
+            new BillPaymentGUI(manager, this);
             dispose();
         });
         
         loadBTN.addActionListener(e -> {
-            new BuyLoadGUI(manager);
+            new BuyLoadGUI(manager, this);
             dispose();
         });
         

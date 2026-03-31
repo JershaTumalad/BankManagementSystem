@@ -6,9 +6,9 @@ public class DepositGUI extends JFrame{
     private JLabel billLBL, amountLBL, dateLBL;
     private JTextField amountFLD, dateFLD;
     private JTextArea receiptArea;
-    private JButton subBTN;
+    private JButton subBTN, backBTN;
     
-    public DepositGUI(TransactionManager manager){
+    public DepositGUI(TransactionManager manager, BankAppGUI mainWindow){
         this.manager = manager;
         setTitle("Deposit");
         setSize(390, 700);
@@ -39,6 +39,16 @@ public class DepositGUI extends JFrame{
         subBTN.setLayout(null);
         subBTN.setBounds(95, 270, 200, 40);
         add(subBTN);
+        
+        backBTN= new JButton("Back");
+        backBTN.setLayout(null);
+        backBTN.setBounds(20, 30, 80, 40);
+        add(backBTN);
+        
+        backBTN.addActionListener(e -> {
+            mainWindow.setVisible(true); 
+            dispose();                   
+        });
         
         receiptArea = new JTextArea();
         receiptArea.setFont(new Font("Arial", Font.BOLD, 14));

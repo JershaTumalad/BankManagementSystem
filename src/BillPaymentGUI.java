@@ -6,60 +6,21 @@ public class BillPaymentGUI extends JFrame{
     private JRadioButton meralco, pldt, globe, maynilad, skycable;
     private JLabel billLBL, amountLBL, dateLBL;
     private JTextField amountFLD, dateFLD;
-    private JButton subBTN;
+    private JButton subBTN, backBTN;
     ButtonGroup group;
  
-    public BillPaymentGUI (TransactionManager manager){
+    public BillPaymentGUI (TransactionManager manager, BankAppGUI mainWindow){
         this.manager = manager;
         setTitle("Bills Payment");
         setSize(390, 700);
         setLayout(null);
         setLocationRelativeTo(null);
         
-        JLabel billLBL = new JLabel("Choose Biller: ");
+        billLBL = new JLabel("Choose Biller: ");
         billLBL.setLayout(null);
         billLBL.setFont(new Font("Arial", Font.BOLD, 14));
-        billLBL.setBounds(20, 50, 340, 30);
+        billLBL.setBounds(20, 70, 340, 30);
         add(billLBL);
-        
-        meralco = new JRadioButton("Meralco");
-        pldt = new JRadioButton("Pldt");
-        globe = new JRadioButton("Globe");
-        maynilad = new JRadioButton("Maynilad");
-        skycable = new JRadioButton("Sky Cable");
-        
-        meralco.setBounds(20, 90, 340, 30);
-        pldt.setBounds(20, 120, 340, 30);
-        globe.setBounds(20, 150, 340, 30);
-        maynilad.setBounds(20, 180, 340, 30);
-        skycable.setBounds(20, 210, 340, 30);
-        
-        meralco.addActionListener(e -> 
-                amountFLD.setText("1500.00"));
-        pldt.addActionListener(e -> 
-                amountFLD.setText("999.00"));
-        globe.addActionListener(e -> 
-                amountFLD.setText("799.00"));
-        maynilad.addActionListener(e -> 
-                amountFLD.setText("500.00"));
-        skycable.addActionListener(e -> 
-                amountFLD.setText("650.00"));
-        
-        meralco.setSelected(true);
-        amountFLD.setText("1500.00");
-        
-        group = new ButtonGroup();
-        group.add(meralco);
-        group.add(pldt);
-        group.add(globe);
-        group.add(maynilad);
-        group.add(skycable);
-        
-        add(meralco); 
-        add(pldt); 
-        add(globe); 
-        add(maynilad); 
-        add(skycable);
         
         
         amountLBL = new JLabel("Amount: ");
@@ -87,6 +48,44 @@ public class BillPaymentGUI extends JFrame{
         subBTN.setBounds(95, 430, 200, 40);
         add(subBTN);
         
+        backBTN= new JButton("Back");
+        backBTN.setLayout(null);
+        backBTN.setBounds(20, 40, 80, 30);
+        add(backBTN);
+        
+        backBTN.addActionListener(e -> {
+            mainWindow.setVisible(true); 
+            dispose();                   
+        });
+        
+        
+        meralco = new JRadioButton("Meralco");
+        pldt = new JRadioButton("Pldt");
+        globe = new JRadioButton("Globe");
+        maynilad = new JRadioButton("Maynilad");
+        skycable = new JRadioButton("Sky Cable");
+        
+        meralco.setBounds(20, 90, 340, 30);
+        pldt.setBounds(20, 120, 340, 30);
+        globe.setBounds(20, 150, 340, 30);
+        maynilad.setBounds(20, 180, 340, 30);
+        skycable.setBounds(20, 210, 340, 30);
+        
+        group = new ButtonGroup();
+        group.add(meralco);
+        group.add(pldt);
+        group.add(globe);
+        group.add(maynilad);
+        group.add(skycable);
+        
+        add(meralco); 
+        add(pldt); 
+        add(globe); 
+        add(maynilad); 
+        add(skycable);
+        
+        
+        
         subBTN.addActionListener(e -> {
            String date = dateFLD.getText();
             if(!Transaction.isValidDate(date)){
@@ -110,7 +109,6 @@ public class BillPaymentGUI extends JFrame{
                     maynilad.setSelected(false);
                     skycable.setSelected(false);
                     meralco.setSelected(true); 
-                    amountFLD.setText("1500.00"); 
             }catch(NumberFormatException ex){
              JOptionPane.showMessageDialog(this, "Invalid amount. Enter a number.");
             }
