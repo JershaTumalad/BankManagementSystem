@@ -17,7 +17,6 @@
             <file>file:/C:/Netbeans%20Pro/BankManagementSystem/src/TransactionManager.java</file>
             <file>file:/C:/Netbeans%20Pro/BankManagementSystem/src/Deposit.java</file>
             <file>file:/C:/Netbeans%20Pro/BankManagementSystem/src/Withdrawal.java</file>
-            <file>file:/C:/Netbeans%20Pro/BankManagementSystem/src/Transfer.java</file>
             <file>file:/C:/Netbeans%20Pro/BankManagementSystem/src/BillsPayment.java</file>
             <file>file:/C:/Netbeans%20Pro/BankManagementSystem/src/BuyLoad.java</file>
             <file>file:/C:/Netbeans%20Pro/BankManagementSystem/src/BankAppGUI.java</file>
@@ -26,6 +25,7 @@
             <file>file:/C:/Netbeans%20Pro/BankManagementSystem/src/TransferGUI.java</file>
             <file>file:/C:/Netbeans%20Pro/BankManagementSystem/src/BillPaymentGUI.java</file>
             <file>file:/C:/Netbeans%20Pro/BankManagementSystem/src/BuyLoadGUI.java</file>
+            <file>file:/C:/Netbeans%20Pro/BankManagementSystem/src/HistoryGUI.java</file>
         </group>
     </open-files>
 </project-private>
