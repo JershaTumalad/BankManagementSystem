@@ -17,4 +17,4 @@ public class BamsMainApp {
        User user = new User();
         new DashboardFrame(user);
     }
-}
+} 
