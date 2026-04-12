@@ -1,3 +1,4 @@
+package BAMS;
 
 public class BillsPayment extends Transaction{
     private String billerName;

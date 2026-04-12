@@ -1,5 +1,5 @@
 
-package bankmanagementapp;
+package BAMS;
 
 import javax.swing.*;
 import java.awt.event.*;
@@ -72,7 +72,7 @@ public class forgotPage2 extends JFrame {
                     
             
             if(found){JOptionPane.showMessageDialog(this, "Email Found!");
-                    new dashboard();
+                    new dashboard(new accountFiles()).setVisible(true);
                     this.dispose();
             } else{
                     JOptionPane.showMessageDialog(this, "Email not registered!");

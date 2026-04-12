@@ -1,5 +1,5 @@
 
-package bankmanagementapp;
+package BAMS;
 
 
 public class BankManagementApp {

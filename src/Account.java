@@ -1,10 +1,10 @@
-package tryproject;
+package BAMS;
 
 public class Account {
-    private String accountNo;
-    private String name;
-    private String accountType;
-    private double balance;
+    String accountNo;
+    String name;
+    String accountType;
+    double balance;
 
     public Account(String name, String accountType, String accountNo, double balance) {
         this.accountNo = accountNo.trim();

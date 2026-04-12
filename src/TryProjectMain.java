@@ -1,6 +1,5 @@
 
-package tryproject;
-
+package BAMS;
 
 public class TryProjectMain {
 
