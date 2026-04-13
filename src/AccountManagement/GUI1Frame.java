@@ -1,43 +1,47 @@
 package project;
 
-import java.awt.Font;
+import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
 public class GUI1Frame extends JFrame implements ActionListener {
-    private JButton btnAdd, btnRemove, btnSearch, btnView, btnExit;
     private JLabel lblTitle;
+    private JButton btnAdd, btnRemove, btnSearch, btnView, btnExit;
     AccountFiles files;
 
     public GUI1Frame(AccountFiles files){
         this.files = files;
-        setTitle("Bank Account Management System");
-        setSize(450, 600);
+        setTitle("Bank Management System");
+        setSize(430, 720);
         setLayout(null);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         setLocationRelativeTo(null);
         setResizable(false);
 
-        lblTitle = new JLabel("Account Management");
-        lblTitle.setBounds(90, 40, 300, 40);
-        lblTitle.setFont(new Font("Arial", Font.BOLD, 26));
+        lblTitle = new JLabel("Main Menu");
+        lblTitle.setBounds(0, 60, 430, 40);
+        lblTitle.setFont(new Font("Arial", Font.BOLD, 28));
+        lblTitle.setHorizontalAlignment(SwingConstants.CENTER);
         add(lblTitle);
 
-        btnAdd = createButton("Add Account", 130, 120);
+        btnAdd = new JButton("Add Account");
+        btnAdd.setBounds(90, 160, 250, 50);
         add(btnAdd);
 
-        btnRemove = createButton("Remove Account", 130, 190);
+        btnRemove = new JButton("Remove Account");
+        btnRemove.setBounds(90, 230, 250, 50);
         add(btnRemove);
 
-        btnSearch = createButton("Search Account", 130, 260);
+        btnSearch = new JButton("Search Account");
+        btnSearch.setBounds(90, 300, 250, 50);
         add(btnSearch);
 
-        btnView = createButton("View Accounts", 130, 330);
+        btnView = new JButton("View Accounts List");
+        btnView.setBounds(90, 370, 250, 50);
         add(btnView);
 
-        btnExit = new JButton("Exit");
-        btnExit.setBounds(170, 400, 100, 35);
-        btnExit.setFont(new Font("Arial", Font.PLAIN, 14));
+        btnExit = new JButton("Exit System");
+        btnExit.setBounds(140, 550, 150, 40);
         add(btnExit);
 
         btnAdd.addActionListener(this);
@@ -47,33 +51,20 @@ public class GUI1Frame extends JFrame implements ActionListener {
         btnExit.addActionListener(this);
     }
 
-    private JButton createButton(String text, int x, int y){
-        JButton btn = new JButton(text);
-        btn.setBounds(x, y, 180, 50);
-        btn.setFont(new Font("Arial", Font.PLAIN, 16));
-        return btn;
-    }
-
-    @Override
     public void actionPerformed(ActionEvent e){
-        if(e.getSource()==btnAdd){
+        if(e.getSource() == btnExit){
+            int ans = JOptionPane.showConfirmDialog(this, "Do you want to exit?", "Exit", JOptionPane.YES_NO_OPTION);
+            if(ans == JOptionPane.YES_OPTION) System.exit(0);
+        } else {
             dispose();
-            new AddPage(files).setVisible(true);
-        }
-        else if(e.getSource()==btnRemove){
-            dispose();
-            new RemovePage(files).setVisible(true);
-        }
-        else if(e.getSource()==btnSearch){
-            dispose();
-            new SearchPage(files).setVisible(true);
-        }
-        else if(e.getSource()==btnView){
-            dispose();
-            new ViewAccountsPage(files).setVisible(true);
-        }
-        else if(e.getSource()==btnExit){
-            System.exit(0);
+            if(e.getSource() == btnAdd) 
+                new AddPage(files).setVisible(true);
+            else if(e.getSource() == btnRemove) 
+                new RemovePage(files).setVisible(true);
+            else if(e.getSource() == btnSearch) 
+                new SearchPage(files).setVisible(true);
+            else if(e.getSource() == btnView) 
+                new ViewAccountsPage(files).setVisible(true);
         }
     }
 }

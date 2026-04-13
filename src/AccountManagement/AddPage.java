@@ -1,109 +1,100 @@
 package project;
 
-import java.awt.Font;
+import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
 public class AddPage extends JFrame implements ActionListener {
-    private JLabel lblTitle, lblName, lblAccNo, lblIniBal, lblType;
+    private JLabel lblTitle, lblName, lblType, lblAccNo, lblIniBal;
     private JTextField txtName, txtAccNo, txtIniBal;
     private JComboBox<String> cmbType;
-    private JButton btnAdd, btnBack, btnExit;
+    private JButton btnAdd, btnBack;
     AccountFiles files;
 
     public AddPage(AccountFiles files){
         this.files = files;
         setTitle("Add Account");
-        setSize(450, 600);
+        setSize(430, 720);
         setLayout(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
-        setResizable(false);
 
-        lblTitle = new JLabel("Add Account");
-        lblTitle.setBounds(150, 40, 200, 30); 
-        lblTitle.setFont(new Font("Arial", Font.BOLD, 24)); 
+        lblTitle = new JLabel("Add New Account");
+        lblTitle.setBounds(0, 50, 430, 40);
+        lblTitle.setFont(new Font("Arial", Font.BOLD, 24));
+        lblTitle.setHorizontalAlignment(SwingConstants.CENTER);
         add(lblTitle);
 
-        lblName = new JLabel("Full Name:"); 
-        lblName.setBounds(50, 110, 120, 30); lblName.setFont(new Font("Arial", Font.PLAIN, 14)); 
+        lblName = new JLabel("Full Name:");
+        lblName.setBounds(50, 150, 150, 30);
         add(lblName);
-        
-        txtName = new JTextField(); 
-        txtName.setBounds(180, 110, 200, 30); 
+        txtName = new JTextField();
+        txtName.setBounds(180, 150, 200, 30);
         add(txtName);
 
-        lblType = new JLabel("Account Type:"); 
-        lblType.setBounds(50, 160, 120, 30); 
-        lblType.setFont(new Font("Arial", Font.PLAIN, 14)); 
+        lblType = new JLabel("Account Type:");
+        lblType.setBounds(50, 210, 150, 30);
         add(lblType);
-        
-        cmbType = new JComboBox<>(new String[]{"Savings","Current"}); 
-        cmbType.setBounds(180, 160, 200, 30); 
+        cmbType = new JComboBox<>(new String[]{"Savings", "Current"});
+        cmbType.setBounds(180, 210, 200, 30);
         add(cmbType);
 
         lblAccNo = new JLabel("Account Number:");
-        lblAccNo.setBounds(50, 210, 120, 30); 
-        lblAccNo.setFont(new Font("Arial", Font.PLAIN, 14)); 
+        lblAccNo.setBounds(50, 270, 150, 30);
         add(lblAccNo);
-        
-        txtAccNo = new JTextField(); 
-        txtAccNo.setBounds(180, 210, 200, 30); 
+        txtAccNo = new JTextField();
+        txtAccNo.setBounds(180, 270, 200, 30);
         add(txtAccNo);
 
-        lblIniBal = new JLabel("Initial Balance:"); 
-        lblIniBal.setBounds(50, 260, 120, 30); 
-        lblIniBal.setFont(new Font("Arial", Font.PLAIN, 14)); 
+        lblIniBal = new JLabel("Initial Balance:");
+        lblIniBal.setBounds(50, 330, 150, 30);
         add(lblIniBal);
-        
-        txtIniBal = new JTextField(); 
-        txtIniBal.setBounds(180, 260, 200, 30);
+        txtIniBal = new JTextField();
+        txtIniBal.setBounds(180, 330, 200, 30);
         add(txtIniBal);
 
-        btnAdd = new JButton("Add");
-        btnAdd.setBounds(90, 330, 100, 40);
-        btnAdd.setFont(new Font("Arial", Font.PLAIN, 14));
+        btnAdd = new JButton("Save Account");
+        btnAdd.setBounds(90, 420, 250, 45);
         add(btnAdd);
-
-        btnBack = new JButton("Back");
-        btnBack.setBounds(230, 330, 100, 40);
-        btnBack.setFont(new Font("Arial", Font.PLAIN, 14));
+        btnBack = new JButton("Back to Menu");
+        btnBack.setBounds(90, 480, 250, 45);
         add(btnBack);
 
-        btnExit = new JButton("Exit");
-        btnExit.setBounds(160, 390, 100, 35);
-        btnExit.setFont(new Font("Arial", Font.PLAIN, 14));
-        add(btnExit);
-
-        btnAdd.addActionListener(this); 
-        btnBack.addActionListener(this); 
-        btnExit.addActionListener(this);
+        btnAdd.addActionListener(this);
+        btnBack.addActionListener(this);
     }
 
-    @Override
     public void actionPerformed(ActionEvent e){
-        if(e.getSource()==btnAdd){
-            try{
+        if(e.getSource() == btnBack){
+            dispose();
+            new GUI1Frame(files).setVisible(true);
+        } else if(e.getSource() == btnAdd){
+            try {
                 String name = txtName.getText().trim();
                 String accNo = txtAccNo.getText().trim();
-                String type = cmbType.getSelectedItem().toString();
-                double balance = Double.parseDouble(txtIniBal.getText());
+                String balStr = txtIniBal.getText().trim();
 
-                if(balance < 0){ JOptionPane.showMessageDialog(this,"Balance cannot be negative!","Error",JOptionPane.ERROR_MESSAGE); return; }
+                if(name.isEmpty() || accNo.isEmpty() || balStr.isEmpty()){
+                    JOptionPane.showMessageDialog(this, "Fields cannot be empty!");
+                    return;
+                }
+                
+                double bal = Double.parseDouble(balStr);
+                if(bal < 0) {
+                    JOptionPane.showMessageDialog(this, "Balance cannot be negative!");
+                    return;
+                }
 
-                if(!files.addAccount(name,type,accNo,balance)){
-                    JOptionPane.showMessageDialog(this,"Account already exists!","Error",JOptionPane.ERROR_MESSAGE);
+                if(files.addAccount(name, cmbType.getSelectedItem().toString(), accNo, bal)){
+                    JOptionPane.showMessageDialog(this, "Account added successfully!");
+                    dispose();
+                    new GUI1Frame(files).setVisible(true);
                 } else {
-                    JOptionPane.showMessageDialog(this,"Account successfully added!","Success",JOptionPane.INFORMATION_MESSAGE);
+                    JOptionPane.showMessageDialog(this, "Account Number already exists!");
                 }
             } catch(Exception ex){
-                JOptionPane.showMessageDialog(this,"Invalid input!","Error",JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Invalid balance input!");
             }
-        } else if(e.getSource()==btnBack) { 
-            dispose(); 
-            new GUI1Frame(files).setVisible(true); 
-        } else if(e.getSource()==btnExit){ 
-            System.exit(0); 
         }
     }
 }

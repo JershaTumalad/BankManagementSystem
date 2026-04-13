@@ -1,55 +1,43 @@
 package project;
 
-import java.awt.Font;
+import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
 public class ViewAccountsPage extends JFrame implements ActionListener {
-    private JButton btnBack, btnExit;
+    private JButton btnBack;
     AccountFiles files;
 
     public ViewAccountsPage(AccountFiles files){
         this.files = files;
         setTitle("View Accounts");
-        setSize(550, 600);
+        setSize(430, 720);
         setLayout(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
-        setResizable(false);
 
-        JLabel lblTitle = new JLabel("View Accounts"); 
-        lblTitle.setBounds(200, 30, 250, 30); 
-        lblTitle.setFont(new Font("Arial", Font.BOLD, 24)); 
+        JLabel lblTitle = new JLabel("All Accounts");
+        lblTitle.setBounds(0, 30, 430, 30);
+        lblTitle.setFont(new Font("Arial", Font.BOLD, 22));
+        lblTitle.setHorizontalAlignment(SwingConstants.CENTER);
         add(lblTitle);
 
-        String[] columnNames = {"Account No", "Name", "Type", "Balance"};
+        String[] columnNames = {"Acc No", "Name", "Type", "Balance"};
         JTable table = new JTable(files.getAccountsData(), columnNames);
-        table.setFont(new Font("Arial", Font.PLAIN, 14)); 
-        table.setRowHeight(25);
+        table.setEnabled(false);
         
-        JScrollPane scrollPane = new JScrollPane(table); 
-        scrollPane.setBounds(30, 80, 480, 400); 
-        add(scrollPane);
+        JScrollPane sp = new JScrollPane(table);
+        sp.setBounds(25, 80, 380, 500);
+        add(sp);
 
-        btnBack = new JButton("Back");
-        btnBack.setBounds(150, 500, 100, 40); 
+        btnBack = new JButton("Back to Menu");
+        btnBack.setBounds(90, 600, 250, 45);
+        btnBack.addActionListener(this);
         add(btnBack);
-
-        btnExit = new JButton("Exit");
-        btnExit.setBounds(300, 500, 100, 40); 
-        add(btnExit);
-        
-        btnBack.addActionListener(this); 
-        btnExit.addActionListener(this);
     }
 
-    @Override
     public void actionPerformed(ActionEvent e){
-        if(e.getSource()==btnBack){ 
-            dispose(); 
-            new GUI1Frame(files).setVisible(true); 
-        } else if(e.getSource()==btnExit){ 
-            System.exit(0); 
-        }
+        dispose();
+        new GUI1Frame(files).setVisible(true);
     }
 }

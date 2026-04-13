@@ -1,74 +1,68 @@
 package project;
 
-import java.awt.Font;
+import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
 public class RemovePage extends JFrame implements ActionListener {
     private JTextField txtAccNo;
-    private JButton btnRemove, btnBack, btnExit;
+    private JButton btnRemove, btnBack;
     AccountFiles files;
 
     public RemovePage(AccountFiles files){
         this.files = files;
         setTitle("Remove Account");
-        setSize(450, 550);
+        setSize(430, 720);
         setLayout(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
-        setResizable(false);
 
         JLabel lblTitle = new JLabel("Remove Account");
-        lblTitle.setBounds(120, 40, 250, 30);
+        lblTitle.setBounds(0, 60, 430, 40);
         lblTitle.setFont(new Font("Arial", Font.BOLD, 24));
+        lblTitle.setHorizontalAlignment(SwingConstants.CENTER);
         add(lblTitle);
 
-        JLabel lblAccNo = new JLabel("Account Number:");
-        lblAccNo.setBounds(50, 120, 120, 30);
-        lblAccNo.setFont(new Font("Arial", Font.PLAIN, 14));
-        add(lblAccNo);
+        JLabel lblPrompt = new JLabel("Enter Account Number to delete:");
+        lblPrompt.setBounds(50, 160, 300, 30);
+        add(lblPrompt);
 
         txtAccNo = new JTextField();
-        txtAccNo.setBounds(180, 120, 200, 30);
+        txtAccNo.setBounds(50, 200, 330, 40);
         add(txtAccNo);
 
-        btnRemove = new JButton("Remove");
-        btnRemove.setBounds(90, 200, 100, 40);
-        btnRemove.setFont(new Font("Arial", Font.PLAIN, 14));
+        btnRemove = new JButton("Delete");
+        btnRemove.setBounds(90, 280, 250, 50);
         add(btnRemove);
 
         btnBack = new JButton("Back");
-        btnBack.setBounds(230, 200, 100, 40);
-        btnBack.setFont(new Font("Arial", Font.PLAIN, 14));
+        btnBack.setBounds(90, 350, 250, 50);
         add(btnBack);
-
-        btnExit = new JButton("Exit");
-        btnExit.setBounds(160, 260, 100, 35);
-        btnExit.setFont(new Font("Arial", Font.PLAIN, 14));
-        add(btnExit);
 
         btnRemove.addActionListener(this);
         btnBack.addActionListener(this);
-        btnExit.addActionListener(this);
     }
 
-    @Override
-    public void actionPerformed(ActionEvent e){
-        if(e.getSource()==btnRemove){
-            String accNo = txtAccNo.getText().trim();
-            int confirm = JOptionPane.showConfirmDialog(this, "Are you sure?", "Confirm", JOptionPane.YES_NO_OPTION);
-            if(confirm == JOptionPane.YES_OPTION){
-                if(files.removeAccount(accNo)){
-                    JOptionPane.showMessageDialog(this, "Removed successfully!");
-                } else {
-                    JOptionPane.showMessageDialog(this, "Account not found!", "Error", JOptionPane.ERROR_MESSAGE);
-                }
-            }
-        } else if(e.getSource()==btnBack){
+    public void actionPerformed(ActionEvent e) {
+        if(e.getSource() == btnBack) {
             dispose();
             new GUI1Frame(files).setVisible(true);
-        } else if(e.getSource()==btnExit){
-            System.exit(0);
+        } else if(e.getSource() == btnRemove) {
+            String accNo = txtAccNo.getText().trim();
+            if(accNo.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Please enter an account number.");
+                return;
+            }
+
+            int confirm = JOptionPane.showConfirmDialog(this, " Do yo want to delete this account?", "Confirm", JOptionPane.YES_NO_OPTION);
+            if(confirm == JOptionPane.YES_OPTION) {
+                if(files.removeAccount(accNo)) {
+                    JOptionPane.showMessageDialog(this, "Account removed.");
+                    txtAccNo.setText("");
+                } else {
+                    JOptionPane.showMessageDialog(this, "Account not found!");
+                }
+            }
         }
     }
 }

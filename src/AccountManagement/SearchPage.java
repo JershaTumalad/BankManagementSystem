@@ -1,72 +1,67 @@
 package project;
 
-import java.awt.Font;
+import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
 public class SearchPage extends JFrame implements ActionListener {
     private JTextField txtAccNo;
-    private JButton btnSearch, btnBack, btnExit;
+    private JButton btnSearch, btnBack;
     AccountFiles files;
 
     public SearchPage(AccountFiles files){
         this.files = files;
         setTitle("Search Account");
-        setSize(450, 550);
+        setSize(430, 720);
         setLayout(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
-        setResizable(false);
 
         JLabel lblTitle = new JLabel("Search Account");
-        lblTitle.setBounds(130, 40, 250, 30);
+        lblTitle.setBounds(0, 60, 430, 40);
         lblTitle.setFont(new Font("Arial", Font.BOLD, 24));
+        lblTitle.setHorizontalAlignment(SwingConstants.CENTER);
         add(lblTitle);
 
-        JLabel lblAccNo = new JLabel("Account Number:");
-        lblAccNo.setBounds(50, 120, 120, 30);
-        lblAccNo.setFont(new Font("Arial", Font.PLAIN, 14));
-        add(lblAccNo);
+        JLabel lblPrompt = new JLabel("Enter Account Number:");
+        lblPrompt.setBounds(50, 160, 200, 30);
+        add(lblPrompt);
 
         txtAccNo = new JTextField();
-        txtAccNo.setBounds(180, 120, 200, 30);
+        txtAccNo.setBounds(50, 200, 330, 40);
         add(txtAccNo);
 
         btnSearch = new JButton("Search");
-        btnSearch.setBounds(90, 200, 100, 40);
-        btnSearch.setFont(new Font("Arial", Font.PLAIN, 14));
+        btnSearch.setBounds(90, 280, 250, 50);
         add(btnSearch);
 
         btnBack = new JButton("Back");
-        btnBack.setBounds(230, 200, 100, 40);
-        btnBack.setFont(new Font("Arial", Font.PLAIN, 14));
+        btnBack.setBounds(90, 350, 250, 50);
         add(btnBack);
-
-        btnExit = new JButton("Exit");
-        btnExit.setBounds(160, 260, 100, 35);
-        btnExit.setFont(new Font("Arial", Font.PLAIN, 14));
-        add(btnExit);
 
         btnSearch.addActionListener(this);
         btnBack.addActionListener(this);
-        btnExit.addActionListener(this);
     }
 
-    @Override
-    public void actionPerformed(ActionEvent e){
-        if(e.getSource()==btnSearch){
-            String accNo = txtAccNo.getText().trim();
-            Account acc = files.searchAccount(accNo);
-            if(acc != null){
-                JOptionPane.showMessageDialog(this, "Found: " + acc.getName() + "\nBalance: " + acc.getBalance());
-            } else {
-                JOptionPane.showMessageDialog(this, "Not found!", "Error", JOptionPane.ERROR_MESSAGE);
-            }
-        } else if(e.getSource()==btnBack){
+    public void actionPerformed(ActionEvent e) {
+        if(e.getSource() == btnBack) {
             dispose();
             new GUI1Frame(files).setVisible(true);
-        } else if(e.getSource()==btnExit){
-            System.exit(0);
+        } else if(e.getSource() == btnSearch) {
+            String accNo = txtAccNo.getText().trim();
+            
+            if(!accNo.matches("[0-9]+")) {
+                JOptionPane.showMessageDialog(this, "Input Number Only!", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            Account acc = files.searchAccount(accNo);
+            if(acc != null) {
+                String formattedBalance = String.format("P %,.2f", acc.getBalance());
+                JOptionPane.showMessageDialog(this, "Name: " + acc.getName() + "\nBalance: " + formattedBalance);
+            } else {
+                JOptionPane.showMessageDialog(this, "Account not found!");
+            }
         }
     }
 }
