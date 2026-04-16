@@ -11,6 +11,31 @@
         </file>
     </editor-bookmarks>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group/>
+        <group>
+            <file>file:/C:/github%20files/------/BankManagementSystem/src/Main.java</file>
+            <file>file:/C:/github%20files/------/BankManagementSystem/src/BankAppGUI.java</file>
+            <file>file:/C:/github%20files/------/BankManagementSystem/src/BillsPayment.java</file>
+            <file>file:/C:/github%20files/------/BankManagementSystem/src/BuyLoad.java</file>
+            <file>file:/C:/github%20files/------/BankManagementSystem/src/BuyLoadGUI.java</file>
+            <file>file:/C:/github%20files/------/BankManagementSystem/src/DepositGUI.java</file>
+            <file>file:/C:/github%20files/------/BankManagementSystem/src/Transaction.java</file>
+            <file>file:/C:/github%20files/------/BankManagementSystem/src/TransactionManager.java</file>
+            <file>file:/C:/github%20files/------/BankManagementSystem/src/Transfer.java</file>
+            <file>file:/C:/github%20files/------/BankManagementSystem/src/TransferGUI.java</file>
+            <file>file:/C:/github%20files/------/BankManagementSystem/src/WithdrawalGUI.java</file>
+            <file>file:/C:/github%20files/------/BankManagementSystem/src/bams/BamsMainApp.java</file>
+            <file>file:/C:/github%20files/------/BankManagementSystem/src/bams/BuyLoadFrame.java</file>
+            <file>file:/C:/github%20files/------/BankManagementSystem/src/bams/DashboardFrame.java</file>
+            <file>file:/C:/github%20files/------/BankManagementSystem/src/bams/PayBillsFrame.java</file>
+            <file>file:/C:/github%20files/------/BankManagementSystem/src/bams/DepositFrame.java</file>
+            <file>file:/C:/github%20files/------/BankManagementSystem/src/bams/TapToPayFrame.java</file>
+            <file>file:/C:/github%20files/------/BankManagementSystem/src/bams/TransferFrame.java</file>
+            <file>file:/C:/github%20files/------/BankManagementSystem/src/bams/User.java</file>
+            <file>file:/C:/github%20files/------/BankManagementSystem/src/bams/WithdrawFrame.java</file>
+            <file>file:/C:/github%20files/------/BankManagementSystem/src/accounts.java</file>
+            <file>file:/C:/github%20files/------/BankManagementSystem/src/accountFiles.java</file>
+            <file>file:/C:/github%20files/------/BankManagementSystem/src/forgotPage2.java</file>
+            <file>file:/C:/github%20files/------/BankManagementSystem/src/forgotPage1.java</file>
+        </group>
     </open-files>
 </project-private>
