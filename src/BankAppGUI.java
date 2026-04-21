@@ -1,3 +1,5 @@
+package BAMS;
+
 import javax.swing.*;
 import javax.swing.SwingUtilities;
 import java.awt.*;

@@ -1,3 +1,4 @@
+package BAMS;
 
 public class Deposit extends Transaction{
 

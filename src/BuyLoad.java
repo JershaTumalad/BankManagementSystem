@@ -1,3 +1,4 @@
+package BAMS;
 
 public class BuyLoad extends Transaction{
     private String loadName;

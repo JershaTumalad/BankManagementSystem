@@ -1,4 +1,4 @@
-package tryproject;
+package BAMS;
 
 
 import java.util.ArrayList;

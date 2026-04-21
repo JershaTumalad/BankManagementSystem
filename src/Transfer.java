@@ -1,3 +1,4 @@
+package BAMS;
 
 public class Transfer extends Transaction{
     private String recipient;

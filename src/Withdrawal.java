@@ -1,4 +1,6 @@
 
+package BAMS;
+
 public class Withdrawal extends Transaction{
 
     public Withdrawal(int transactionID, double amount, String date) {

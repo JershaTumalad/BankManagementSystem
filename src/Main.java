@@ -1,3 +1,5 @@
+package BAMS;
+
 import java.util.*;
 
 public class Main{

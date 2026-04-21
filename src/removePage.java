@@ -1,5 +1,5 @@
 
-package tryproject;
+package BAMS;
 
 import java.awt.Font;
 import java.awt.event.ActionEvent;
