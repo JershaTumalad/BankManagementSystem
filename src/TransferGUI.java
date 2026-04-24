@@ -2,94 +2,145 @@ package BAMS;
 
 import javax.swing.*;
 import java.awt.*;
+import java.time.LocalDate;
 
-public class TransferGUI extends JFrame{
+public class TransferGUI extends JFrame {
     private TransactionManager manager;
-    private JLabel recLBL,billLBL, amountLBL, dateLBL, balanceLBL;
+    private JLabel recLBL, amountLBL, dateLBL, balanceLBL;
     private JTextField recFLD, amountFLD, dateFLD;
     private JButton subBTN, backBTN;
-    
-    public TransferGUI(TransactionManager manager, BankAppGUI mainWindow){
+
+    public TransferGUI(TransactionManager manager, BankAppGUI mainWindow) {
         this.manager = manager;
         setTitle("Transfer");
-        setSize(390, 700);
+        setSize(400, 700);
         setLayout(null);
         setLocationRelativeTo(null);
-        
+
+        JPanel headerPanel = new JPanel(null);
+        headerPanel.setBounds(0, 0, 390, 130);
+        headerPanel.setBackground(new Color(30, 50, 100));
+        add(headerPanel);
+
+        backBTN = new JButton("← Back");
+        backBTN.setBounds(10, 10, 90, 30);
+        backBTN.setBackground(Color.WHITE);
+        backBTN.setForeground(new Color(30, 50, 100));
+        backBTN.setFont(new Font("Arial", Font.BOLD, 12));
+        backBTN.setFocusPainted(false);
+        backBTN.setBorder(BorderFactory.createLineBorder(new Color(200, 210, 230)));
+        headerPanel.add(backBTN);
+
+        JLabel titleLBL = new JLabel("Transfer", SwingConstants.CENTER);
+        titleLBL.setBounds(0, 45, 390, 35);
+        titleLBL.setFont(new Font("Arial", Font.BOLD, 24));
+        titleLBL.setForeground(Color.WHITE);
+        headerPanel.add(titleLBL);
+
+        JLabel subTitleLBL = new JLabel("Enter transfer details below", SwingConstants.CENTER);
+        subTitleLBL.setBounds(0, 82, 390, 20);
+        subTitleLBL.setFont(new Font("Arial", Font.PLAIN, 13));
+        subTitleLBL.setForeground(new Color(180, 200, 230));
+        headerPanel.add(subTitleLBL);
+
+        recLBL = new JLabel("Recipient Name:");
+        recLBL.setFont(new Font("Arial", Font.BOLD, 14));
+        recLBL.setForeground(new Color(30, 50, 100));
+        recLBL.setBounds(30, 150, 330, 25);
+        add(recLBL);
+
+        recFLD = new JTextField();
+        recFLD.setBounds(30, 178, 330, 38);
+        recFLD.setFont(new Font("Arial", Font.PLAIN, 14));
+        recFLD.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(new Color(30, 50, 100), 1),
+            BorderFactory.createEmptyBorder(5, 10, 5, 10)
+        ));
+        add(recFLD);
+
+        amountLBL = new JLabel("Amount (PHP):");
+        amountLBL.setFont(new Font("Arial", Font.BOLD, 14));
+        amountLBL.setForeground(new Color(30, 50, 100));
+        amountLBL.setBounds(30, 232, 330, 25);
+        add(amountLBL);
+
+        amountFLD = new JTextField();
+        amountFLD.setBounds(30, 260, 330, 38);
+        amountFLD.setFont(new Font("Arial", Font.PLAIN, 14));
+        amountFLD.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(new Color(30, 50, 100), 1),
+            BorderFactory.createEmptyBorder(5, 10, 5, 10)
+        ));
+        add(amountFLD);
+
+        dateLBL = new JLabel("Date:");
+        dateLBL.setFont(new Font("Arial", Font.BOLD, 14));
+        dateLBL.setForeground(new Color(30, 50, 100));
+        dateLBL.setBounds(30, 314, 330, 25);
+        add(dateLBL);
+
+        String today = LocalDate.now().toString();
+        dateFLD = new JTextField(today);
+        dateFLD.setBounds(30, 342, 330, 38);
+        dateFLD.setFont(new Font("Arial", Font.PLAIN, 14));
+        dateFLD.setEditable(false);
+        dateFLD.setBackground(new Color(220, 225, 235));
+        dateFLD.setForeground(new Color(80, 80, 80));
+        dateFLD.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(new Color(180, 190, 210), 1),
+            BorderFactory.createEmptyBorder(5, 10, 5, 10)
+        ));
+        add(dateFLD);
+
+        subBTN = new JButton("Submit");
+        subBTN.setBounds(95, 415, 200, 45);
+        subBTN.setBackground(new Color(30, 50, 100));
+        subBTN.setForeground(Color.WHITE);
+        subBTN.setFont(new Font("Arial", Font.BOLD, 15));
+        subBTN.setFocusPainted(false);
+        subBTN.setBorder(BorderFactory.createEmptyBorder());
+        add(subBTN);
+
         balanceLBL = new JLabel("Balance: PHP " + String.format("%.2f", manager.getBalance()));
         balanceLBL.setFont(new Font("Arial", Font.BOLD, 14));
-        balanceLBL.setBounds(20, 550, 340, 30);
+        balanceLBL.setForeground(new Color(30, 50, 100));
+        balanceLBL.setHorizontalAlignment(SwingConstants.CENTER);
+        balanceLBL.setBounds(30, 500, 330, 30);
         add(balanceLBL);
 
-        recLBL = new JLabel("Enter name of recipient: ");
-        recLBL.setLayout(null);
-        recLBL.setFont(new Font("Arial", Font.BOLD, 14));
-        recLBL.setBounds(20, 100, 340, 30);
-        add(recLBL);
-        
-        recFLD = new JTextField();
-        recFLD.setBounds(20, 130, 340, 30);
-        add(recFLD);
-        
-        amountLBL = new JLabel("Amount: ");
-        amountLBL.setLayout(null);
-        amountLBL.setFont(new Font("Arial", Font.BOLD, 14));
-        amountLBL.setBounds(20, 180, 340, 30);
-        add(amountLBL);
-        
-        amountFLD = new JTextField();
-        amountFLD.setBounds(20, 210, 340, 30);
-        add(amountFLD);
-        
-        dateLBL = new JLabel("Date: ");
-        dateLBL.setLayout(null);
-        dateLBL.setFont(new Font("Arial", Font.BOLD, 14));
-        dateLBL.setBounds(20, 260, 340, 30);
-        add(dateLBL);
-        
-        dateFLD = new JTextField();
-        dateFLD.setBounds(20, 290, 340, 30);
-        add(dateFLD);
-        
-        subBTN = new JButton("Submit");
-        subBTN.setLayout(null);
-        subBTN.setBounds(95, 350, 200, 40);
-        add(subBTN);
-        
-        backBTN= new JButton("Back");
-        backBTN.setLayout(null);
-        backBTN.setBounds(20, 30, 80, 40);
-        add(backBTN);
-        
         backBTN.addActionListener(e -> {
-            mainWindow.setVisible(true); 
-            dispose();                   
+            mainWindow.setVisible(true);
+            dispose();
         });
-        
-        
+
         subBTN.addActionListener(e -> {
-           String date = dateFLD.getText();
-            if(!Transaction.isValidDate(date)){
-                JOptionPane.showMessageDialog(this, "Invalid date format. Use YYYY-MM-DD.");
+            String recipient = recFLD.getText().trim();
+            if (recipient.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Please enter recipient name.");
                 return;
             }
-         
-            try{
-                double amount = Double.parseDouble(amountFLD.getText());
-                if(amount <= 0 ){
+            String date = dateFLD.getText();
+            try {
+                double amount = Double.parseDouble(amountFLD.getText().trim());
+                if (amount <= 0) {
                     JOptionPane.showMessageDialog(this, "Amount must be greater than 0.");
                     return;
                 }
-                manager.addTransaction("Transfer", amount, date, recFLD.getText());
-                JOptionPane.showMessageDialog(this, "Transfer successful.");
-                balanceLBL.setText("Balance: PHP " + String.format("%.2f", manager.getBalance())); 
+                if (amount > manager.getBalance()) {
+                    JOptionPane.showMessageDialog(this, "Insufficient balance.");
+                    return;
+                }
+                String result = manager.addTransaction("Transfer", amount, date, recipient);
+                if (result.equals("SUCCESS")) {
+                    JOptionPane.showMessageDialog(this, "Transfer to " + recipient + " successful!");
+                    balanceLBL.setText("Balance: PHP " + String.format("%.2f", manager.getBalance()));
+                    recFLD.setText("");
                     amountFLD.setText("");
-                    dateFLD.setText("");
-            }catch(NumberFormatException ex){
-             JOptionPane.showMessageDialog(this, "Invalid amount. Enter a number.");
+                } else {
+                    JOptionPane.showMessageDialog(this, result);
+                }
+            } catch (NumberFormatException ex) {
+                JOptionPane.showMessageDialog(this, "Invalid amount. Enter a number.");
             }
         });
-        
+
         setVisible(true);
     }
 }
