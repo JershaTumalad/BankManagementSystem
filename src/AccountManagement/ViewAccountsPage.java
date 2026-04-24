@@ -3,41 +3,70 @@ package project;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
+import javax.swing.table.JTableHeader;
+import javax.swing.border.LineBorder;
 
 public class ViewAccountsPage extends JFrame implements ActionListener {
-    private JButton btnBack;
+
     AccountFiles files;
+    JButton back;
+
+    Color PRIMARY = new Color(25,45,85);
+    Color BG = new Color(180,190,210);
+    Color BTN = new Color(130,160,210);
 
     public ViewAccountsPage(AccountFiles files){
         this.files = files;
-        setTitle("View Accounts");
-        setSize(430, 720);
+
+        setSize(440,720);
         setLayout(null);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        getContentPane().setBackground(BG);
 
-        JLabel lblTitle = new JLabel("All Accounts");
-        lblTitle.setBounds(0, 30, 430, 30);
-        lblTitle.setFont(new Font("Arial", Font.BOLD, 22));
-        lblTitle.setHorizontalAlignment(SwingConstants.CENTER);
-        add(lblTitle);
+        JPanel header = new JPanel();
+        header.setBackground(PRIMARY);
+        header.setBounds(0,0,430,100);
+        header.setLayout(null);
+        add(header);
 
-        String[] columnNames = {"Acc No", "Name", "Type", "Balance"};
-        JTable table = new JTable(files.getAccountsData(), columnNames);
-        table.setEnabled(false);
-        
+        JLabel title = new JLabel("ALL ACCOUNTS");
+        title.setForeground(Color.WHITE);
+        title.setFont(new Font("Segoe UI",Font.BOLD,18));
+        title.setBounds(30,35,300,30);
+        header.add(title);
+
+        String[] cols = {"Acc No","Name","Type","Balance"};
+        JTable table = new JTable(files.getAccountsData(), cols);
+
+        table.setRowHeight(30);
+        table.setFont(new Font("Segoe UI", Font.PLAIN, 13));
+
+        JTableHeader th = table.getTableHeader();
+        th.setBackground(BTN);
+        th.setForeground(Color.WHITE);
+        th.setFont(new Font("Segoe UI", Font.BOLD, 13));
+
         JScrollPane sp = new JScrollPane(table);
-        sp.setBounds(25, 80, 380, 500);
+        sp.setBounds(20,120,390,420);
         add(sp);
 
-        btnBack = new JButton("Back to Menu");
-        btnBack.setBounds(90, 600, 250, 45);
-        btnBack.addActionListener(this);
-        add(btnBack);
+        back = new JButton("Close");
+        back.setBounds(30,570,360,50);
+        back.setBackground(BTN);
+        back.setForeground(Color.WHITE);
+        back.setFont(new Font("Segoe UI", Font.BOLD, 14));
+        back.setBorder(new LineBorder(Color.GRAY,1,true));
+        back.setFocusPainted(false);
+        add(back);
+
+        back.addActionListener(this);
     }
 
     public void actionPerformed(ActionEvent e){
-        dispose();
-        new GUI1Frame(files).setVisible(true);
+        if(e.getSource() == back){
+            dispose();
+            new GUI1Frame(files).setVisible(true);
+        }
     }
 }

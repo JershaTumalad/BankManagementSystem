@@ -5,94 +5,177 @@ import java.awt.event.*;
 import javax.swing.*;
 
 public class AddPage extends JFrame implements ActionListener {
-    private JLabel lblTitle, lblName, lblType, lblAccNo, lblIniBal;
-    private JTextField txtName, txtAccNo, txtIniBal;
+
+    private JTextField txtLast, txtFirst, txtMiddle, txtAccNo, txtIniBal;
     private JComboBox<String> cmbType;
     private JButton btnAdd, btnBack;
     AccountFiles files;
 
+    Color btnColor = new Color(130, 160, 210);
+
     public AddPage(AccountFiles files){
         this.files = files;
-        setTitle("Add Account");
+
         setSize(430, 720);
         setLayout(null);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        getContentPane().setBackground(new Color(180, 190, 210)); 
         setLocationRelativeTo(null);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setResizable(false);
 
-        lblTitle = new JLabel("Add New Account");
-        lblTitle.setBounds(0, 50, 430, 40);
-        lblTitle.setFont(new Font("Arial", Font.BOLD, 24));
-        lblTitle.setHorizontalAlignment(SwingConstants.CENTER);
-        add(lblTitle);
+        JPanel header = new JPanel();
+        header.setBackground(new Color(25, 45, 85));
+        header.setBounds(0, 0, 430, 80);
+        header.setLayout(null);
+        add(header);
 
-        lblName = new JLabel("Full Name:");
-        lblName.setBounds(50, 150, 150, 30);
-        add(lblName);
-        txtName = new JTextField();
-        txtName.setBounds(180, 150, 200, 30);
-        add(txtName);
+        JLabel lblTitle = new JLabel("New Account");
+        lblTitle.setFont(new Font("Segoe UI", Font.BOLD, 20));
+        lblTitle.setForeground(Color.WHITE);
+        lblTitle.setBounds(30, 25, 250, 30);
+        header.add(lblTitle);
 
-        lblType = new JLabel("Account Type:");
-        lblType.setBounds(50, 210, 150, 30);
-        add(lblType);
+        JPanel card = new JPanel();
+        card.setBackground(Color.WHITE);
+        card.setBounds(25, 100, 370, 520);
+        card.setLayout(null);
+        add(card);
+
+        Font f14 = new Font("Segoe UI", Font.PLAIN, 13);
+
+        JLabel l1 = new JLabel("Last Name");
+        l1.setBounds(20, 15, 150, 20);
+        l1.setFont(f14);
+        card.add(l1);
+
+        txtLast = new JTextField();
+        txtLast.setBounds(20, 35, 330, 30);
+        card.add(txtLast);
+
+        JLabel l2 = new JLabel("First Name");
+        l2.setBounds(20, 70, 150, 20);
+        l2.setFont(f14);
+        card.add(l2);
+
+        txtFirst = new JTextField();
+        txtFirst.setBounds(20, 90, 330, 30);
+        card.add(txtFirst);
+
+        JLabel l3 = new JLabel("Middle Name");
+        l3.setBounds(20, 125, 150, 20);
+        l3.setFont(f14);
+        card.add(l3);
+
+        txtMiddle = new JTextField();
+        txtMiddle.setBounds(20, 145, 330, 30);
+        card.add(txtMiddle);
+
+        JLabel l4 = new JLabel("Account Type");
+        l4.setBounds(20, 180, 150, 20);
+        l4.setFont(f14);
+        card.add(l4);
+
         cmbType = new JComboBox<>(new String[]{"Savings", "Current"});
-        cmbType.setBounds(180, 210, 200, 30);
-        add(cmbType);
+        cmbType.setBounds(20, 200, 330, 30);
+        card.add(cmbType);
 
-        lblAccNo = new JLabel("Account Number:");
-        lblAccNo.setBounds(50, 270, 150, 30);
-        add(lblAccNo);
+        JLabel l5 = new JLabel("Account Number");
+        l5.setBounds(20, 235, 150, 20);
+        l5.setFont(f14);
+        card.add(l5);
+
         txtAccNo = new JTextField();
-        txtAccNo.setBounds(180, 270, 200, 30);
-        add(txtAccNo);
+        txtAccNo.setBounds(20, 255, 330, 30);
+        card.add(txtAccNo);
 
-        lblIniBal = new JLabel("Initial Balance:");
-        lblIniBal.setBounds(50, 330, 150, 30);
-        add(lblIniBal);
+        JLabel l6 = new JLabel("Initial Balance");
+        l6.setBounds(20, 290, 150, 20);
+        l6.setFont(f14);
+        card.add(l6);
+
         txtIniBal = new JTextField();
-        txtIniBal.setBounds(180, 330, 200, 30);
-        add(txtIniBal);
+        txtIniBal.setBounds(20, 310, 330, 30);
+        card.add(txtIniBal);
 
-        btnAdd = new JButton("Save Account");
-        btnAdd.setBounds(90, 420, 250, 45);
-        add(btnAdd);
-        btnBack = new JButton("Back to Menu");
-        btnBack.setBounds(90, 480, 250, 45);
-        add(btnBack);
+        btnAdd = new JButton("Save");
+        btnAdd.setBounds(20, 380, 155, 40);
+        btnAdd.setBackground(btnColor);
+        btnAdd.setForeground(Color.WHITE);
+        btnAdd.setFont(new Font("Segoe UI", Font.BOLD, 14));
+        btnAdd.setFocusPainted(false);
+        card.add(btnAdd);
+
+        btnBack = new JButton("Cancel");
+        btnBack.setBounds(195, 380, 155, 40);
+        btnBack.setBackground(btnColor); 
+        btnBack.setForeground(Color.WHITE);
+        btnBack.setFont(new Font("Segoe UI", Font.BOLD, 14));
+        btnBack.setFocusPainted(false);
+        card.add(btnBack);
 
         btnAdd.addActionListener(this);
         btnBack.addActionListener(this);
     }
 
+    @Override
     public void actionPerformed(ActionEvent e){
         if(e.getSource() == btnBack){
             dispose();
             new GUI1Frame(files).setVisible(true);
-        } else if(e.getSource() == btnAdd){
-            try {
-                String name = txtName.getText().trim();
+        }
+        else if(e.getSource() == btnAdd){
+            try{
+                String last = txtLast.getText().trim();
+                String first = txtFirst.getText().trim();
+                String middle = txtMiddle.getText().trim();
                 String accNo = txtAccNo.getText().trim();
-                String balStr = txtIniBal.getText().trim();
+                String balText = txtIniBal.getText().trim();
 
-                if(name.isEmpty() || accNo.isEmpty() || balStr.isEmpty()){
-                    JOptionPane.showMessageDialog(this, "Fields cannot be empty!");
+                if(last.isEmpty() || first.isEmpty() || middle.isEmpty()){
+                    JOptionPane.showMessageDialog(this, "All name fields are required!");
                     return;
                 }
-                
-                double bal = Double.parseDouble(balStr);
-                if(bal < 0) {
+
+                if(!last.matches("[a-zA-Z ]+") ||
+                   !first.matches("[a-zA-Z ]+") ||
+                   !middle.matches("[a-zA-Z ]+")){
+                    JOptionPane.showMessageDialog(this, "Names must contain letters only!");
+                    return;
+                }
+
+                if(accNo.isEmpty()){
+                    JOptionPane.showMessageDialog(this, "Account Number is required!");
+                    return;
+                }
+
+                if(balText.isEmpty()){
+                    JOptionPane.showMessageDialog(this, "Initial Balance is required!");
+                    return;
+                }
+
+                double balance = Double.parseDouble(balText);
+
+                if(balance < 0){
                     JOptionPane.showMessageDialog(this, "Balance cannot be negative!");
                     return;
                 }
 
-                if(files.addAccount(name, cmbType.getSelectedItem().toString(), accNo, bal)){
-                    JOptionPane.showMessageDialog(this, "Account added successfully!");
+                String fullName = last + ", " + first + " " + middle;
+
+                if(files.addAccount(fullName,
+                        (String) cmbType.getSelectedItem(),
+                        accNo,
+                        balance)){
+
+                    JOptionPane.showMessageDialog(this, "Account Saved!");
                     dispose();
                     new GUI1Frame(files).setVisible(true);
+
                 } else {
                     JOptionPane.showMessageDialog(this, "Account Number already exists!");
                 }
-            } catch(Exception ex){
+
+            } catch(NumberFormatException ex){
                 JOptionPane.showMessageDialog(this, "Invalid balance input!");
             }
         }
