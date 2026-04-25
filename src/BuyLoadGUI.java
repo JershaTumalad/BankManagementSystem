@@ -5,178 +5,123 @@ import java.awt.*;
 import java.time.LocalDate;
 
 public class BuyLoadGUI extends JFrame {
+
     private TransactionManager manager;
-    private JRadioButton globe, smart, dito, tm, tnt;
-    private JLabel loadLBL, amountLBL, dateLBL, balanceLBL;
-    private JTextField amountFLD, dateFLD;
-    private JButton subBTN, backBTN;
-    ButtonGroup group;
+    private BankAppGUI mainWindow;
+    private JTextField amountField, phoneField;
+    private JComboBox<String> telcoCombo;
 
     public BuyLoadGUI(TransactionManager manager, BankAppGUI mainWindow) {
         this.manager = manager;
+        this.mainWindow = mainWindow;
+
         setTitle("Buy Load");
         setSize(400, 700);
         setLayout(null);
         setLocationRelativeTo(null);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        getContentPane().setBackground(new Color(245, 245, 250));
 
-        JPanel headerPanel = new JPanel(null);
-        headerPanel.setBounds(0, 0, 390, 130);
-        headerPanel.setBackground(new Color(30, 50, 100));
-        add(headerPanel);
+        JPanel header = new JPanel(null);
+        header.setBounds(0, 0, 400, 60);
+        header.setBackground(new Color(30, 50, 100));
+        add(header);
 
-        backBTN = new JButton("← Back");
-        backBTN.setBounds(10, 10, 90, 30);
-        backBTN.setBackground(Color.WHITE);
-        backBTN.setForeground(new Color(30, 50, 100));
-        backBTN.setFont(new Font("Arial", Font.BOLD, 12));
-        backBTN.setFocusPainted(false);
-        backBTN.setBorder(BorderFactory.createLineBorder(new Color(200, 210, 230)));
-        headerPanel.add(backBTN);
+        JButton backBTN = new JButton("← Back");
+        backBTN.setBounds(8, 12, 80, 30);
+        styleHeaderButton(backBTN);
+        header.add(backBTN);
 
-        JLabel titleLBL = new JLabel("Buy Load", SwingConstants.CENTER);
-        titleLBL.setBounds(0, 45, 390, 35);
-        titleLBL.setFont(new Font("Arial", Font.BOLD, 24));
-        titleLBL.setForeground(Color.WHITE);
-        headerPanel.add(titleLBL);
+        JLabel title = new JLabel("Buy Load");
+        title.setForeground(Color.WHITE);
+        title.setFont(new Font("Arial", Font.BOLD, 16));
+        title.setBounds(100, 15, 200, 30);
+        header.add(title);
 
-        JLabel subTitleLBL = new JLabel("Select telco and enter amount", SwingConstants.CENTER);
-        subTitleLBL.setBounds(0, 82, 390, 20);
-        subTitleLBL.setFont(new Font("Arial", Font.PLAIN, 13));
-        subTitleLBL.setForeground(new Color(180, 200, 230));
-        headerPanel.add(subTitleLBL);
+        addLabel("Telco:", 40, 85);
+        telcoCombo = new JComboBox<>(new String[]{"Globe", "Smart", "TNT", "Sun", "DITO"});
+        telcoCombo.setBounds(40, 108, 310, 38);
+        telcoCombo.setFont(new Font("Arial", Font.PLAIN, 14));
+        add(telcoCombo);
 
-        loadLBL = new JLabel("Choose Telco:");
-        loadLBL.setFont(new Font("Arial", Font.BOLD, 14));
-        loadLBL.setForeground(new Color(30, 50, 100));
-        loadLBL.setBounds(30, 145, 330, 25);
-        add(loadLBL);
+        addLabel("Phone Number:", 40, 158);
+        phoneField = new JTextField("0917XXXXXXX");
+        phoneField.setBounds(40, 181, 310, 38);
+        phoneField.setFont(new Font("Arial", Font.PLAIN, 14));
+        add(phoneField);
 
-        JPanel telcoPanel = new JPanel(null);
-        telcoPanel.setBounds(30, 173, 330, 165);
-        telcoPanel.setBackground(Color.WHITE);
-        telcoPanel.setBorder(BorderFactory.createLineBorder(new Color(30, 50, 100), 1));
-        add(telcoPanel);
+        addLabel("Enter Amount (PHP):", 40, 231);
+        amountField = new JTextField();
+        amountField.setBounds(40, 254, 310, 40);
+        amountField.setFont(new Font("Arial", Font.PLAIN, 16));
+        amountField.setHorizontalAlignment(JTextField.CENTER);
+        add(amountField);
 
-        globe = makeRadio("Globe",0);
-        smart = makeRadio("Smart",1);
-        dito = makeRadio("DITO",2);
-        tm = makeRadio("TM",3);
-        tnt = makeRadio("TNT",4);
+        addLabel("Date:", 40, 306);
+        JTextField dateField = new JTextField(LocalDate.now().toString());
+        dateField.setBounds(40, 329, 310, 38);
+        dateField.setFont(new Font("Arial", Font.PLAIN, 14));
+        dateField.setEditable(false);
+        dateField.setBackground(new Color(220, 220, 230));
+        add(dateField);
 
-        telcoPanel.add(globe);
-        telcoPanel.add(smart);
-        telcoPanel.add(dito);
-        telcoPanel.add(tm);
-        telcoPanel.add(tnt);
+        JButton submitBTN = new JButton("Buy Load");
+        submitBTN.setBounds(40, 388, 310, 45);
+        styleActionButton(submitBTN);
+        add(submitBTN);
 
-        group = new ButtonGroup();
-        group.add(globe);
-        group.add(smart);
-        group.add(dito);
-        group.add(tm);
-        group.add(tnt);
+        backBTN.addActionListener(e -> { mainWindow.setVisible(true); dispose(); });
 
-        amountLBL = new JLabel("Amount (PHP):");
-        amountLBL.setFont(new Font("Arial", Font.BOLD, 14));
-        amountLBL.setForeground(new Color(30, 50, 100));
-        amountLBL.setBounds(30, 352, 330, 25);
-        add(amountLBL);
-
-        amountFLD = new JTextField();
-        amountFLD.setBounds(30, 380, 330, 38);
-        amountFLD.setFont(new Font("Arial", Font.PLAIN, 14));
-        amountFLD.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(new Color(30, 50, 100), 1),
-            BorderFactory.createEmptyBorder(5, 10, 5, 10)
-        ));
-        add(amountFLD);
-
-        dateLBL = new JLabel("Date:");
-        dateLBL.setFont(new Font("Arial", Font.BOLD, 14));
-        dateLBL.setForeground(new Color(30, 50, 100));
-        dateLBL.setBounds(30, 432, 330, 25);
-        add(dateLBL);
-
-        String today = LocalDate.now().toString();
-        dateFLD = new JTextField(today);
-        dateFLD.setBounds(30, 460, 330, 38);
-        dateFLD.setFont(new Font("Arial", Font.PLAIN, 14));
-        dateFLD.setEditable(false);
-        dateFLD.setBackground(new Color(220, 225, 235));
-        dateFLD.setForeground(new Color(80, 80, 80));
-        dateFLD.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(new Color(180, 190, 210), 1),
-            BorderFactory.createEmptyBorder(5, 10, 5, 10)
-        ));
-        add(dateFLD);
-
-        subBTN = new JButton("Submit");
-        subBTN.setBounds(95, 518, 200, 45);
-        subBTN.setBackground(new Color(30, 50, 100));
-        subBTN.setForeground(Color.WHITE);
-        subBTN.setFont(new Font("Arial", Font.BOLD, 15));
-        subBTN.setFocusPainted(false);
-        subBTN.setBorder(BorderFactory.createEmptyBorder());
-        add(subBTN);
-
-        balanceLBL = new JLabel("Balance: PHP " + String.format("%.2f", manager.getBalance()));
-        balanceLBL.setFont(new Font("Arial", Font.BOLD, 14));
-        balanceLBL.setForeground(new Color(30, 50, 100));
-        balanceLBL.setHorizontalAlignment(SwingConstants.CENTER);
-        balanceLBL.setBounds(30, 578, 330, 30);
-        add(balanceLBL);
-
-        backBTN.addActionListener(e -> {
-            mainWindow.setVisible(true);
-            dispose();
-        });
-
-        subBTN.addActionListener(e -> {
-            String selectedTelco = "";
-            if      (globe.isSelected()) selectedTelco = "Globe";
-            else if (smart.isSelected()) selectedTelco = "Smart";
-            else if (dito.isSelected())  selectedTelco = "DITO";
-            else if (tm.isSelected())    selectedTelco = "TM";
-            else if (tnt.isSelected())   selectedTelco = "TNT";
-
-            if (selectedTelco.isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Please select a telco.");
-                return;
-            }
-
-            String date = dateFLD.getText();
+        submitBTN.addActionListener(e -> {
             try {
-                double amount = Double.parseDouble(amountFLD.getText().trim());
-                if (amount <= 0) {
-                    JOptionPane.showMessageDialog(this, "Amount must be greater than 0.");
-                    return;
-                }
-                if (amount > manager.getBalance()) {
-                    JOptionPane.showMessageDialog(this, "Insufficient balance.");
-                    return;
-                }
-                String result = manager.addTransaction("Buy Load", amount, date, selectedTelco);
+                double amount = Double.parseDouble(amountField.getText().trim());
+                String telco = telcoCombo.getSelectedItem() + " (" + phoneField.getText().trim() + ")";
+                String result = manager.addTransaction("Buy Load", amount, dateField.getText(), telco);
                 if (result.equals("SUCCESS")) {
-                    JOptionPane.showMessageDialog(this, "Load purchased from " + selectedTelco + " successful!");
-                    balanceLBL.setText("Balance: PHP " + String.format("%.2f", manager.getBalance()));
-                    amountFLD.setText("");
-                    group.clearSelection();
+                    mainWindow.updateBalance("Debit");
+                    JOptionPane.showMessageDialog(this, "Load sent successfully!\nNew Balance: PHP " + String.format("%.2f", manager.getBalance()));
+                    mainWindow.setVisible(true);
+                    dispose();
                 } else {
-                    JOptionPane.showMessageDialog(this, result);
+                    JOptionPane.showMessageDialog(this, result, "Error", JOptionPane.ERROR_MESSAGE);
                 }
             } catch (NumberFormatException ex) {
-                JOptionPane.showMessageDialog(this, "Invalid amount. Enter a number.");
+                JOptionPane.showMessageDialog(this, "Please enter a valid amount.", "Error", JOptionPane.ERROR_MESSAGE);
             }
         });
 
         setVisible(true);
     }
 
-    private JRadioButton makeRadio(String text, int index) {
-        JRadioButton rb = new JRadioButton(text);
-        rb.setBounds(15, 10 + (index * 30), 300, 25);
-        rb.setFont(new Font("Arial", Font.PLAIN, 14));
-        rb.setForeground(new Color(30, 50, 100));
-        rb.setBackground(Color.WHITE);
-        rb.setFocusPainted(false);
-        return rb;
+    private void addLabel(String text, int x, int y) {
+        JLabel lbl = new JLabel(text);
+        lbl.setBounds(x, y, 310, 20);
+        lbl.setFont(new Font("Arial", Font.BOLD, 12));
+        lbl.setForeground(new Color(60, 60, 90));
+        add(lbl);
+    }
+
+    private void styleHeaderButton(JButton btn) {
+        btn.setBackground(new Color(50, 80, 160));
+        btn.setForeground(Color.WHITE);
+        btn.setFocusPainted(false);
+        btn.setFont(new Font("Arial", Font.BOLD, 11));
+        btn.setBorderPainted(false);
+        btn.setOpaque(true);
+        btn.setCursor(new Cursor(Cursor.HAND_CURSOR));
+    }
+
+    private void styleActionButton(JButton btn) {
+        btn.setBackground(new Color(30, 50, 100));
+        btn.setForeground(Color.WHITE);
+        btn.setFocusPainted(false);
+        btn.setFont(new Font("Arial", Font.BOLD, 14));
+        btn.setBorderPainted(false);
+        btn.setOpaque(true);
+        btn.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        btn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent e) { btn.setBackground(new Color(50, 80, 160)); }
+            public void mouseExited(java.awt.event.MouseEvent e)  { btn.setBackground(new Color(30, 50, 100)); }
+        });
     }
 }
