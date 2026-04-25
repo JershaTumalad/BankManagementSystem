@@ -3,45 +3,78 @@ package project;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
+import javax.swing.border.LineBorder;
 
 public class GUI1Frame extends JFrame implements ActionListener {
-    private JLabel lblTitle;
+
+    private JPanel headerPanel, card;
+    private JLabel lblWelcome, lblDashboard, lblBalanceBox;
     private JButton btnAdd, btnRemove, btnSearch, btnView, btnExit;
     AccountFiles files;
 
+    Color primaryBlue = new Color(25, 45, 85);
+    Color bg = new Color(180, 190, 210);
+    Color btnColor = new Color(130, 160, 210);
+
     public GUI1Frame(AccountFiles files){
         this.files = files;
-        setTitle("Bank Management System");
-        setSize(430, 720);
+
+        setTitle("Bank App");
+        setSize(440, 720);
         setLayout(null);
-        setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         setResizable(false);
 
-        lblTitle = new JLabel("Main Menu");
-        lblTitle.setBounds(0, 60, 430, 40);
-        lblTitle.setFont(new Font("Arial", Font.BOLD, 28));
-        lblTitle.setHorizontalAlignment(SwingConstants.CENTER);
-        add(lblTitle);
+        getContentPane().setBackground(bg);
 
-        btnAdd = new JButton("Add Account");
-        btnAdd.setBounds(90, 160, 250, 50);
-        add(btnAdd);
+        headerPanel = new JPanel();
+        headerPanel.setBackground(primaryBlue);
+        headerPanel.setBounds(0, 0, 430, 160);
+        headerPanel.setLayout(null);
+        add(headerPanel);
 
-        btnRemove = new JButton("Remove Account");
-        btnRemove.setBounds(90, 230, 250, 50);
-        add(btnRemove);
+        lblWelcome = new JLabel("Welcome Back!");
+        lblWelcome.setFont(new Font("Segoe UI", Font.PLAIN, 18));
+        lblWelcome.setForeground(Color.WHITE);
+        lblWelcome.setBounds(30, 20, 300, 30);
+        headerPanel.add(lblWelcome);
 
-        btnSearch = new JButton("Search Account");
-        btnSearch.setBounds(90, 300, 250, 50);
-        add(btnSearch);
+        lblBalanceBox = new JLabel();
+        lblBalanceBox.setOpaque(true);
+        lblBalanceBox.setBackground(Color.WHITE);
+        lblBalanceBox.setBounds(20, 60, 390, 60);
+        headerPanel.add(lblBalanceBox);
 
-        btnView = new JButton("View Accounts List");
-        btnView.setBounds(90, 370, 250, 50);
-        add(btnView);
+        lblDashboard = new JLabel("     Account Management");
+        lblDashboard.setFont(new Font("Segoe UI", Font.BOLD, 25));
+        lblDashboard.setForeground(primaryBlue);
+        lblDashboard.setBounds(40, 60, 350, 60);
+        headerPanel.add(lblDashboard);
 
-        btnExit = new JButton("Exit System");
-        btnExit.setBounds(140, 550, 150, 40);
+        headerPanel.setComponentZOrder(lblDashboard, 0);
+
+        card = new JPanel();
+        card.setBackground(Color.WHITE);
+        card.setBounds(20, 180, 390, 420); 
+        card.setLayout(null);
+        add(card);
+
+        btnAdd = createButton("Add Account", 50);
+        btnRemove = createButton("Remove Account", 140);
+        btnSearch = createButton("Search Account", 230);
+        btnView = createButton("View All Records", 320);
+
+        card.add(btnAdd);
+        card.add(btnRemove);
+        card.add(btnSearch);
+        card.add(btnView);
+
+        btnExit = new JButton("EXIT");
+        btnExit.setBounds(140, 620, 150, 40);
+        btnExit.setForeground(Color.RED);
+        btnExit.setContentAreaFilled(false);
+        btnExit.setBorderPainted(false);
         add(btnExit);
 
         btnAdd.addActionListener(this);
@@ -51,19 +84,42 @@ public class GUI1Frame extends JFrame implements ActionListener {
         btnExit.addActionListener(this);
     }
 
+    private JButton createButton(String text, int y) {
+        JButton btn = new JButton(text);
+        btn.setBounds(30, y, 330, 55);
+        btn.setBackground(btnColor);
+
+        btn.setForeground(Color.WHITE);
+
+        btn.setFont(new Font("Segoe UI", Font.BOLD, 14));
+        btn.setBorder(new LineBorder(Color.GRAY, 1, true));
+        btn.setFocusPainted(false);
+
+        btn.addMouseListener(new MouseAdapter() {
+            public void mousePressed(MouseEvent e) {
+                btn.setLocation(btn.getX(), btn.getY() + 3);
+            }
+            public void mouseReleased(MouseEvent e) {
+                btn.setLocation(btn.getX(), btn.getY() - 3);
+            }
+        });
+
+        return btn;
+    }
+
     public void actionPerformed(ActionEvent e){
         if(e.getSource() == btnExit){
-            int ans = JOptionPane.showConfirmDialog(this, "Do you want to exit?", "Exit", JOptionPane.YES_NO_OPTION);
-            if(ans == JOptionPane.YES_OPTION) System.exit(0);
+            System.exit(0);
         } else {
             dispose();
+
             if(e.getSource() == btnAdd) 
                 new AddPage(files).setVisible(true);
-            else if(e.getSource() == btnRemove) 
+            if(e.getSource() == btnRemove) 
                 new RemovePage(files).setVisible(true);
-            else if(e.getSource() == btnSearch) 
+            if(e.getSource() == btnSearch) 
                 new SearchPage(files).setVisible(true);
-            else if(e.getSource() == btnView) 
+            if(e.getSource() == btnView) 
                 new ViewAccountsPage(files).setVisible(true);
         }
     }

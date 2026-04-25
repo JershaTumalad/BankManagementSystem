@@ -3,64 +3,104 @@ package project;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
+import javax.swing.border.LineBorder;
 
 public class SearchPage extends JFrame implements ActionListener {
-    private JTextField txtAccNo;
-    private JButton btnSearch, btnBack;
+
     AccountFiles files;
+    JTextField accNo;
+    JButton search, back;
+
+    Color PRIMARY = new Color(25,45,85);
+    Color BG = new Color(180,190,210);
+    Color BTN = new Color(130,160,210);
 
     public SearchPage(AccountFiles files){
         this.files = files;
-        setTitle("Search Account");
-        setSize(430, 720);
+
+        setSize(440,720);
         setLayout(null);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        getContentPane().setBackground(BG);
 
-        JLabel lblTitle = new JLabel("Search Account");
-        lblTitle.setBounds(0, 60, 430, 40);
-        lblTitle.setFont(new Font("Arial", Font.BOLD, 24));
-        lblTitle.setHorizontalAlignment(SwingConstants.CENTER);
-        add(lblTitle);
+        JPanel header = new JPanel();
+        header.setBackground(PRIMARY);
+        header.setBounds(0,0,430,100);
+        header.setLayout(null);
+        add(header);
 
-        JLabel lblPrompt = new JLabel("Enter Account Number:");
-        lblPrompt.setBounds(50, 160, 200, 30);
-        add(lblPrompt);
+        JLabel title = new JLabel("SEARCH ACCOUNT");
+        title.setForeground(Color.WHITE);
+        title.setFont(new Font("Segoe UI",Font.BOLD,18));
+        title.setBounds(30,35,300,30);
+        header.add(title);
 
-        txtAccNo = new JTextField();
-        txtAccNo.setBounds(50, 200, 330, 40);
-        add(txtAccNo);
+        JPanel card = new JPanel();
+        card.setBounds(20,140,390,300);
+        card.setBackground(Color.WHITE);
+        card.setLayout(null);
+        add(card);
 
-        btnSearch = new JButton("Search");
-        btnSearch.setBounds(90, 280, 250, 50);
-        add(btnSearch);
+        JLabel lbl = new JLabel("Enter Account Number");
+        lbl.setBounds(30,30,300,20);
+        card.add(lbl);
 
-        btnBack = new JButton("Back");
-        btnBack.setBounds(90, 350, 250, 50);
-        add(btnBack);
+        accNo = new JTextField();
+        accNo.setBounds(30,60,320,45);
+        card.add(accNo);
 
-        btnSearch.addActionListener(this);
-        btnBack.addActionListener(this);
+        search = new JButton("Search");
+        search.setBounds(30,130,320,50);
+        search.setBackground(BTN);
+        search.setForeground(Color.WHITE);
+        search.setBorder(new LineBorder(Color.GRAY,1,true));
+        search.setFocusPainted(false);
+
+        back = new JButton("Go Back");
+        back.setBounds(30,190,320,50);
+        back.setBackground(BTN);
+        back.setForeground(Color.WHITE);
+        back.setBorder(new LineBorder(Color.GRAY,1,true));
+        back.setFocusPainted(false);
+
+        card.add(search);
+        card.add(back);
+
+        search.addActionListener(this);
+        back.addActionListener(this);
     }
 
-    public void actionPerformed(ActionEvent e) {
-        if(e.getSource() == btnBack) {
+    public void actionPerformed(ActionEvent e){
+
+        if(e.getSource()==back){
             dispose();
             new GUI1Frame(files).setVisible(true);
-        } else if(e.getSource() == btnSearch) {
-            String accNo = txtAccNo.getText().trim();
-            
-            if(!accNo.matches("[0-9]+")) {
-                JOptionPane.showMessageDialog(this, "Input Number Only!", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+
+        else if(e.getSource()==search){
+
+            String input = accNo.getText().trim();
+
+            if(input.isEmpty()){
+                JOptionPane.showMessageDialog(this, "Please enter account number!");
                 return;
             }
 
-            Account acc = files.searchAccount(accNo);
-            if(acc != null) {
-                String formattedBalance = String.format("P %,.2f", acc.getBalance());
-                JOptionPane.showMessageDialog(this, "Name: " + acc.getName() + "\nBalance: " + formattedBalance);
+            if(!input.matches("\\d+")){
+                JOptionPane.showMessageDialog(this, "Invalid input! Numbers only.");
+                return;
+            }
+
+            Account acc = files.searchAccount(input);
+
+            if(acc != null){
+                JOptionPane.showMessageDialog(this,
+                    "Name: " + acc.getName() +
+                    "\nType: " + acc.getAccountType() +
+                    "\nBalance: P " + acc.getBalance());
             } else {
-                JOptionPane.showMessageDialog(this, "Account not found!");
+                JOptionPane.showMessageDialog(this, "Account Not Found!");
             }
         }
     }
