@@ -129,9 +129,17 @@ public class BankAppGUI extends JFrame {
         return btn;
     }
 
-    public void updateBalance(double balance) {
-        balanceAmountLBL.setText(String.format("PHP %.2f", balance));
+    public void updateBalance(String type) {
+    double bal = manager.getBalance();
+    balanceAmountLBL.setText(String.format("PHP %.2f", bal));
+    if (type.equals("Deposit")) {
+        balanceAmountLBL.setForeground(new Color(0, 180, 0));
+    } else {
+        balanceAmountLBL.setForeground(Color.WHITE);
     }
+    balanceAmountLBL.revalidate();
+    balanceAmountLBL.repaint();
+}
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(BankAppGUI::new);
