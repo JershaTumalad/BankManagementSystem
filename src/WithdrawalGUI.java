@@ -1,7 +1,9 @@
 package BAMS;
 
 import javax.swing.*;
+import javax.swing.border.*;
 import java.awt.*;
+import java.awt.event.*;
 import java.time.LocalDate;
 
 public class WithdrawalGUI extends JFrame {
@@ -15,48 +17,107 @@ public class WithdrawalGUI extends JFrame {
         this.mainWindow = mainWindow;
 
         setTitle("Withdraw Funds");
-        setSize(400, 700);
+        setSize(420, 720);
         setLayout(null);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        getContentPane().setBackground(new Color(245, 245, 250));
+        getContentPane().setBackground(new Color(235, 240, 250));
 
-        JPanel header = new JPanel(null);
-        header.setBounds(0, 0, 400, 60);
-        header.setBackground(new Color(30, 50, 100));
-        add(header);
+        //navbar
+        JPanel navPanel = new JPanel(null);
+        navPanel.setBounds(0, 0, 420, 45);
+        navPanel.setBackground(new Color(15, 28, 60));
+        add(navPanel);
 
         JButton backBTN = new JButton("← Back");
-        backBTN.setBounds(8, 12, 80, 30);
-        styleHeaderButton(backBTN);
-        header.add(backBTN);
+        backBTN.setBounds(10, 9, 70, 27);
+        backBTN.setFont(new Font("Tahoma", Font.PLAIN, 12));
+        backBTN.setForeground(Color.WHITE);
+        backBTN.setBackground(new Color(37, 65, 130));
+        backBTN.setFocusPainted(false);
+        backBTN.setBorder(BorderFactory.createLineBorder(new Color(80, 110, 180), 1, true));
+        backBTN.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        navPanel.add(backBTN);
+
+        //header
+        JPanel headerPanel = new JPanel(null);
+        headerPanel.setBounds(0, 45, 420, 120);
+        headerPanel.setBackground(new Color(25, 45, 95));
+        add(headerPanel);
 
         JLabel title = new JLabel("Withdraw Funds");
+        title.setBounds(0, 30, 420, 35);
+        title.setFont(new Font("Tahoma", Font.BOLD, 22));
         title.setForeground(Color.WHITE);
-        title.setFont(new Font("Arial", Font.BOLD, 16));
-        title.setBounds(100, 15, 200, 30);
-        header.add(title);
+        title.setHorizontalAlignment(SwingConstants.CENTER);
+        headerPanel.add(title);
 
-        addLabel("Enter Amount (PHP):", 40, 90);
+        JLabel subtitle = new JLabel("Cash out from your account");
+        subtitle.setBounds(0, 68, 420, 18);
+        subtitle.setFont(new Font("Tahoma", Font.PLAIN, 12));
+        subtitle.setForeground(new Color(160, 185, 225));
+        subtitle.setHorizontalAlignment(SwingConstants.CENTER);
+        headerPanel.add(subtitle);
+
+        //form
+        JPanel card = new JPanel(null);
+        card.setBounds(24, 186, 372, 220);
+        card.setBackground(Color.WHITE);
+        card.setBorder(BorderFactory.createLineBorder(new Color(200, 215, 235), 1, true));
+        add(card);
+
+        JLabel amountLBL = new JLabel("Enter Amount (PHP)");
+        amountLBL.setBounds(20, 22, 250, 18);
+        amountLBL.setFont(new Font("Tahoma", Font.BOLD, 12));
+        amountLBL.setForeground(new Color(60, 80, 120));
+        card.add(amountLBL);
+
         amountField = new JTextField();
-        amountField.setBounds(40, 120, 310, 40);
-        amountField.setFont(new Font("Arial", Font.PLAIN, 16));
+        amountField.setBounds(20, 46, 330, 42);
+        amountField.setFont(new Font("Tahoma", Font.PLAIN, 18));
         amountField.setHorizontalAlignment(JTextField.CENTER);
-        add(amountField);
+        amountField.setBorder(BorderFactory.createCompoundBorder(
+            BorderFactory.createLineBorder(new Color(200, 215, 235), 1, true),
+            BorderFactory.createEmptyBorder(0, 10, 0, 10)
+        ));
+        card.add(amountField);
 
-        addLabel("Date:", 40, 175);
+        JLabel dateLBL = new JLabel("Date");
+        dateLBL.setBounds(20, 108, 250, 18);
+        dateLBL.setFont(new Font("Tahoma", Font.BOLD, 12));
+        dateLBL.setForeground(new Color(60, 80, 120));
+        card.add(dateLBL);
+
         JTextField dateField = new JTextField(LocalDate.now().toString());
-        dateField.setBounds(40, 205, 310, 40);
-        dateField.setFont(new Font("Arial", Font.PLAIN, 14));
+        dateField.setBounds(20, 132, 330, 42);
+        dateField.setFont(new Font("Tahoma", Font.PLAIN, 14));
+        dateField.setHorizontalAlignment(JTextField.CENTER);
         dateField.setEditable(false);
-        dateField.setBackground(new Color(220, 220, 230));
-        add(dateField);
+        dateField.setBackground(new Color(235, 240, 250));
+        dateField.setForeground(new Color(100, 120, 160));
+        dateField.setBorder(BorderFactory.createCompoundBorder(
+            BorderFactory.createLineBorder(new Color(200, 215, 235), 1, true),
+            BorderFactory.createEmptyBorder(0, 10, 0, 10)
+        ));
+        card.add(dateField);
 
+        //submit
         JButton submitBTN = new JButton("Withdraw");
-        submitBTN.setBounds(40, 270, 310, 45);
-        styleActionButton(submitBTN);
+        submitBTN.setBounds(24, 430, 372, 48);
+        submitBTN.setFont(new Font("Tahoma", Font.BOLD, 15));
+        submitBTN.setBackground(new Color(25, 45, 95));
+        submitBTN.setForeground(Color.WHITE);
+        submitBTN.setFocusPainted(false);
+        submitBTN.setBorderPainted(false);
+        submitBTN.setOpaque(true);
+        submitBTN.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        submitBTN.addMouseListener(new MouseAdapter() {
+            public void mouseEntered(MouseEvent e) { submitBTN.setBackground(new Color(37, 65, 130)); }
+            public void mouseExited (MouseEvent e) { submitBTN.setBackground(new Color(25, 45, 95)); }
+        });
         add(submitBTN);
 
+        //action listeners
         backBTN.addActionListener(e -> { mainWindow.setVisible(true); dispose(); });
 
         submitBTN.addActionListener(e -> {
@@ -65,7 +126,8 @@ public class WithdrawalGUI extends JFrame {
                 String result = manager.addTransaction("Withdrawal", amount, dateField.getText(), "");
                 if (result.equals("SUCCESS")) {
                     mainWindow.updateBalance("Debit");
-                    JOptionPane.showMessageDialog(this, "Withdrawal successful!\nNew Balance: PHP " + String.format("%.2f", manager.getBalance()));
+                    JOptionPane.showMessageDialog(this,
+                        "Withdrawal successful!\nNew Balance: PHP " + String.format("%.2f", manager.getBalance()));
                     mainWindow.setVisible(true);
                     dispose();
                 } else {
@@ -77,37 +139,5 @@ public class WithdrawalGUI extends JFrame {
         });
 
         setVisible(true);
-    }
-
-    private void addLabel(String text, int x, int y) {
-        JLabel lbl = new JLabel(text);
-        lbl.setBounds(x, y, 310, 20);
-        lbl.setFont(new Font("Arial", Font.BOLD, 12));
-        lbl.setForeground(new Color(60, 60, 90));
-        add(lbl);
-    }
-
-    private void styleHeaderButton(JButton btn) {
-        btn.setBackground(new Color(50, 80, 160));
-        btn.setForeground(Color.WHITE);
-        btn.setFocusPainted(false);
-        btn.setFont(new Font("Arial", Font.BOLD, 11));
-        btn.setBorderPainted(false);
-        btn.setOpaque(true);
-        btn.setCursor(new Cursor(Cursor.HAND_CURSOR));
-    }
-
-    private void styleActionButton(JButton btn) {
-        btn.setBackground(new Color(30, 50, 100));
-        btn.setForeground(Color.WHITE);
-        btn.setFocusPainted(false);
-        btn.setFont(new Font("Arial", Font.BOLD, 14));
-        btn.setBorderPainted(false);
-        btn.setOpaque(true);
-        btn.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        btn.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent e) { btn.setBackground(new Color(50, 80, 160)); }
-            public void mouseExited(java.awt.event.MouseEvent e)  { btn.setBackground(new Color(30, 50, 100)); }
-        });
     }
 }

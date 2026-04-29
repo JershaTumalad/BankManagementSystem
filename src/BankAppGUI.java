@@ -3,114 +3,118 @@ package BAMS;
 import javax.swing.*;
 import javax.swing.border.*;
 import java.awt.*;
+import java.awt.event.*;
 
 public class BankAppGUI extends JFrame {
 
     private JPanel buttonPanel;
     private JLabel header, balanceLBL, balanceAmountLBL;
-    private JButton depBTN, witBTN, tranBTN, billsBTN, loadBTN, hisBTN;
-    private JButton homeBTN, manageAccBTN;
+    private JButton depBTN, witBTN, tranBTN, billsBTN, loadBTN, suppBTN, hisBTN;
 
     TransactionManager manager = new TransactionManager();
 
     public BankAppGUI() {
         setTitle("Bank Application");
-        setSize(400, 700);
+        setSize(420, 720);
         setLayout(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
-        getContentPane().setBackground(new Color(245, 245, 250));
+        setResizable(false);
+        getContentPane().setBackground(new Color(235, 240, 250));
 
+        //navbar 
+        JPanel navPanel = new JPanel(null);
+        navPanel.setBounds(0, 0, 420, 45);
+        navPanel.setBackground(new Color(15, 28, 60));
+        add(navPanel);
+
+        JButton homeBtn = new JButton("Home");
+        homeBtn.setBounds(10, 9, 65, 27);
+        homeBtn.setFont(new Font("Tahoma", Font.PLAIN, 12));
+        homeBtn.setForeground(Color.WHITE);
+        homeBtn.setBackground(new Color(37, 65, 130));
+        homeBtn.setFocusPainted(false);
+        homeBtn.setBorder(BorderFactory.createLineBorder(new Color(80, 110, 180), 1, true));
+        homeBtn.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        navPanel.add(homeBtn);
+
+        JButton manageBtn = new JButton("Manage Accounts");
+        manageBtn.setBounds(245, 9, 155, 27);
+        manageBtn.setFont(new Font("Tahoma", Font.PLAIN, 12));
+        manageBtn.setForeground(Color.WHITE);
+        manageBtn.setBackground(new Color(37, 65, 130));
+        manageBtn.setFocusPainted(false);
+        manageBtn.setBorder(BorderFactory.createLineBorder(new Color(80, 110, 180), 1, true));
+        manageBtn.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        navPanel.add(manageBtn);
+
+        //header
         JPanel headerPanel = new JPanel(null);
-        headerPanel.setBounds(0, 0, 390, 140); 
-        headerPanel.setBackground(new Color(30, 50, 100));
+        headerPanel.setBounds(0, 45, 420, 160);
+        headerPanel.setBackground(new Color(25, 45, 95));
         add(headerPanel);
 
-        homeBTN = new JButton("Home");
-        homeBTN.setBounds(8, 8, 70, 26);
-        homeBTN.setFont(new Font("Tahoma", Font.PLAIN, 11));
-        homeBTN.setBackground(new Color(30, 50, 100));
-        homeBTN.setForeground(Color.WHITE);
-        homeBTN.setFocusPainted(false);
-        homeBTN.setBorder(BorderFactory.createLineBorder(new Color(180, 200, 230), 1, true));
-        homeBTN.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        headerPanel.add(homeBTN);
-
-        manageAccBTN = new JButton("Manage Accounts");
-        manageAccBTN.setBounds(255, 8, 125, 26);
-        manageAccBTN.setFont(new Font("Tahoma", Font.PLAIN, 11));
-        manageAccBTN.setBackground(new Color(30, 50, 100));
-        manageAccBTN.setForeground(Color.WHITE);
-        manageAccBTN.setFocusPainted(false);
-        manageAccBTN.setBorder(BorderFactory.createLineBorder(new Color(180, 200, 230), 1, true));
-        manageAccBTN.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        headerPanel.add(manageAccBTN);
-
         header = new JLabel("Bank Application");
-        header.setBounds(0, 45, 390, 35);
+        header.setBounds(0, 28, 420, 30);
         header.setFont(new Font("Tahoma", Font.BOLD, 22));
         header.setForeground(Color.WHITE);
         header.setHorizontalAlignment(SwingConstants.CENTER);
         headerPanel.add(header);
 
         balanceLBL = new JLabel("Current Balance");
-        balanceLBL.setBounds(0, 82, 390, 18);
+        balanceLBL.setBounds(0, 72, 420, 18);
         balanceLBL.setFont(new Font("Tahoma", Font.PLAIN, 12));
-        balanceLBL.setForeground(new Color(180, 200, 230));
+        balanceLBL.setForeground(new Color(160, 185, 225));
         balanceLBL.setHorizontalAlignment(SwingConstants.CENTER);
         headerPanel.add(balanceLBL);
 
         balanceAmountLBL = new JLabel("PHP 0.00");
-        balanceAmountLBL.setBounds(0, 100, 390, 28);
-        balanceAmountLBL.setFont(new Font("Tahoma", Font.BOLD, 24));
+        balanceAmountLBL.setBounds(0, 92, 420, 38);
+        balanceAmountLBL.setFont(new Font("Tahoma", Font.BOLD, 30));
         balanceAmountLBL.setForeground(Color.WHITE);
         balanceAmountLBL.setHorizontalAlignment(SwingConstants.CENTER);
         headerPanel.add(balanceAmountLBL);
 
-        buttonPanel = new JPanel(null);
-        buttonPanel.setBounds(40, 155, 305, 460); 
-        buttonPanel.setBackground(new Color(245, 245, 250));
+        //section panel
+        JLabel sectionLBL = new JLabel("Quick Actions");
+        sectionLBL.setBounds(24, 218, 200, 20);
+        sectionLBL.setFont(new Font("Tahoma", Font.BOLD, 12));
+        sectionLBL.setForeground(new Color(100, 120, 160));
+        add(sectionLBL);
+
+        //button
+        buttonPanel = new JPanel(new GridLayout(3, 2, 10, 10));
+        buttonPanel.setBounds(18, 244, 378, 270);
+        buttonPanel.setBackground(new Color(235, 240, 250));
         add(buttonPanel);
 
-        depBTN=makeButton("Deposit");
-        witBTN=makeButton("Withdrawal");
-        tranBTN=makeButton("Transfer");
-        billsBTN=makeButton("Bills Payment");
-        loadBTN=makeButton("Buy Load");
-        hisBTN=makeButton("Transaction History");
-
-        int startY = 10;
-        int gap    = 68;
-        depBTN.setBounds(0, startY,305, 52);
-        witBTN.setBounds(0, startY + gap,305, 52);
-        tranBTN.setBounds(0, startY + gap * 2,305, 52);
-        billsBTN.setBounds(0, startY + gap * 3,305, 52);
-        loadBTN.setBounds(0, startY + gap * 4,305, 52);
-        hisBTN.setBounds(0, startY + gap * 5,305, 52);
+        depBTN   = makeButton("Deposit");
+        witBTN   = makeButton("Withdrawal");
+        tranBTN  = makeButton("Transfer");
+        billsBTN = makeButton("Bills Payment");
+        loadBTN  = makeButton("Buy Load");
+        suppBTN  = makeButton("Support / Help");
 
         buttonPanel.add(depBTN);
         buttonPanel.add(witBTN);
         buttonPanel.add(tranBTN);
         buttonPanel.add(billsBTN);
         buttonPanel.add(loadBTN);
-        buttonPanel.add(hisBTN);
+        buttonPanel.add(suppBTN);
 
-  
-        depBTN.addActionListener(e -> { new DepositGUI(manager, this); setVisible(false); });
-        witBTN.addActionListener(e -> { new WithdrawalGUI(manager, this); setVisible(false); });
-        tranBTN.addActionListener(e -> { new TransferGUI(manager, this); setVisible(false); });
+        //trnasaction history
+        hisBTN = makeButton("Transaction History");
+        hisBTN.setBounds(18, 594, 378, 52);
+        add(hisBTN);
+
+        //aaction listeners 
+        depBTN  .addActionListener(e -> { new DepositGUI(manager, this);     setVisible(false); });
+        witBTN  .addActionListener(e -> { new WithdrawalGUI(manager, this);  setVisible(false); });
+        tranBTN .addActionListener(e -> { new TransferGUI(manager, this);    setVisible(false); });
         billsBTN.addActionListener(e -> { new BillPaymentGUI(manager, this); setVisible(false); });
-        loadBTN.addActionListener(e -> { new BuyLoadGUI(manager, this); setVisible(false); });
-        hisBTN.addActionListener(e -> { new HistoryGUI(manager, this); dispose(); });
-
-        homeBTN.addActionListener(e -> {new bankmanagementapp.frontPage();
-        dispose();
-        });
-
-        manageAccBTN.addActionListener(e -> {project.AccountFiles files = new project.AccountFiles();
-            new project.GUI1Frame(files).setVisible(true);
-            dispose();
-        });
+        loadBTN .addActionListener(e -> { new BuyLoadGUI(manager, this);     setVisible(false); });
+        suppBTN .addActionListener(e -> { JOptionPane.showMessageDialog(this, "Support & Help\nEmail: support@bankapp.com\nHotline: 1800-BANK-APP"); });
+        hisBTN  .addActionListener(e -> { new HistoryGUI(manager, this);     setVisible(false); });
 
         setVisible(true);
     }
@@ -119,27 +123,29 @@ public class BankAppGUI extends JFrame {
         JButton btn = new JButton(text);
         btn.setFont(new Font("Tahoma", Font.PLAIN, 14));
         btn.setBackground(Color.WHITE);
-        btn.setForeground(new Color(30, 50, 100));
+        btn.setForeground(new Color(25, 45, 95));
         btn.setFocusPainted(false);
         btn.setCursor(new Cursor(Cursor.HAND_CURSOR));
         btn.setBorder(BorderFactory.createCompoundBorder(
-            BorderFactory.createLineBorder(new Color(200, 210, 230), 1, true),
+            BorderFactory.createLineBorder(new Color(200, 215, 235), 1, true),
             BorderFactory.createEmptyBorder(0, 10, 0, 10)
         ));
+        btn.addMouseListener(new MouseAdapter() {
+            public void mouseEntered(MouseEvent e) { btn.setBackground(new Color(225, 232, 250)); }
+            public void mouseExited (MouseEvent e) { btn.setBackground(Color.WHITE); }
+        });
         return btn;
     }
 
     public void updateBalance(String type) {
-    double bal = manager.getBalance();
-    balanceAmountLBL.setText(String.format("PHP %.2f", bal));
-    if (type.equals("Deposit")) {
-        balanceAmountLBL.setForeground(new Color(0, 180, 0));
-    } else {
-        balanceAmountLBL.setForeground(Color.WHITE);
+        double bal = manager.getBalance();
+        balanceAmountLBL.setText(String.format("PHP %.2f", bal));
+        balanceAmountLBL.setForeground(
+            type.equals("Deposit") ? new Color(100, 220, 130) : Color.WHITE
+        );
+        balanceAmountLBL.revalidate();
+        balanceAmountLBL.repaint();
     }
-    balanceAmountLBL.revalidate();
-    balanceAmountLBL.repaint();
-}
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(BankAppGUI::new);
