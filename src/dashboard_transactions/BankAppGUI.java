@@ -6,6 +6,7 @@ import java.awt.*;
 import java.awt.event.*;
 import project.GUI1Frame;    
 import project.AccountFiles; 
+import bankmanagementapp.logInPage;
 
 public class BankAppGUI extends JFrame {
 
@@ -40,6 +41,9 @@ public class BankAppGUI extends JFrame {
         homeBtn.setBorder(BorderFactory.createLineBorder(new Color(80, 110, 180), 1, true));
         homeBtn.setCursor(new Cursor(Cursor.HAND_CURSOR));
         navPanel.add(homeBtn);
+        
+        homeBtn.addActionListener(e -> {
+        new bankmanagementapp.logInPage().setVisible(true); this.dispose();});
 
         JButton manageBtn = new JButton("Manage Accounts");
         manageBtn.setBounds(245, 9, 155, 27);
