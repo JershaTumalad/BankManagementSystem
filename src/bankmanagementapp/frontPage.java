@@ -24,7 +24,7 @@ public class frontPage extends JFrame{
           
           JPanel mainPanel = new JPanel();
           mainPanel.setLayout(null);
-           mainPanel.setBackground(new Color(200, 210, 230));
+          mainPanel.setBackground(new Color(200, 210, 230));
           setContentPane(mainPanel);// ito is for the background ng JPAnel c
 
        

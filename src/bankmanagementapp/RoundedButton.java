@@ -22,6 +22,8 @@ public class RoundedButton extends JButton {
         setFocusPainted(false);
         setContentAreaFilled(false);
         setForeground(Color.BLACK);
+         setBorderPainted(false); // ❗ removes the outline
+        setBorder(null);
 
     }
 

@@ -1,6 +1,7 @@
 
 package bankmanagementapp;
 
+import java.awt.*;
 import javax.swing.*;
 import java.awt.event.*;
 import java.util.*;
@@ -17,10 +18,10 @@ public class forgotPage1 extends JFrame {
     
    
     
-    JLabel Title, desc,Userid;
+    JLabel Title, desc,Userid, navTit;
     JTextField tfUserid;
     JButton submit,homepage;
-    
+     JPanel navbar;
     public forgotPage1(){
         
         this.acc = accDatabase.acc;
@@ -32,10 +33,28 @@ public class forgotPage1 extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(null);
         
-        Title= new JLabel("FORGOT MY PASSWORD");
-        Title.setFont(new java.awt.Font("Segoe UI", java.awt.Font.BOLD, 20));
-        add(Title);
-        Title.setBounds(30, 100, 300, 40);
+        
+        JPanel mainPanel = new JPanel();
+        mainPanel.setBackground(new Color(200, 210, 230));
+        mainPanel.setLayout(null);
+        setContentPane(mainPanel);
+        
+        
+      
+        
+        
+         navbar = new JPanel();
+         navbar.setBounds(0, 0, 430, 100);
+         navbar.setBackground(theme.Primary); // primary blue
+         navbar.setLayout(null);
+         add(navbar);
+
+        navTit = new JLabel("FORGOT MY PASSWORD");
+        navTit.setForeground(Color.WHITE);
+        navTit.setFont(new java.awt.Font("Segoe UI", java.awt.Font.BOLD, 23));
+        navTit.setBounds(50, 25, 300, 30);
+        navbar.add(navTit);
+        
         
         desc= new JLabel("Enter your registered USER_ID ");
         desc.setFont(new java.awt.Font("Segoe UI", java.awt.Font.BOLD, 14));
@@ -49,13 +68,15 @@ public class forgotPage1 extends JFrame {
         
         tfUserid= new JTextField();
           tfUserid.setFont(new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 14));
+          tfUserid.setBorder(null);
         add(tfUserid);
         tfUserid.setBounds(120, 230, 220, 35);
         
-         submit= new JButton("Submit");
-           submit.setFont(new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 14));
-        add(submit);
+         submit= new RoundedButton("Submit");
+         submit.setFont(new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 14));
         submit.setBounds(135, 320, 150, 40);
+        submit.setBackground(theme.Light_blue);
+         add(submit);
         submit.addActionListener(e ->{
         
             String inputUserId = tfUserid.getText();
@@ -84,9 +105,10 @@ public class forgotPage1 extends JFrame {
         
         });
         
-        homepage = new JButton ("Back to Homepage");
+        homepage = new RoundedButton ("Back to Homepage");
             homepage.setBounds(110, 450, 200, 40);
             homepage.setFont(new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 14));
+            homepage.setBackground(theme.Light_blue);
             add(homepage); 
             homepage.addActionListener( e-> {
             
@@ -102,6 +124,17 @@ public class forgotPage1 extends JFrame {
 
 
   }
+    
+     public class theme {
+          public static final Color Primary = new Color (25,42,86);
+        public static final Color Light_blue = new Color(0x8bace0);
+          public static final Color bg = new Color (230, 235, 245);
+          public static final Color text_d = new Color (40,40,40);
+         
+          
+          
+      }
+
     
 
 }

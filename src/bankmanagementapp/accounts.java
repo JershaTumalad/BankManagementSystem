@@ -1,6 +1,7 @@
 
 package bankmanagementapp;
 
+import java.awt.*;
 import javax.swing.*;
 import java.awt.event.*;
 import java.util.*;
@@ -25,6 +26,10 @@ public class accounts extends JFrame{
         setTitle("Account Registration");
         setLayout(null);
         
+         JPanel mainPanel = new JPanel();
+        mainPanel.setBackground(new Color(200, 210, 230));
+        mainPanel.setLayout(null);
+        setContentPane(mainPanel);
         
         int labelX = 40;
         int fieldX = 160;
@@ -42,6 +47,7 @@ public class accounts extends JFrame{
         tfFirstName = new JTextField();
         tfFirstName.setBounds(fieldX, startY, fieldWidth, fieldHeight);
         tfFirstName.setFont(new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 14));
+        tfFirstName.setBorder(null);
         add(tfFirstName);
 
         lastName = new JLabel("Last Name:");
@@ -53,6 +59,7 @@ public class accounts extends JFrame{
         tfLastName = new JTextField();
         tfLastName.setBounds(fieldX, startY + spacing, fieldWidth, fieldHeight);
         tfLastName.setFont(new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 14));
+        tfLastName.setBorder(null);
         add(tfLastName);
 
         midName = new JLabel("Middle Name:");
@@ -64,6 +71,7 @@ public class accounts extends JFrame{
         tfMidName = new JTextField();
         tfMidName.setBounds(fieldX, startY + (spacing * 2), fieldWidth, fieldHeight);
         tfMidName.setFont(new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 14));
+        tfMidName.setBorder(null);
         add(tfMidName);
 
         mobNum = new JLabel("Mobile No.:");
@@ -75,6 +83,7 @@ public class accounts extends JFrame{
         tfMobNum = new JTextField();
         tfMobNum.setBounds(fieldX, startY + (spacing * 3), fieldWidth, fieldHeight);
         tfMobNum.setFont(new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 14));
+        tfMobNum.setBorder(null);
         add(tfMobNum);
 
         address = new JLabel("Address:");
@@ -86,6 +95,7 @@ public class accounts extends JFrame{
         tfAddress = new JTextField();
         tfAddress.setBounds(fieldX, startY + (spacing * 4), fieldWidth, fieldHeight);
         tfAddress.setFont(new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 14));
+        tfAddress.setBorder(null);
         add(tfAddress);
 
         idType = new JLabel("Account Type:");
@@ -108,11 +118,6 @@ public class accounts extends JFrame{
         idNum.setFont(new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 14));
         add(idNum);
         
-        
-//        tfIdNum = new JTextField();
-//        tfIdNum.setBounds(fieldX, startY + (spacing * 6), fieldWidth, fieldHeight);
-//        tfIdNum.setFont(new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 14));
-//        add(tfIdNum);
 
 
         String[] months = {
@@ -140,6 +145,7 @@ public class accounts extends JFrame{
         }
         JComboBox<String> cbYear = new JComboBox<>(years);
         cbYear.setBounds(fieldX + 160, startY + (spacing * 6), 80, 30);
+        cbYear.setBorder(null);
         add(cbYear);
 
 
@@ -153,6 +159,7 @@ public class accounts extends JFrame{
         tfEmail = new JTextField();
         tfEmail.setBounds(fieldX, startY + (spacing * 7), fieldWidth, fieldHeight);
         tfEmail.setFont(new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 14));
+        tfEmail.setBorder(null);
         add(tfEmail);
 
         userId = new JLabel("User ID:");
@@ -164,6 +171,7 @@ public class accounts extends JFrame{
         tfuserId = new JTextField();
         tfuserId.setBounds(fieldX, startY + (spacing * 8), fieldWidth, fieldHeight);
         tfuserId.setFont(new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 14));
+        tfuserId.setBorder(null);
         add(tfuserId);
 
         pass = new JLabel("Password:");
@@ -174,11 +182,13 @@ public class accounts extends JFrame{
         tfpass = new JTextField(); 
         tfpass.setBounds(fieldX, startY + (spacing * 9), fieldWidth, fieldHeight);
         tfpass.setFont(new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 14));
+        tfpass.setBorder(null);
         add(tfpass);
 
-        submit = new JButton("CREATE AN ACCOUNT");
+        submit = new RoundedButton("CREATE AN ACCOUNT");
         submit.setBounds(100, 580, 230, 35);
         submit.setFont(new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 14));
+        submit.setBackground(theme.Light_blue);
         add(submit);
 
         submit.addActionListener(e -> {
@@ -206,10 +216,11 @@ public class accounts extends JFrame{
         
         });
         
-        logInPage = new JButton("BACK TO LOGIN PAGE");
+        logInPage = new RoundedButton("BACK TO LOGIN PAGE");
         logInPage.setBounds(100, 630, 230, 35);
-        add(logInPage);
         logInPage.setFont(new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 14));
+        logInPage.setBackground(theme.Light_blue);
+        add(logInPage);
         logInPage.addActionListener(e ->{
         
             new logInPage();
@@ -219,9 +230,24 @@ public class accounts extends JFrame{
         
         });
         
+           
+          
+          
+      }
         
         
-       
+        
+           public class theme {
+          public static final Color Primary = new Color (25,42,86);
+        public static final Color Light_blue = new Color(0x8bace0);
+          public static final Color bg = new Color (230, 235, 245);
+          public static final Color text_d = new Color (40,40,40);
+         
+          
+          
+      }
         
     }
-}
+
+
+
