@@ -7,7 +7,7 @@ public class AccountFiles {
     private ArrayList<Account> accounts = new ArrayList<>();
 
     public boolean addAccount(String name, String type, String accNo, double bal) {
-        if (!Account.validateUniqueAccount(accNo, accounts)) return false;
+        if (!Account.isAccountUnique(accNo, accounts)) return false;
         accounts.add(new Account(name, type, accNo, bal));
         return true;
     }
