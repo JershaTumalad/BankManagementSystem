@@ -87,7 +87,7 @@ public class forgotPage2 extends JFrame {
                     
             
             if(found){JOptionPane.showMessageDialog(this, "Email Found!");
-                    new dashboard();
+                    new logInPage();
                     this.dispose();
             } else{
                     JOptionPane.showMessageDialog(this, "Email not registered!");

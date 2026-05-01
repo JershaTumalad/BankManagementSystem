@@ -1,4 +1,4 @@
-package BAMS;
+package dashboard_transactions;
 
 public class BillsPayment extends Transaction{
     private String billerName;

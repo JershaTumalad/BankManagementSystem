@@ -1,4 +1,4 @@
-package BAMS;
+package dashboard_transactions;
 
 import javax.swing.*;
 import javax.swing.border.*;
@@ -6,24 +6,24 @@ import java.awt.*;
 import java.awt.event.*;
 import java.time.LocalDate;
 
-public class DepositGUI extends JFrame {
+public class TransferGUI extends JFrame {
 
     private TransactionManager manager;
     private BankAppGUI mainWindow;
-    private JTextField amountField;
+    private JTextField amountField, recipientField;
 
-    public DepositGUI(TransactionManager manager, BankAppGUI mainWindow) {
+    public TransferGUI(TransactionManager manager, BankAppGUI mainWindow) {
         this.manager = manager;
         this.mainWindow = mainWindow;
 
-        setTitle("Deposit Money");
-        setSize(420, 720);
+        setTitle("Transfer Money");
+        setSize(430, 720);
         setLayout(null);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         getContentPane().setBackground(new Color(235, 240, 250));
 
-        // ── Navbar ────────────────────────────────────────────────
+        //navbar─
         JPanel navPanel = new JPanel(null);
         navPanel.setBounds(0, 0, 420, 45);
         navPanel.setBackground(new Color(15, 28, 60));
@@ -39,29 +39,29 @@ public class DepositGUI extends JFrame {
         backBTN.setCursor(new Cursor(Cursor.HAND_CURSOR));
         navPanel.add(backBTN);
 
-        // ── Header Panel ──────────────────────────────────────────
+        //header
         JPanel headerPanel = new JPanel(null);
         headerPanel.setBounds(0, 45, 420, 120);
         headerPanel.setBackground(new Color(25, 45, 95));
         add(headerPanel);
 
-        JLabel title = new JLabel("Deposit Money");
+        JLabel title = new JLabel("Transfer Money");
         title.setBounds(0, 30, 420, 35);
         title.setFont(new Font("Tahoma", Font.BOLD, 22));
         title.setForeground(Color.WHITE);
         title.setHorizontalAlignment(SwingConstants.CENTER);
         headerPanel.add(title);
 
-        JLabel subtitle = new JLabel("Add funds to your account");
+        JLabel subtitle = new JLabel("Send money to another account");
         subtitle.setBounds(0, 68, 420, 18);
         subtitle.setFont(new Font("Tahoma", Font.PLAIN, 12));
         subtitle.setForeground(new Color(160, 185, 225));
         subtitle.setHorizontalAlignment(SwingConstants.CENTER);
         headerPanel.add(subtitle);
 
-        // ── Form Card ─────────────────────────────────────────────
+        //form
         JPanel card = new JPanel(null);
-        card.setBounds(24, 186, 372, 220);
+        card.setBounds(24, 186, 372, 300);
         card.setBackground(Color.WHITE);
         card.setBorder(BorderFactory.createLineBorder(new Color(200, 215, 235), 1, true));
         add(card);
@@ -82,14 +82,30 @@ public class DepositGUI extends JFrame {
         ));
         card.add(amountField);
 
+        JLabel recipientLBL = new JLabel("Recipient Account");
+        recipientLBL.setBounds(20, 108, 250, 18);
+        recipientLBL.setFont(new Font("Tahoma", Font.BOLD, 12));
+        recipientLBL.setForeground(new Color(60, 80, 120));
+        card.add(recipientLBL);
+
+        recipientField = new JTextField("****1234");
+        recipientField.setBounds(20, 132, 330, 42);
+        recipientField.setFont(new Font("Tahoma", Font.PLAIN, 14));
+        recipientField.setHorizontalAlignment(JTextField.CENTER);
+        recipientField.setBorder(BorderFactory.createCompoundBorder(
+            BorderFactory.createLineBorder(new Color(200, 215, 235), 1, true),
+            BorderFactory.createEmptyBorder(0, 10, 0, 10)
+        ));
+        card.add(recipientField);
+
         JLabel dateLBL = new JLabel("Date");
-        dateLBL.setBounds(20, 108, 250, 18);
+        dateLBL.setBounds(20, 194, 250, 18);
         dateLBL.setFont(new Font("Tahoma", Font.BOLD, 12));
         dateLBL.setForeground(new Color(60, 80, 120));
         card.add(dateLBL);
 
         JTextField dateField = new JTextField(LocalDate.now().toString());
-        dateField.setBounds(20, 132, 330, 42);
+        dateField.setBounds(20, 218, 330, 42);
         dateField.setFont(new Font("Tahoma", Font.PLAIN, 14));
         dateField.setHorizontalAlignment(JTextField.CENTER);
         dateField.setEditable(false);
@@ -101,9 +117,9 @@ public class DepositGUI extends JFrame {
         ));
         card.add(dateField);
 
-        // ── Submit Button ─────────────────────────────────────────
-        JButton submitBTN = new JButton("Deposit");
-        submitBTN.setBounds(24, 430, 372, 48);
+        //submit
+        JButton submitBTN = new JButton("Transfer");
+        submitBTN.setBounds(24, 510, 372, 48);
         submitBTN.setFont(new Font("Tahoma", Font.BOLD, 15));
         submitBTN.setBackground(new Color(25, 45, 95));
         submitBTN.setForeground(Color.WHITE);
@@ -117,17 +133,22 @@ public class DepositGUI extends JFrame {
         });
         add(submitBTN);
 
-        // ── Action Listeners ──────────────────────────────────────
+        //action lsteners
         backBTN.addActionListener(e -> { mainWindow.setVisible(true); dispose(); });
 
         submitBTN.addActionListener(e -> {
             try {
                 double amount = Double.parseDouble(amountField.getText().trim());
-                String result = manager.addTransaction("Deposit", amount, dateField.getText(), "");
+                String recipient = recipientField.getText().trim();
+                if (recipient.isEmpty()) {
+                    JOptionPane.showMessageDialog(this, "Please enter a recipient account.", "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+                String result = manager.addTransaction("Transfer", amount, dateField.getText(), recipient);
                 if (result.equals("SUCCESS")) {
-                    mainWindow.updateBalance("Deposit");
+                    mainWindow.updateBalance("Debit");
                     JOptionPane.showMessageDialog(this,
-                        "Deposit successful!\nNew Balance: PHP " + String.format("%.2f", manager.getBalance()));
+                        "Transfer successful!\nNew Balance: PHP " + String.format("%.2f", manager.getBalance()));
                     mainWindow.setVisible(true);
                     dispose();
                 } else {

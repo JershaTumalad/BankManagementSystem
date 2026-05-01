@@ -5,9 +5,9 @@ import java.awt.*;
 import javax.swing.*;
 import java.awt.event.*;
 import java.util.*;
-import BAMS.BankAppGUI;        
-import BAMS.accCreationPage;   
-import BAMS.accDatabase;      
+import dashboard_transactions.BankAppGUI;
+import bankmanagementapp.accCreationPage;
+import bankmanagementapp.accDatabase;
 
 public class logInPage extends JFrame{
     
@@ -89,7 +89,7 @@ public class logInPage extends JFrame{
             }
 
             if(found){
-                new BAMS.BankAppGUI();  
+                new dashboard_transactions.BankAppGUI();  
                 this.dispose();
             } else {
                 JOptionPane.showMessageDialog(this, "Incorrect user_ID or Password");

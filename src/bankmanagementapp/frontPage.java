@@ -58,7 +58,7 @@ public class frontPage extends JFrame {
         btnOption1.setFont(new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 14));
         c.add(btnOption1);
         btnOption1.addActionListener(e -> {
-            new BAMS.logInPage(this);
+            new logInPage();
             setVisible(false);
         });
 
@@ -68,7 +68,7 @@ public class frontPage extends JFrame {
         btnOption2.setFont(new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 14));
         c.add(btnOption2);
         btnOption2.addActionListener(e -> {
-            new BAMS.forgotCredentialPage(this);
+            new forgotCredentialPage();   
             setVisible(false);
         });
 
@@ -78,7 +78,7 @@ public class frontPage extends JFrame {
         btnOption3.setFont(new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 14));
         c.add(btnOption3);
         btnOption3.addActionListener(e -> {
-            new BAMS.accounts(this);
+            new accounts();
             setVisible(false);
         });
 

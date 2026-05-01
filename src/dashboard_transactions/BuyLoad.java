@@ -1,4 +1,4 @@
-package BAMS;
+package dashboard_transactions;
 
 public class BuyLoad extends Transaction{
     private String loadName;

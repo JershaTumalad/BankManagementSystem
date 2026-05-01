@@ -1,4 +1,4 @@
-package BAMS;
+package dashboard_transactions;
 
 import javax.swing.*;
 import javax.swing.border.*;
@@ -22,7 +22,7 @@ public class BuyLoadGUI extends JFrame {
         this.mainWindow = mainWindow;
 
         setTitle("Buy Load");
-        setSize(420, 720);
+        setSize(430, 720);
         setLayout(null);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
