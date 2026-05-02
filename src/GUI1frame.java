@@ -6,12 +6,13 @@ import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import javax.swing.table.JTableHeader;
+import dashboard_transactions.BankAppGUI;
 
 public class GUI1Frame extends JFrame implements ActionListener {
 
     private JPanel headerPanel, cardPanel;
     private JLabel lblWelcome, lblDashboard, lblBalanceBox;
-    private JButton btnAdd, btnRemove, btnSearch, btnView, btnExit;
+    private JButton btnAdd, btnRemove, btnSearch, btnView, btnExit, btnBack;
     private AccountFiles accountFiles;
 
     Color primaryBlue = new Color(25, 45, 85);
@@ -57,7 +58,7 @@ public class GUI1Frame extends JFrame implements ActionListener {
 
         cardPanel = new JPanel();
         cardPanel.setBackground(Color.WHITE);
-        cardPanel.setBounds(20, 180, 390, 420); 
+        cardPanel.setBounds(20, 180, 390, 500); 
         cardPanel.setLayout(null);
         add(cardPanel);
 
@@ -65,9 +66,10 @@ public class GUI1Frame extends JFrame implements ActionListener {
         btnRemove = createMenuButton("Remove Account", 140);
         btnSearch = createMenuButton("Search Account", 230);
         btnView = createMenuButton("View All Records", 320);
+        btnBack = createMenuButton("Back", 410);
 
         cardPanel.add(btnAdd); cardPanel.add(btnRemove); 
-        cardPanel.add(btnSearch); cardPanel.add(btnView);
+        cardPanel.add(btnSearch); cardPanel.add(btnView); cardPanel.add(btnBack);
 
         btnExit = new JButton("EXIT");
         btnExit.setBounds(140, 620, 150, 40);
@@ -81,6 +83,7 @@ public class GUI1Frame extends JFrame implements ActionListener {
         btnSearch.addActionListener(this);
         btnView.addActionListener(this);
         btnExit.addActionListener(this);
+        btnBack.addActionListener(this);
     }
 
     private JButton createMenuButton(String text, int yPos) {
@@ -116,5 +119,7 @@ public class GUI1Frame extends JFrame implements ActionListener {
                 new SearchPage(accountFiles).setVisible(true);
             if(e.getSource() == btnView)
                 new ViewAccountsPage(accountFiles).setVisible(true);
+            if(e.getSource() == btnBack)
+                new BankAppGUI().setVisible(true);
         }
     }
