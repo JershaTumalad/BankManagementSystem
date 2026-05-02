@@ -4,25 +4,29 @@ package BAMS;
 import java.util.ArrayList;
 
 
-public class accountFiles {
+public class AccountFiles {
     
     ArrayList <Account> accounts;
     
-    public accountFiles(){
+    public AccountFiles(){
         accounts = new ArrayList <>();
     }
-    void addAccount(String name, String acctype, String accNo, double balance){
+    public boolean addAccount(String name, String acctype, String accNo, double balance){
         
-        Account newAccount = new Account (name, acctype, accNo, balance);
-        
-        accounts.add(newAccount);
+        if(!Account.validateUniqueAccount(accNo, accounts)){
+        return false;
+        }
+
+        accounts.add(new Account(name, acctype, accNo, balance));
+        return true;
     }
     
     Account searchAccount(String accNo){
         
-        
-        for (Account acc: accounts){
-            if (acc.accountNo.trim().equals(accNo)){
+        String cleanAccNo = accNo.trim();
+
+        for (Account acc : accounts){
+            if (acc.getAccountNo().equals(cleanAccNo)){
                 return acc;
             }
         }
@@ -31,9 +35,11 @@ public class accountFiles {
     
     boolean removeAccount(String accNo){
         
-        for (Account acc: accounts){
-            if (acc.accountNo.trim().equals(accNo)){
-                accounts.remove(acc);
+        String cleanAccNo = accNo.trim();
+
+        for (int i = 0; i < accounts.size(); i++) {
+            if (accounts.get(i).getAccountNo().equals(cleanAccNo)) {
+                accounts.remove(i);
                 return true;
             }
         }
@@ -48,14 +54,28 @@ public class accountFiles {
             return "There are no accounts.";
         }
             
-        String output = " ";
+        String output = "";
         
         for (Account acc : accounts){
-            output += "Account Number: " + acc.accountNo + "           |      Account Type     : " + acc.accountType +" \n";
-            output += "Name                 : " + acc.name +      "        |        Balance           : " + acc.balance + "\n \n";
+            output += "Account Number: " + acc.getAccountNo() + "           |      Account Type     : " + acc.getAccountType() +" \n";
+            output += "Name                 : " + acc.getName() +      "        |        Balance           : " + acc.getBalance() + "\n \n";
         }
         
         return output;
     }
+
+    public Object[][] getAccountsData() {
+        Object[][] data = new Object[accounts.size()][4];
+
+        for (int i = 0; i < accounts.size(); i++) {
+            Account acc = accounts.get(i);
+            data[i][0] = acc.getAccountNo();
+            data[i][1] = acc.getName();
+            data[i][2] = acc.getAccountType();
+            data[i][3] = acc.getBalance();
+    }
+
+    return data;
+}
     
 }
