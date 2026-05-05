@@ -3,68 +3,91 @@ package project;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
-import javax.swing.border.LineBorder;
+import javax.swing.table.TableColumnModel;
 
 public class ViewAccountsPage extends JFrame implements ActionListener {
 
-    AccountFiles files;
-    JButton back;
+    private AccountFiles files;
+    private JButton btnBack;
 
-    Color PRIMARY = new Color(25,45,85);
-    Color BG = new Color(180,190,210);
-    Color BTN = new Color(130,160,210);
-
-    public ViewAccountsPage(AccountFiles files){
+    public ViewAccountsPage(AccountFiles files) {
         this.files = files;
-
-        setSize(440,720);
+        setTitle("Account Records");
+        setSize(430, 720);
         setLayout(null);
+        setResizable(false);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        getContentPane().setBackground(BG);
+        getContentPane().setBackground(new Color(200, 210, 230));
 
-        JPanel header = new JPanel();
-        header.setBackground(PRIMARY);
-        header.setBounds(0,0,430,100);
-        header.setLayout(null);
-        add(header);
+        JPanel pnlHeader = new JPanel();
+        pnlHeader.setBackground(new Color(25, 42, 86));
+        pnlHeader.setBounds(0, 0, 430, 100);
+        pnlHeader.setLayout(null);
+        add(pnlHeader);
 
-        JLabel title = new JLabel("ALL ACCOUNTS");
-        title.setForeground(Color.WHITE);
-        title.setFont(new Font("Segoe UI",Font.BOLD,18));
-        title.setBounds(30,35,300,30);
-        header.add(title);
+        JLabel lblTitle = new JLabel("ALL ACCOUNT RECORDS");
+        lblTitle.setForeground(Color.WHITE);
+        lblTitle.setFont(new Font("Segoe UI", Font.BOLD, 18));
+        lblTitle.setBounds(30, 35, 300, 30);
+        pnlHeader.add(lblTitle);
 
-        String[] cols = {"Acc No","Name","Type","Balance"};
-        JTable table = new JTable(files.getAccountsData(), cols);
+        String[] cols = {"Acc No.", "Name", "Acc Type", "Balance"};
+        
+        DefaultTableModel model = new DefaultTableModel(files.getAccountsData(), cols) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false; 
+            }
+        };
 
-        table.setRowHeight(30);
-        table.setFont(new Font("Segoe UI", Font.PLAIN, 13));
+        JTable tbl = new JTable(model);
+        tbl.setRowHeight(35);
+        tbl.setFont(new Font("Segoe UI", Font.PLAIN, 12));
+        tbl.getTableHeader().setReorderingAllowed(false);
 
-        JTableHeader th = table.getTableHeader();
-        th.setBackground(BTN);
-        th.setForeground(Color.WHITE);
-        th.setFont(new Font("Segoe UI", Font.BOLD, 13));
+        tbl.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+        TableColumnModel columnModel = tbl.getColumnModel();
+        columnModel.getColumn(0).setPreferredWidth(70);
+        columnModel.getColumn(1).setPreferredWidth(130);
+        columnModel.getColumn(2).setPreferredWidth(100);
+        columnModel.getColumn(3).setPreferredWidth(80);
 
-        JScrollPane sp = new JScrollPane(table);
-        sp.setBounds(20,120,390,420);
+        JTableHeader head = tbl.getTableHeader();
+        head.setBackground(new Color(0x8bace0));
+        head.setFont(new Font("Segoe UI", Font.BOLD, 13));
+
+        JScrollPane sp = new JScrollPane(tbl);
+        sp.setBounds(27, 120, 360, 440);
+        sp.setBorder(BorderFactory.createLineBorder(Color.GRAY));
         add(sp);
 
-        back = new JButton("Close");
-        back.setBounds(30,570,360,50);
-        back.setBackground(BTN);
-        back.setForeground(Color.WHITE);
-        back.setFont(new Font("Segoe UI", Font.BOLD, 14));
-        back.setBorder(new LineBorder(Color.GRAY,1,true));
-        back.setFocusPainted(false);
-        add(back);
+        btnBack = new JButton("BACK") {
+            @Override
+            protected void paintComponent(Graphics g) {
+                Graphics2D g2 = (Graphics2D) g.create();
+                g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+                g2.setColor(getBackground());
+                g2.fillRoundRect(0, 0, getWidth(), getHeight(), 30, 30);
+                g2.dispose();
+                super.paintComponent(g);
+            }
+        };
+        btnBack.setBounds(27, 590, 360, 50);
+        btnBack.setBackground(new Color(0x8bace0));
+        btnBack.setFont(new Font("Segoe UI", Font.PLAIN, 14)); 
+        btnBack.setContentAreaFilled(false);
+        btnBack.setBorderPainted(false);
+        add(btnBack);
 
-        back.addActionListener(this);
+        btnBack.addActionListener(this);
     }
 
-    public void actionPerformed(ActionEvent e){
-        if(e.getSource() == back){
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == btnBack) {
             dispose();
             new GUI1Frame(files).setVisible(true);
         }
