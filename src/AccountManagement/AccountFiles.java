@@ -7,20 +7,25 @@ public class AccountFiles {
     private ArrayList<Account> accounts = new ArrayList<>();
 
     public boolean addAccount(String name, String type, String accNo, double bal) {
-        if (!Account.isAccountUnique(accNo, accounts)) return false;
+        if (!Account.isAccountUnique(accNo, accounts)) {
+            return false; 
+        }
+        
         accounts.add(new Account(name, type, accNo, bal));
-        return true;
+        return true; 
     }
 
     public Account searchAccount(String accNo) {
         for (Account a : accounts) {
-            if (a.getAccountNo().equals(accNo)) return a;
+            if (a.getAccountNo().equals(accNo.trim())) {
+                return a;
+            }
         }
         return null;
     }
 
     public boolean removeAccount(String accNo) {
-        return accounts.removeIf(a -> a.getAccountNo().equals(accNo));
+        return accounts.removeIf(a -> a.getAccountNo().equals(accNo.trim()));
     }
 
     public Object[][] getAccountsData() {
@@ -37,14 +42,9 @@ public class AccountFiles {
 
     public double getTotalBalance() {
         double total = 0;
-<<<<<<< Updated upstream
-        for (Account a : accounts) total += a.getBalance();
-        return total;
-=======
         for (Account a : accounts) {
             total += a.getBalance();
         }
-        return TOTAL;
->>>>>>> Stashed changes
+        return total;
     }
 }

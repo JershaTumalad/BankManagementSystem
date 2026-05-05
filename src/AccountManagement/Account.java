@@ -15,34 +15,26 @@ public class Account {
         this.balance = balance;
     }
 
-    public String getAccountNo() {
-        return accountNo;
+    public String getAccountNo() { 
+        return accountNo; 
     }
-
-    public String getName() {
-        return name;
+    public String getName() { 
+        return name; 
     }
-
-    public String getAccountType() {
-        return accountType;
+    public String getAccountType() { 
+        return accountType; 
     }
-
-    public double getBalance() {
-        return balance;
+    public double getBalance() { 
+        return balance; 
     }
 
     public static boolean isAccountUnique(String accNo, ArrayList<Account> accounts) {
         String target = accNo.trim();
-
         for (Account acc : accounts) {
             if (acc.getAccountNo().equals(target)) {
-                return false; 
+                return false;
             }
         }
-<<<<<<< Updated upstream
-        return true;
-=======
-        return false; 
->>>>>>> Stashed changes
+        return true; 
     }
 }
