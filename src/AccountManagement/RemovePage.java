@@ -91,12 +91,23 @@ public class RemovePage extends JFrame implements ActionListener {
                 JOptionPane.showMessageDialog(this, "Invalid input! Numbers only.");
                 return;
             }
+<<<<<<< Updated upstream
 
             if(files.removeAccount(input)){
                 JOptionPane.showMessageDialog(this, "Account Deleted!");
                 accNo.setText("");
             } else {
                 JOptionPane.showMessageDialog(this, "Account Not Found!");
+=======
+            int confirm = JOptionPane.showConfirmDialog(this, "Confirm Deletion?", "Warning", JOptionPane.YES_NO_OPTION);
+            if (confirm == JOptionPane.YES_OPTION) {
+                if (files.removeAccount(id)) {
+                    JOptionPane.showMessageDialog(this, "Account Deleted!");
+                    txtDel.setText("");
+                } else {
+                    JOptionPane.showMessageDialog(this, "Account Not!");
+                }
+>>>>>>> Stashed changes
             }
         }
     }

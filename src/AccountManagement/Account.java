@@ -39,6 +39,10 @@ public class Account {
                 return false; 
             }
         }
+<<<<<<< Updated upstream
         return true;
+=======
+        return false; 
+>>>>>>> Stashed changes
     }
 }

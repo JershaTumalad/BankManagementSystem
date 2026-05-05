@@ -100,7 +100,11 @@ public class SearchPage extends JFrame implements ActionListener {
                     "\nType: " + acc.getAccountType() +
                     "\nBalance: P " + acc.getBalance());
             } else {
+<<<<<<< Updated upstream
                 JOptionPane.showMessageDialog(this, "Account Not Found!");
+=======
+                JOptionPane.showMessageDialog(this, "No record.");
+>>>>>>> Stashed changes
             }
         }
     }

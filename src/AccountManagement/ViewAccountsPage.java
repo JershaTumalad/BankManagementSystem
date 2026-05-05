@@ -66,7 +66,7 @@ public class ViewAccountsPage extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent e){
         if(e.getSource() == back){
             dispose();
-            new GUI1Frame(files).setVisible(true);
+            new GUI1Frame(files).setVisible(false);
         }
     }
 }

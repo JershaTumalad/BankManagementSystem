@@ -136,6 +136,7 @@ public class AddPage extends JFrame implements ActionListener {
                     return;
                 }
 
+<<<<<<< Updated upstream
                 if(!last.matches("[a-zA-Z ]+") ||
                    !first.matches("[a-zA-Z ]+") ||
                    !middle.matches("[a-zA-Z ]+")){
@@ -177,6 +178,16 @@ public class AddPage extends JFrame implements ActionListener {
 
             } catch(NumberFormatException ex){
                 JOptionPane.showMessageDialog(this, "Invalid balance input!");
+=======
+            double amount = Double.parseDouble(bal);
+            String name = last + ", " + first + " " + txtMiddle.getText().trim();
+            if (files.addAccount(name, (String) cbType.getSelectedItem(), acc, amount)) {
+                JOptionPane.showMessageDialog(this, "Account Created Successfully!");
+                dispose();
+                new GUI1Frame(files).setVisible(false);
+            } else {
+                JOptionPane.showMessageDialog(this, "Account Number already exists!");
+>>>>>>> Stashed changes
             }
         }
     }

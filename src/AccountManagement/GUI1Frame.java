@@ -119,8 +119,13 @@ public class GUI1Frame extends JFrame implements ActionListener {
                 new RemovePage(files).setVisible(true);
             if(e.getSource() == btnSearch) 
                 new SearchPage(files).setVisible(true);
+<<<<<<< Updated upstream
             if(e.getSource() == btnView) 
                 new ViewAccountsPage(files).setVisible(true);
+=======
+            else if (e.getSource() == btnView)
+                new ViewAccountsPage(files).setVisible(false);
+>>>>>>> Stashed changes
         }
     }
 }

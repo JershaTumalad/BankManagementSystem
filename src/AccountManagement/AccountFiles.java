@@ -37,7 +37,14 @@ public class AccountFiles {
 
     public double getTotalBalance() {
         double total = 0;
+<<<<<<< Updated upstream
         for (Account a : accounts) total += a.getBalance();
         return total;
+=======
+        for (Account a : accounts) {
+            total += a.getBalance();
+        }
+        return TOTAL;
+>>>>>>> Stashed changes
     }
 }
