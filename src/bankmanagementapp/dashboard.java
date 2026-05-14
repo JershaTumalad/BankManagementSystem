@@ -10,4 +10,6 @@ package bankmanagementapp;
  */
 public class dashboard {
     
+    // wala tong class natoh, para lang hndi mag errors ung ibng classes ko
+    
 }
