@@ -112,7 +112,7 @@ public class frontPage extends JFrame{
       
       public class theme {
           public static final Color Primary = new Color (25,42,86);
-        public static final Color Light_blue = new Color(0x8bace0);
+          public static final Color Light_blue = new Color(0x8bace0);
           public static final Color bg = new Color (230, 235, 245);
           public static final Color text_d = new Color (40,40,40);
          
