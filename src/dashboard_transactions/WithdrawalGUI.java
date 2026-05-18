@@ -120,24 +120,37 @@ public class WithdrawalGUI extends JFrame {
         //action listeners
         backBTN.addActionListener(e -> { mainWindow.setVisible(true); dispose(); });
 
+        //for validation..
         submitBTN.addActionListener(e -> {
             try {
-                double amount = Double.parseDouble(amountField.getText().trim());
-                String result = manager.addTransaction("Withdrawal", amount, dateField.getText(), "");
-                if (result.equals("SUCCESS")) {
-                    mainWindow.updateBalance("Debit");
-                    JOptionPane.showMessageDialog(this,
-                        "Withdrawal successful!\nNew Balance: PHP " + String.format("%.2f", manager.getBalance()));
-                    mainWindow.setVisible(true);
-                    dispose();
-                } else {
-                    JOptionPane.showMessageDialog(this, result, "Error", JOptionPane.ERROR_MESSAGE);
-                }
-            } catch (NumberFormatException ex) {
-                JOptionPane.showMessageDialog(this, "Please enter a valid amount.", "Error", JOptionPane.ERROR_MESSAGE);
-            }
-        });
-
+            if (amountField.getText().trim().isEmpty()) {
+            JOptionPane.showMessageDialog(this,"Amount field cannot be empty.","Error",JOptionPane.ERROR_MESSAGE);
+            amountField.setText("");
+            return;
+        }
+            double amount = Double.parseDouble(amountField.getText().trim());
+            if (amount <= 0) {
+            JOptionPane.showMessageDialog(this,"Please enter a valid amount.","Error",JOptionPane.ERROR_MESSAGE);
+            amountField.setText("");
+            return;
+        }
+            String result = manager.addTransaction("Withdrawal", amount, dateField.getText(), "");
+            if (result.equals("SUCCESS")) {
+            mainWindow.updateBalance("Debit");
+            JOptionPane.showMessageDialog(this,
+                "Withdrawal successful!\nNew Balance: PHP "
+                + String.format("%.2f", manager.getBalance()));
+            mainWindow.setVisible(true);
+            dispose();
+        } else {
+            JOptionPane.showMessageDialog(this, result, "Error", JOptionPane.ERROR_MESSAGE);
+            amountField.setText("");
+        }
+    } catch (NumberFormatException ex) {
+        JOptionPane.showMessageDialog(this, "Please enter a valid amount.", "Error", JOptionPane.ERROR_MESSAGE);
+        amountField.setText("");
+    }
+});
         setVisible(true);
     }
 }
