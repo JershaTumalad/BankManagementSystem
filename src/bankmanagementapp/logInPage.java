@@ -20,7 +20,7 @@ public class logInPage extends JFrame{
         
         setVisible(true);
         setSize(430, 720);
-            setLocationRelativeTo(null);
+        setLocationRelativeTo(null);
         setLayout(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setTitle("WELCOME TO LOGIN PAGE");
@@ -32,11 +32,11 @@ public class logInPage extends JFrame{
         setContentPane(mainPanel);
         
         
-         JPanel navbar = new JPanel();
-         navbar.setBounds(0, 0, 430, 100);
-         navbar.setBackground(theme.Primary); // primary blue
-         navbar.setLayout(null);
-         add(navbar);
+        JPanel navbar = new JPanel();
+        navbar.setBounds(0, 0, 430, 100);
+        navbar.setBackground(theme.Primary); // primary blue
+        navbar.setLayout(null);
+        add(navbar);
 
         navTit = new JLabel(" Welcome Back!");
         navTit.setForeground(Color.WHITE);
@@ -51,18 +51,18 @@ public class logInPage extends JFrame{
         userName.setFont(new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 14));
         add(userName);
         
-         pass = new JLabel("Password: ");
+        pass = new JLabel("Password: ");
         pass.setBounds(70, 200, 100, 30);
-      pass.setFont(new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 14));
+        pass.setFont(new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 14));
         add(pass);
         
         tfUsername = new JTextField();
         tfUsername.setBounds(170, 150, 180, 35);
-         tfUsername.setFont(new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 14));
-         tfUsername.setBorder(null);
+        tfUsername.setFont(new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 14));
+        tfUsername.setBorder(null);
         add(tfUsername);
         
-         tfPassword = new JPasswordField();
+        tfPassword = new JPasswordField();
         tfPassword.setBounds(170, 200, 180, 35);
         tfPassword.setFont(new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 14));
         tfPassword.setBorder(null);
@@ -71,8 +71,8 @@ public class logInPage extends JFrame{
            
         btnLog = new RoundedButton("LOG IN");
         btnLog.setBounds(140, 290, 150, 40);
-         btnLog.setFont(new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 14));
-         btnLog.setBackground(theme.Light_blue);
+        btnLog.setFont(new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 14));
+        btnLog.setBackground(theme.Light_blue);
         add(btnLog);
 
   

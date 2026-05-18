@@ -5,7 +5,6 @@ import javax.swing.*;
 import java.awt.event.*;
 import java.awt.geom.RoundRectangle2D;
 
-public class frontPage extends JFrame {
 
 public class frontPage extends JFrame{
     
