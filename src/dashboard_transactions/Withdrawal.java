@@ -1,5 +1,4 @@
-
-package BAMS;
+package dashboard_transactions;
 
 public class Withdrawal extends Transaction{
 

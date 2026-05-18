@@ -1,4 +1,4 @@
-package BAMS;
+package dashboard_transactions;
 
 import javax.swing.*;
 import javax.swing.border.*;
@@ -18,7 +18,7 @@ public class BillPaymentGUI extends JFrame {
         this.mainWindow = mainWindow;
 
         setTitle("Pay Bills");
-        setSize(420, 720);
+        setSize(430, 720);
         setLayout(null);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -149,25 +149,49 @@ public class BillPaymentGUI extends JFrame {
         //action listeners
         backBTN.addActionListener(e -> { mainWindow.setVisible(true); dispose(); });
 
-        submitBTN.addActionListener(e -> {
+       submitBTN.addActionListener(e -> {
             try {
-                double amount = Double.parseDouble(amountField.getText().trim());
-                String biller = billTypeCombo.getSelectedItem() + " (ACC: " + accountField.getText().trim() + ")";
-                String result = manager.addTransaction("Bills Payment", amount, dateField.getText(), biller);
-                if (result.equals("SUCCESS")) {
-                    mainWindow.updateBalance("Debit");
-                    JOptionPane.showMessageDialog(this,
-                        "Bill paid successfully!\nNew Balance: PHP " + String.format("%.2f", manager.getBalance()));
-                    mainWindow.setVisible(true);
-                    dispose();
-                } else {
-                    JOptionPane.showMessageDialog(this, result, "Error", JOptionPane.ERROR_MESSAGE);
-                }
+            if (accountField.getText().trim().isEmpty()) {
+            JOptionPane.showMessageDialog(this,"Account number cannot be empty.","Error",JOptionPane.ERROR_MESSAGE);
+            accountField.setText("");
+            return;
+        }
+            if (amountField.getText().trim().isEmpty()) {
+            JOptionPane.showMessageDialog(this,"Amount field cannot be empty.","Error",JOptionPane.ERROR_MESSAGE);
+            amountField.setText("");
+            return;
+        }
+            double amount = Double.parseDouble(amountField.getText().trim());
+            if (amount <= 0) {
+            JOptionPane.showMessageDialog(this,"Amount must be greater than 0.","Error",JOptionPane.ERROR_MESSAGE);
+            amountField.setText("");
+            return;
+        }
+        String biller = billTypeCombo.getSelectedItem()
+                + " (ACC: " + accountField.getText().trim() + ")";
+        String result = manager.addTransaction(
+            "Bills Payment",
+            amount,
+            dateField.getText(),
+            biller
+        );
+            if (result.equals("SUCCESS")) {
+            mainWindow.updateBalance("Debit");
+            JOptionPane.showMessageDialog(this,
+                "Bill paid successfully!\nNew Balance: PHP "
+                + String.format("%.2f", manager.getBalance()));
+            mainWindow.setVisible(true);
+            dispose();
+            } else {
+            JOptionPane.showMessageDialog(this,result,"Error",JOptionPane.ERROR_MESSAGE);
+            amountField.setText("");
+            accountField.setText("");
+        }
             } catch (NumberFormatException ex) {
-                JOptionPane.showMessageDialog(this, "Please enter a valid amount.", "Error", JOptionPane.ERROR_MESSAGE);
-            }
-        });
-
+            JOptionPane.showMessageDialog(this,"Please enter a valid amount.","Error",JOptionPane.ERROR_MESSAGE);
+        amountField.setText("");
+    }
+      });
         setVisible(true);
     }
 }

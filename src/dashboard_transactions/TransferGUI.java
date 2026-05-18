@@ -1,4 +1,4 @@
-package BAMS;
+package dashboard_transactions;
 
 import javax.swing.*;
 import javax.swing.border.*;
@@ -17,7 +17,7 @@ public class TransferGUI extends JFrame {
         this.mainWindow = mainWindow;
 
         setTitle("Transfer Money");
-        setSize(420, 720);
+        setSize(430, 720);
         setLayout(null);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -138,27 +138,49 @@ public class TransferGUI extends JFrame {
 
         submitBTN.addActionListener(e -> {
             try {
-                double amount = Double.parseDouble(amountField.getText().trim());
-                String recipient = recipientField.getText().trim();
-                if (recipient.isEmpty()) {
-                    JOptionPane.showMessageDialog(this, "Please enter a recipient account.", "Error", JOptionPane.ERROR_MESSAGE);
-                    return;
-                }
-                String result = manager.addTransaction("Transfer", amount, dateField.getText(), recipient);
-                if (result.equals("SUCCESS")) {
-                    mainWindow.updateBalance("Debit");
-                    JOptionPane.showMessageDialog(this,
-                        "Transfer successful!\nNew Balance: PHP " + String.format("%.2f", manager.getBalance()));
-                    mainWindow.setVisible(true);
-                    dispose();
-                } else {
-                    JOptionPane.showMessageDialog(this, result, "Error", JOptionPane.ERROR_MESSAGE);
-                }
+            if (amountField.getText().trim().isEmpty()) {
+            JOptionPane.showMessageDialog(this,"Amount field cannot be empty.","Error",JOptionPane.ERROR_MESSAGE);
+            amountField.setText("");
+            return;
+        }
+            double amount = Double.parseDouble(amountField.getText().trim());
+            if (amount <= 0) {JOptionPane.showMessageDialog(this,"Please enter a valid ammount.","Error",
+                JOptionPane.ERROR_MESSAGE);
+            amountField.setText("");
+            return;
+        }
+            String recipient = recipientField.getText().trim();
+            if (recipient.isEmpty()) {
+            JOptionPane.showMessageDialog(this,"Please enter a recipient account.","Error", JOptionPane.ERROR_MESSAGE);
+            recipientField.setText("");
+            return;
+        }
+            String result = manager.addTransaction(
+            "Transfer",
+            amount,
+            dateField.getText(),
+            recipient
+        );
+            if (result.equals("SUCCESS")) {
+            mainWindow.updateBalance("Debit");
+            JOptionPane.showMessageDialog(this,
+                "Transfer successful!\nNew Balance: PHP "
+                + String.format("%.2f", manager.getBalance()));
+            mainWindow.setVisible(true);
+            dispose();
+            } else {
+            JOptionPane.showMessageDialog(this,result,"Error",JOptionPane.ERROR_MESSAGE);
+            amountField.setText("");
+            recipientField.setText("");
+        }
             } catch (NumberFormatException ex) {
-                JOptionPane.showMessageDialog(this, "Please enter a valid amount.", "Error", JOptionPane.ERROR_MESSAGE);
-            }
-        });
-
+        JOptionPane.showMessageDialog(this,
+            "Please enter a valid amount.",
+            "Error",
+            JOptionPane.ERROR_MESSAGE);
+        amountField.setText("");
+    }
+});
         setVisible(true);
     }
 }

@@ -1,4 +1,4 @@
-package BAMS;
+package dashboard_transactions;
 
 public class Transfer extends Transaction{
     private String recipient;
