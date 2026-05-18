@@ -5,6 +5,9 @@ import java.awt.*;
 import javax.swing.*;
 import java.awt.event.*;
 import java.util.*;
+import dashboard_transactions.BankAppGUI;
+import bankmanagementapp.accCreationPage;
+import bankmanagementapp.accDatabase;
 
 public class logInPage extends JFrame{
     
@@ -76,30 +79,23 @@ public class logInPage extends JFrame{
         
         
         btnLog.addActionListener( e -> {
-                 
-                boolean found= false;
+            boolean found = false;
+            String id = tfUsername.getText();
+            String password = tfPassword.getText();
 
-                    String id = tfUsername.getText();
-                    String password = tfPassword.getText();
-                for (accCreationPage user : accDatabase.acc){
-                    if (user.getUserId().equals(id) && user.getPassword().equals(password)){
-                        found = true;
-                       
-                        break;
-                        
-                    }
-                   
+            for (accCreationPage user : accDatabase.acc){
+                if (user.getUserId().equals(id) && user.getPassword().equals(password)){
+                    found = true;
+                    break;
                 }
-                 if(found){
-                         new dashboard();
-                         this.dispose();;
-                    }
-                    else{
-                        JOptionPane.showMessageDialog(this, "Incorrect user_ID or Password");
-                    }
-        
-        
-        
+            }
+
+            if(found){
+                new dashboard_transactions.BankAppGUI();  
+                this.dispose();
+            } else {
+                JOptionPane.showMessageDialog(this, "Incorrect user_ID or Password");
+            }
         });
         
         

@@ -1,5 +1,5 @@
 
-package bankmanagementapp;
+//package bankmanagementapp;
 
 import java.awt.*;
 import javax.swing.*;
@@ -93,7 +93,7 @@ public class forgotPage1 extends JFrame {
                     
             
             if(found){JOptionPane.showMessageDialog(this, "USER- ID Found!");
-                    new dashboard();
+                    new logInPage();
                     this.dispose();
             } else{
                     JOptionPane.showMessageDialog(this, "USER_ID not registered!");

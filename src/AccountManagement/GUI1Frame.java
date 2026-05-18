@@ -3,76 +3,69 @@ package project;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
-import javax.swing.border.LineBorder;
 
 public class GUI1Frame extends JFrame implements ActionListener {
 
-    private JPanel headerPanel, card;
-    private JLabel lblWelcome, lblDashboard, lblBalanceBox;
+    private JPanel pnlHeader, pnlCard;
+    private JLabel lblWelcome, lblTitle;
     private JButton btnAdd, btnRemove, btnSearch, btnView, btnExit;
-    AccountFiles files;
+    private AccountFiles files;
 
-    Color primaryBlue = new Color(25, 45, 85);
-    Color bg = new Color(180, 190, 210);
-    Color btnColor = new Color(130, 160, 210);
+    private final Color navy = new Color(25, 42, 86);
+    private final Color lightBlue = new Color(0x8bace0);
+    private final Color bgColor = new Color(200, 210, 230);
 
-    public GUI1Frame(AccountFiles files){
+    public GUI1Frame(AccountFiles files) {
         this.files = files;
 
         setTitle("Bank App");
-        setSize(440, 720);
+        setSize(430, 720); 
         setLayout(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         setResizable(false);
+        getContentPane().setBackground(bgColor);
 
-        getContentPane().setBackground(bg);
-
-        headerPanel = new JPanel();
-        headerPanel.setBackground(primaryBlue);
-        headerPanel.setBounds(0, 0, 430, 160);
-        headerPanel.setLayout(null);
-        add(headerPanel);
+        pnlHeader = new JPanel();
+        pnlHeader.setBackground(navy);
+        pnlHeader.setBounds(0, 0, 430, 160);
+        pnlHeader.setLayout(null);
+        add(pnlHeader);
 
         lblWelcome = new JLabel("Welcome Back!");
         lblWelcome.setFont(new Font("Segoe UI", Font.PLAIN, 18));
         lblWelcome.setForeground(Color.WHITE);
         lblWelcome.setBounds(30, 20, 300, 30);
-        headerPanel.add(lblWelcome);
+        pnlHeader.add(lblWelcome);
 
-        lblBalanceBox = new JLabel();
-        lblBalanceBox.setOpaque(true);
-        lblBalanceBox.setBackground(Color.WHITE);
-        lblBalanceBox.setBounds(20, 60, 390, 60);
-        headerPanel.add(lblBalanceBox);
+        lblTitle = new JLabel("ACCOUNT MANAGEMENT", SwingConstants.CENTER);
+        lblTitle.setFont(new Font("Segoe UI", Font.BOLD, 22));
+        lblTitle.setForeground(navy);
+        lblTitle.setBackground(Color.WHITE);
+        lblTitle.setOpaque(true);
+        lblTitle.setBounds(27, 65, 360, 60); 
+        pnlHeader.add(lblTitle);
 
-        lblDashboard = new JLabel("     Account Management");
-        lblDashboard.setFont(new Font("Segoe UI", Font.BOLD, 25));
-        lblDashboard.setForeground(primaryBlue);
-        lblDashboard.setBounds(40, 60, 350, 60);
-        headerPanel.add(lblDashboard);
+        pnlCard = new JPanel();
+        pnlCard.setBackground(Color.WHITE);
+        pnlCard.setBounds(27, 180, 360, 420); 
+        pnlCard.setLayout(null);
+        add(pnlCard);
 
-        headerPanel.setComponentZOrder(lblDashboard, 0);
+        btnAdd = createBtn("ADD ACCOUNT", 50);
+        btnRemove = createBtn("REMOVE ACCOUNT", 140);
+        btnSearch = createBtn("SEARCH ACCOUNT", 230);
+        btnView = createBtn("VIEW ALL RECORDS", 320);
 
-        card = new JPanel();
-        card.setBackground(Color.WHITE);
-        card.setBounds(20, 180, 390, 420); 
-        card.setLayout(null);
-        add(card);
+        pnlCard.add(btnAdd);
+        pnlCard.add(btnRemove);
+        pnlCard.add(btnSearch);
+        pnlCard.add(btnView);
 
-        btnAdd = createButton("Add Account", 50);
-        btnRemove = createButton("Remove Account", 140);
-        btnSearch = createButton("Search Account", 230);
-        btnView = createButton("View All Records", 320);
-
-        card.add(btnAdd);
-        card.add(btnRemove);
-        card.add(btnSearch);
-        card.add(btnView);
-
-        btnExit = new JButton("EXIT");
-        btnExit.setBounds(140, 620, 150, 40);
-        btnExit.setForeground(Color.RED);
+        btnExit = new JButton("BACK");
+        btnExit.setBounds(115, 620, 200, 40);
+        btnExit.setFont(new Font("Segoe UI", Font.BOLD, 14));
+        btnExit.setForeground(new Color(200, 70, 70));
         btnExit.setContentAreaFilled(false);
         btnExit.setBorderPainted(false);
         add(btnExit);
@@ -84,42 +77,38 @@ public class GUI1Frame extends JFrame implements ActionListener {
         btnExit.addActionListener(this);
     }
 
-    private JButton createButton(String text, int y) {
-        JButton btn = new JButton(text);
-        btn.setBounds(30, y, 330, 55);
-        btn.setBackground(btnColor);
-
-        btn.setForeground(Color.WHITE);
-
-        btn.setFont(new Font("Segoe UI", Font.BOLD, 14));
-        btn.setBorder(new LineBorder(Color.GRAY, 1, true));
-        btn.setFocusPainted(false);
-
-        btn.addMouseListener(new MouseAdapter() {
-            public void mousePressed(MouseEvent e) {
-                btn.setLocation(btn.getX(), btn.getY() + 3);
+    private JButton createBtn(String text, int y) {
+        JButton btn = new JButton(text) {
+            @Override
+            protected void paintComponent(Graphics g) {
+                Graphics2D g2 = (Graphics2D) g.create();
+                g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+                g2.setColor(getBackground());
+                g2.fillRoundRect(0, 0, getWidth(), getHeight(), 30, 30);
+                g2.dispose();
+                super.paintComponent(g);
             }
-            public void mouseReleased(MouseEvent e) {
-                btn.setLocation(btn.getX(), btn.getY() - 3);
-            }
-        });
-
+        };
+        btn.setBounds(30, y, 300, 55);
+        btn.setBackground(lightBlue);
+        btn.setFont(new Font("Segoe UI", Font.PLAIN, 15));
+        btn.setContentAreaFilled(false);
+        btn.setBorderPainted(false);
         return btn;
     }
 
-    public void actionPerformed(ActionEvent e){
-        if(e.getSource() == btnExit){
+    public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == btnExit) {
             System.exit(0);
         } else {
             dispose();
-
-            if(e.getSource() == btnAdd) 
+            if (e.getSource() == btnAdd) 
                 new AddPage(files).setVisible(true);
-            if(e.getSource() == btnRemove) 
+            else if (e.getSource() == btnRemove)
                 new RemovePage(files).setVisible(true);
-            if(e.getSource() == btnSearch) 
+            else if (e.getSource() == btnSearch)
                 new SearchPage(files).setVisible(true);
-            if(e.getSource() == btnView) 
+            else if (e.getSource() == btnView)
                 new ViewAccountsPage(files).setVisible(true);
         }
     }

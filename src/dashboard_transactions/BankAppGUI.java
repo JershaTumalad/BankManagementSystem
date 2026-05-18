@@ -1,9 +1,12 @@
-package BAMS;
+package dashboard_transactions;
 
 import javax.swing.*;
 import javax.swing.border.*;
 import java.awt.*;
 import java.awt.event.*;
+import project.GUI1Frame;    
+import project.AccountFiles; 
+import bankmanagementapp.logInPage;
 
 public class BankAppGUI extends JFrame {
 
@@ -15,7 +18,7 @@ public class BankAppGUI extends JFrame {
 
     public BankAppGUI() {
         setTitle("Bank Application");
-        setSize(420, 720);
+        setSize(430, 720);
         setLayout(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
@@ -27,6 +30,7 @@ public class BankAppGUI extends JFrame {
         navPanel.setBounds(0, 0, 420, 45);
         navPanel.setBackground(new Color(15, 28, 60));
         add(navPanel);
+        
 
         JButton homeBtn = new JButton("Home");
         homeBtn.setBounds(10, 9, 65, 27);
@@ -37,6 +41,9 @@ public class BankAppGUI extends JFrame {
         homeBtn.setBorder(BorderFactory.createLineBorder(new Color(80, 110, 180), 1, true));
         homeBtn.setCursor(new Cursor(Cursor.HAND_CURSOR));
         navPanel.add(homeBtn);
+        
+        homeBtn.addActionListener(e -> {
+        new bankmanagementapp.logInPage().setVisible(true); this.dispose();});
 
         JButton manageBtn = new JButton("Manage Accounts");
         manageBtn.setBounds(245, 9, 155, 27);
@@ -115,6 +122,8 @@ public class BankAppGUI extends JFrame {
         loadBTN .addActionListener(e -> { new BuyLoadGUI(manager, this);     setVisible(false); });
         suppBTN .addActionListener(e -> { JOptionPane.showMessageDialog(this, "Support & Help\nEmail: support@bankapp.com\nHotline: 1800-BANK-APP"); });
         hisBTN  .addActionListener(e -> { new HistoryGUI(manager, this);     setVisible(false); });
+        manageBtn.addActionListener(e -> {AccountFiles files = new AccountFiles();new GUI1Frame(files).setVisible(true);setVisible(false);
+});
 
         setVisible(true);
     }

@@ -1,82 +1,78 @@
 
 package BAMS;
 
-import java.awt.Font;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.*;
 
-public class removePage extends JFrame implements ActionListener{
-    
-    private JButton btnRemove, btnBack;
-    private JLabel lblTitle, lblaccNo, lblresult;
-    private JTextField txtaccNo;
-    
-    accountFiles files;
-    
-    removePage(accountFiles files){
-        this.files = files;
-        
-        setSize(360,480);
-        setLayout(null);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLocationRelativeTo(null);
-        setResizable(false);
-        
-        lblTitle = new JLabel ("Remove Account");
-        lblTitle.setBounds(100, 30, 300, 30);
-        lblTitle.setFont(new Font("Arial", Font.PLAIN, 24));
-        add(lblTitle);
-        
-        lblaccNo = new JLabel ("Account Number");
-        lblaccNo.setBounds(30, 79, 147, 50);
-        lblaccNo.setFont(new Font("Arial", Font.PLAIN, 14));
-        add(lblaccNo);
-        
-        txtaccNo = new JTextField();
-        txtaccNo.setBounds(147, 90, 180, 30);
-        add(txtaccNo);
-        
-        btnRemove = new JButton ("Remove");
-        btnRemove.setBounds(120, 140, 120, 30);
-        add(btnRemove);
-        
-        btnBack = new JButton ("Back");
-        btnBack.setBounds(120, 174, 120, 30);
-        add(btnBack);
-        
-        lblresult = new JLabel (" ");
-        lblresult.setBounds(30, 224, 300, 30);
-        lblresult.setFont(new Font("Arial", Font.BOLD, 12));
-        add(lblresult);
-        
-        btnRemove.addActionListener(this); 
-        btnBack.addActionListener(this);    
-    
-    }
+public class RemovePage extends JFrame implements ActionListener {
+        JTextField txtRemoveField; 
+        JButton btnDel, btnBack;
 
-    @Override
-    public void actionPerformed(ActionEvent e) {
-            if (e.getSource() == btnRemove){
-            String accNo = txtaccNo.getText().trim();
-            boolean removed = files.removeAccount(accNo);
+        private AccountFiles accountFiles;
+
+        Color primaryBlue = new Color(25, 45, 85);
+        Color backgroundColor = new Color(180, 190, 210);
+        Color buttonColor = new Color(130, 160, 210);
+
+        public RemovePage(AccountFiles files){
+            this.accountFiles = files; 
+
+            setSize(440,720); 
+            setLayout(null); 
+            setLocationRelativeTo(null); 
+            setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            getContentPane().setBackground(backgroundColor);
+            JPanel header = new JPanel(); 
+            header.setBackground(primaryBlue); 
+            header.setBounds(0,0,430,100); 
+            header.setLayout(null); 
+            add(header);
             
-            if (removed){
-                lblresult.setText("Account " + accNo + " removed.");
-            }else{
-                lblresult.setText("Account not Found");
+            JLabel title = new JLabel("REMOVE ACCOUNT"); 
+            title.setForeground(Color.WHITE); 
+            title.setFont(new Font("Segoe UI",Font.BOLD,18)); 
+            title.setBounds(30,35,300,30);
+            header.add(title);
+            JPanel card = new JPanel(); 
+            card.setBounds(20,140,390,300); 
+            card.setBackground(Color.WHITE); 
+            card.setLayout(null); 
+            add(card);
+            
+            JLabel lblInstruction = new JLabel("Enter Account Number"); 
+            lblInstruction.setBounds(30,30,300,20); 
+            card.add(lblInstruction);
+            txtRemoveField = new JTextField(); 
+            txtRemoveField.setBounds(30,60,320,45); 
+            card.add(txtRemoveField);
+            
+            btnDel = new JButton("Delete Permanently"); 
+            btnDel.setBounds(30,130,320,50); 
+            btnDel.setBackground(new Color(200,70,70));
+            btnDel.setForeground(Color.WHITE); 
+            card.add(btnDel);
+            
+            btnBack = new JButton("Go Back"); 
+            btnBack.setBounds(30,190,320,50); 
+            btnBack.setBackground(buttonColor); 
+            btnBack.setForeground(Color.WHITE); 
+            card.add(btnBack);
+            
+            btnDel.addActionListener(this); 
+            btnBack.addActionListener(this);
+        }
+        public void actionPerformed(ActionEvent e){
+            if(e.getSource()==btnBack){ 
+                dispose(); 
+                new GUI1Frame(accountFiles).setVisible(true); }
+            else {
+                String input = txtRemoveField.getText().trim();
+                if(!input.matches("\\d+")){ JOptionPane.showMessageDialog(this, "Numbers only!"); 
+                return; }
+                if(accountFiles.removeAccount(input)) JOptionPane.showMessageDialog(this, "Deleted!");
+                else JOptionPane.showMessageDialog(this, "Account Not Found!");
             }
-            
-            
         }
-        
-            if (e.getSource() == btnBack){
-            dispose();
-            GUI1frame hp = new GUI1frame(files);
-            hp.setVisible(true);
-            
-        }
-        
     }
-    
-}

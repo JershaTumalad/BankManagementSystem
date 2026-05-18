@@ -1,4 +1,4 @@
-package BAMS;
+package dashboard_transactions;
 
 import javax.swing.*;
 import javax.swing.table.*;
@@ -13,7 +13,7 @@ public class HistoryGUI extends JFrame {
         this.manager = manager;
 
         setTitle("Transaction History");
-        setSize(400, 700);
+        setSize(430, 720);
         setLayout(null);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
