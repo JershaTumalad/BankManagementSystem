@@ -12,7 +12,8 @@ import bankmanagementapp.accDatabase;
 public class logInPage extends JFrame{
     
     JLabel tit1, userName,pass,navTit;
-    JTextField tfUsername, tfPassword;
+    JTextField tfUsername;
+    JPasswordField tfPassword;
     JButton btnLog, btnForgot, btnBack;
     
         public logInPage(){
@@ -61,12 +62,13 @@ public class logInPage extends JFrame{
          tfUsername.setBorder(null);
         add(tfUsername);
         
-         tfPassword = new JTextField();
+         tfPassword = new JPasswordField();
         tfPassword.setBounds(170, 200, 180, 35);
         tfPassword.setFont(new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 14));
         tfPassword.setBorder(null);
         add(tfPassword);
         
+           
         btnLog = new RoundedButton("LOG IN");
         btnLog.setBounds(140, 290, 150, 40);
          btnLog.setFont(new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 14));
@@ -131,3 +133,6 @@ public class logInPage extends JFrame{
           
       }
 }
+
+
+

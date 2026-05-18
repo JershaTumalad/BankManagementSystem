@@ -194,6 +194,21 @@ public class accounts extends JFrame{
         submit.addActionListener(e -> {
         
             
+            
+     String phone = tfMobNum.getText().trim();
+
+
+if (phone.isEmpty() || phone.equals("0917XXXXXXX")) {
+    JOptionPane.showMessageDialog(this, "Please enter a phone number.", "Error", JOptionPane.ERROR_MESSAGE);
+    return;
+}
+
+if (!phone.matches("^09[0-9]{9}$")) {
+    JOptionPane.showMessageDialog(this, 
+        "Invalid phone number.\nMust be 11 digits and start with 09 (e.g. 09171234567).", 
+        "Error", JOptionPane.ERROR_MESSAGE);
+    return;
+}
             //for log in to sya to proceed sa dashboard
             
             
