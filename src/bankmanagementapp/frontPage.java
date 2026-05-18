@@ -67,13 +67,13 @@ public class frontPage extends JFrame{
         navTite.setBounds(90, 34, 300, 36);
         navbar.add(navTite);
 
-        RoundedCard heroCard = new RoundedCard(20); // ung white panel where lahat andyan(separate method)
+        heroCard = buildRoundedPanel(20);
         heroCard.setBounds(20, 112, 370, 500);
         heroCard.setLayout(null);
         mainPanel.add(heroCard);
-        
-              
-        IconCircle logoCircle = new IconCircle(PRIMARY, LIGHT_BLUE);//bahay na may bilog(naka separate method)
+
+        JPanel logoCircle = new JPanel();
+        logoCircle.setBackground(LIGHT_BLUE);
         logoCircle.setBounds(40, 40, 52, 52);
         heroCard.add(logoCircle);
             
