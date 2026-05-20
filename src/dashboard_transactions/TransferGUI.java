@@ -4,15 +4,17 @@ import javax.swing.*;
 import javax.swing.border.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.time.LocalDate;
 
 public class TransferGUI extends JFrame {
 
     private TransactionManager manager;
     private BankAppGUI mainWindow;
     private JTextField amountField, recipientField;
+    private JLabel balanceLBL;
 
-    public TransferGUI(TransactionManager manager, BankAppGUI mainWindow) {
+    public TransferGUI(TransactionManager manager,
+                       BankAppGUI mainWindow) {
+
         this.manager = manager;
         this.mainWindow = mainWindow;
 
@@ -21,141 +23,330 @@ public class TransferGUI extends JFrame {
         setLayout(null);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        getContentPane().setBackground(new Color(235, 240, 250));
+        getContentPane().setBackground(new Color(212, 219, 235));
 
-        //navbar─
+        // ================= NAVBAR =================
         JPanel navPanel = new JPanel(null);
-        navPanel.setBounds(0, 0, 420, 45);
-        navPanel.setBackground(new Color(15, 28, 60));
+        navPanel.setBounds(0, 0, 430, 35);
+        navPanel.setBackground(new Color(18, 45, 105));
         add(navPanel);
 
-        JButton backBTN = new JButton("← Back");
-        backBTN.setBounds(10, 9, 70, 27);
-        backBTN.setFont(new Font("Tahoma", Font.PLAIN, 12));
-        backBTN.setForeground(Color.WHITE);
-        backBTN.setBackground(new Color(37, 65, 130));
-        backBTN.setFocusPainted(false);
-        backBTN.setBorder(BorderFactory.createLineBorder(new Color(80, 110, 180), 1, true));
-        backBTN.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        navPanel.add(backBTN);
-
-        //header
+        // ================= HEADER =================
         JPanel headerPanel = new JPanel(null);
-        headerPanel.setBounds(0, 45, 420, 120);
-        headerPanel.setBackground(new Color(25, 45, 95));
+        headerPanel.setBounds(0, 35, 430, 95);
+        headerPanel.setBackground(new Color(18, 45, 105));
         add(headerPanel);
 
-        JLabel title = new JLabel("Transfer Money");
-        title.setBounds(0, 30, 420, 35);
-        title.setFont(new Font("Tahoma", Font.BOLD, 22));
-        title.setForeground(Color.WHITE);
+        JLabel bankLBL =
+                new JLabel("STATE BANK • SEND MONEY");
+
+        bankLBL.setBounds(25, 8, 350, 18);
+        bankLBL.setHorizontalAlignment(SwingConstants.CENTER);
+
+        bankLBL.setForeground(
+                new Color(170, 190, 240));
+
+        bankLBL.setFont(
+                new Font("Tahoma", Font.BOLD, 11));
+
+        headerPanel.add(bankLBL);
+
+        JLabel title =
+                new JLabel("Transfer money");
+
+        title.setBounds(25, 38, 350, 35);
         title.setHorizontalAlignment(SwingConstants.CENTER);
+
+        title.setFont(
+                new Font("Tahoma", Font.BOLD, 26));
+
+        title.setForeground(Color.WHITE);
+
         headerPanel.add(title);
 
-        JLabel subtitle = new JLabel("Send money to another account");
-        subtitle.setBounds(0, 68, 420, 18);
-        subtitle.setFont(new Font("Tahoma", Font.PLAIN, 12));
-        subtitle.setForeground(new Color(160, 185, 225));
-        subtitle.setHorizontalAlignment(SwingConstants.CENTER);
-        headerPanel.add(subtitle);
+        // ================= BALANCE PANEL =================
+        JPanel balancePanel = new JPanel(null);
 
-        //form
+        balancePanel.setBounds(20, 150, 372, 105);
+
+        balancePanel.setBackground(
+                new Color(18, 45, 105));
+
+        add(balancePanel);
+
+        JLabel currentBalanceLBL =
+                new JLabel("CURRENT BALANCE");
+
+        currentBalanceLBL.setBounds(25, 15, 250, 20);
+
+        currentBalanceLBL.setForeground(
+                new Color(170, 190, 240));
+
+        currentBalanceLBL.setFont(
+                new Font("Tahoma", Font.BOLD, 15));
+
+        balancePanel.add(currentBalanceLBL);
+
+        balanceLBL =
+                new JLabel("PHP " + String.format("%,.2f", manager.getBalance()));
+
+        balanceLBL.setBounds(25, 38, 320, 35);
+
+        balanceLBL.setForeground(Color.WHITE);
+
+        balanceLBL.setFont(
+                new Font("Tahoma", Font.BOLD, 31));
+
+        balancePanel.add(balanceLBL);
+
+        // ================= FORM PANEL =================
         JPanel card = new JPanel(null);
-        card.setBounds(24, 186, 372, 300);
+
+        card.setBounds(20, 275, 372, 375);
+
         card.setBackground(Color.WHITE);
-        card.setBorder(BorderFactory.createLineBorder(new Color(200, 215, 235), 1, true));
+
+        card.setBorder(BorderFactory.createLineBorder(
+                new Color(220, 225, 235), 1));
+
         add(card);
 
-        JLabel amountLBL = new JLabel("Enter Amount (PHP)");
-        amountLBL.setBounds(20, 22, 250, 18);
-        amountLBL.setFont(new Font("Tahoma", Font.BOLD, 12));
-        amountLBL.setForeground(new Color(60, 80, 120));
+        JLabel detailsLBL =
+                new JLabel("TRANSFER DETAILS");
+
+        detailsLBL.setBounds(0, 20, 372, 20);
+
+        detailsLBL.setHorizontalAlignment(
+                SwingConstants.CENTER);
+
+        detailsLBL.setForeground(
+                new Color(166, 187, 241));
+
+        detailsLBL.setFont(
+                new Font("Tahoma", Font.BOLD, 15));
+
+        card.add(detailsLBL);
+
+        JLabel recipientLBL =
+                new JLabel("RECIPIENT ACCOUNT");
+
+        recipientLBL.setBounds(25, 58, 250, 18);
+
+        recipientLBL.setForeground(
+                new Color(60, 80, 120));
+
+        recipientLBL.setFont(
+                new Font("Tahoma", Font.BOLD, 13));
+
+        card.add(recipientLBL);
+
+        recipientField = new JTextField("••••1234");
+
+        recipientField.setBounds(25, 85, 320, 42);
+
+        recipientField.setFont(
+                new Font("Tahoma", Font.PLAIN, 15));
+
+        recipientField.setBorder(
+                BorderFactory.createCompoundBorder(
+                        BorderFactory.createLineBorder(
+                                new Color(220, 225, 235), 1),
+
+                        BorderFactory.createEmptyBorder(
+                                0, 15, 0, 15)
+                ));
+
+        card.add(recipientField);
+
+        JLabel amountLBL =
+                new JLabel("AMOUNT TO TRANSFER");
+
+        amountLBL.setBounds(25, 145, 250, 18);
+
+        amountLBL.setForeground(
+                new Color(60, 80, 120));
+
+        amountLBL.setFont(
+                new Font("Tahoma", Font.BOLD, 13));
+
         card.add(amountLBL);
 
         amountField = new JTextField();
-        amountField.setBounds(20, 46, 330, 42);
-        amountField.setFont(new Font("Tahoma", Font.PLAIN, 18));
-        amountField.setHorizontalAlignment(JTextField.CENTER);
-        amountField.setBorder(BorderFactory.createCompoundBorder(
-            BorderFactory.createLineBorder(new Color(200, 215, 235), 1, true),
-            BorderFactory.createEmptyBorder(0, 10, 0, 10)
-        ));
+
+        amountField.setBounds(25, 172, 320, 42);
+
+        amountField.setFont(
+                new Font("Tahoma", Font.PLAIN, 17));
+
+        amountField.setBorder(
+                BorderFactory.createCompoundBorder(
+                        BorderFactory.createLineBorder(
+                                new Color(220, 225, 235), 1),
+
+                        BorderFactory.createEmptyBorder(
+                                0, 15, 0, 15)
+                ));
+
         card.add(amountField);
 
-        JLabel recipientLBL = new JLabel("Recipient Account");
-        recipientLBL.setBounds(20, 108, 250, 18);
-        recipientLBL.setFont(new Font("Tahoma", Font.BOLD, 12));
-        recipientLBL.setForeground(new Color(60, 80, 120));
-        card.add(recipientLBL);
+        JLabel noteLBL =
+                new JLabel("Funds transferred instantly");
 
-        recipientField = new JTextField("****1234");
-        recipientField.setBounds(20, 132, 330, 42);
-        recipientField.setFont(new Font("Tahoma", Font.PLAIN, 14));
-        recipientField.setHorizontalAlignment(JTextField.CENTER);
-        recipientField.setBorder(BorderFactory.createCompoundBorder(
-            BorderFactory.createLineBorder(new Color(200, 215, 235), 1, true),
-            BorderFactory.createEmptyBorder(0, 10, 0, 10)
-        ));
-        card.add(recipientField);
+        noteLBL.setBounds(25, 225, 250, 18);
 
-        JLabel dateLBL = new JLabel("Date");
-        dateLBL.setBounds(20, 194, 250, 18);
-        dateLBL.setFont(new Font("Tahoma", Font.BOLD, 12));
-        dateLBL.setForeground(new Color(60, 80, 120));
-        card.add(dateLBL);
+        noteLBL.setForeground(
+                new Color(130, 130, 130));
 
-        JTextField dateField = new JTextField(LocalDate.now().toString());
-        dateField.setBounds(20, 218, 330, 42);
-        dateField.setFont(new Font("Tahoma", Font.PLAIN, 14));
-        dateField.setHorizontalAlignment(JTextField.CENTER);
-        dateField.setEditable(false);
-        dateField.setBackground(new Color(235, 240, 250));
-        dateField.setForeground(new Color(100, 120, 160));
-        dateField.setBorder(BorderFactory.createCompoundBorder(
-            BorderFactory.createLineBorder(new Color(200, 215, 235), 1, true),
-            BorderFactory.createEmptyBorder(0, 10, 0, 10)
-        ));
-        card.add(dateField);
+        noteLBL.setFont(
+                new Font("Tahoma", Font.BOLD, 12));
 
-        //submit
-        JButton submitBTN = new JButton("Transfer");
-        submitBTN.setBounds(24, 510, 372, 48);
-        submitBTN.setFont(new Font("Tahoma", Font.BOLD, 15));
-        submitBTN.setBackground(new Color(25, 45, 95));
-        submitBTN.setForeground(Color.WHITE);
-        submitBTN.setFocusPainted(false);
-        submitBTN.setBorderPainted(false);
-        submitBTN.setOpaque(true);
-        submitBTN.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        submitBTN.addMouseListener(new MouseAdapter() {
-            public void mouseEntered(MouseEvent e) { submitBTN.setBackground(new Color(37, 65, 130)); }
-            public void mouseExited (MouseEvent e) { submitBTN.setBackground(new Color(25, 45, 95)); }
+        card.add(noteLBL);
+
+        JSeparator separator = new JSeparator();
+
+        separator.setBounds(25, 250, 320, 1);
+
+        card.add(separator);
+
+        JButton transferBTN =
+                new JButton("Confirm transfer");
+
+        transferBTN.setBounds(25, 268, 320, 45);
+
+        transferBTN.setFont(
+                new Font("Tahoma", Font.BOLD, 15));
+
+        transferBTN.setBackground(
+                new Color(18, 45, 105));
+
+        transferBTN.setForeground(Color.WHITE);
+
+        transferBTN.setFocusPainted(false);
+
+        transferBTN.setBorderPainted(false);
+
+        transferBTN.setCursor(
+                new Cursor(Cursor.HAND_CURSOR));
+
+        card.add(transferBTN);
+
+        JButton dashboardBTN =
+                new JButton("Back to dashboard");
+
+        dashboardBTN.setBounds(25, 318, 320, 40);
+
+        dashboardBTN.setFont(
+                new Font("Tahoma", Font.BOLD, 14));
+
+        dashboardBTN.setBackground(Color.WHITE);
+
+        dashboardBTN.setForeground(
+                new Color(18, 45, 105));
+
+        dashboardBTN.setBorder(
+                BorderFactory.createLineBorder(
+                        new Color(135, 170, 255), 2));
+
+        dashboardBTN.setFocusPainted(false);
+
+        dashboardBTN.setCursor(
+                new Cursor(Cursor.HAND_CURSOR));
+
+        card.add(dashboardBTN);
+
+        // ================= ACTION LISTENERS =================
+        dashboardBTN.addActionListener(e -> {
+            mainWindow.setVisible(true);
+            dispose();
         });
-        add(submitBTN);
 
-        //action lsteners
-        backBTN.addActionListener(e -> { mainWindow.setVisible(true); dispose(); });
+        transferBTN.addActionListener(e -> {
 
-        submitBTN.addActionListener(e -> {
             try {
-                double amount = Double.parseDouble(amountField.getText().trim());
-                String recipient = recipientField.getText().trim();
-                if (recipient.isEmpty()) {
-                    JOptionPane.showMessageDialog(this, "Please enter a recipient account.", "Error", JOptionPane.ERROR_MESSAGE);
+
+                if (amountField.getText().trim().isEmpty()) {
+
+                    JOptionPane.showMessageDialog(
+                            this,
+                            "Amount field cannot be empty.",
+                            "Error",
+                            JOptionPane.ERROR_MESSAGE);
+
+                    amountField.setText("");
                     return;
                 }
-                String result = manager.addTransaction("Transfer", amount, dateField.getText(), recipient);
+
+                double amount =
+                        Double.parseDouble(
+                                amountField.getText().trim());
+
+                if (amount <= 0) {
+
+                    JOptionPane.showMessageDialog(
+                            this,
+                            "Please enter a valid amount.",
+                            "Error",
+                            JOptionPane.ERROR_MESSAGE);
+
+                    amountField.setText("");
+                    return;
+                }
+
+                String recipient =
+                        recipientField.getText().trim();
+
+                if (recipient.isEmpty()) {
+
+                    JOptionPane.showMessageDialog(
+                            this,
+                            "Please enter recipient account.",
+                            "Error",
+                            JOptionPane.ERROR_MESSAGE);
+
+                    return;
+                }
+
+                String result = manager.addTransaction(
+                        "Transfer",
+                        amount,
+                        "",
+                        recipient
+                );
+
                 if (result.equals("SUCCESS")) {
+
                     mainWindow.updateBalance("Debit");
-                    JOptionPane.showMessageDialog(this,
-                        "Transfer successful!\nNew Balance: PHP " + String.format("%.2f", manager.getBalance()));
+                    balanceLBL.setText("PHP " + String.format("%,.2f", manager.getBalance()));
+
+                    JOptionPane.showMessageDialog(
+                            this,
+                            "Transfer successful!\nNew Balance: PHP "
+                                    + String.format("%.2f",
+                                    manager.getBalance()));
+
                     mainWindow.setVisible(true);
                     dispose();
+
                 } else {
-                    JOptionPane.showMessageDialog(this, result, "Error", JOptionPane.ERROR_MESSAGE);
+
+                    JOptionPane.showMessageDialog(
+                            this,
+                            result,
+                            "Error",
+                            JOptionPane.ERROR_MESSAGE);
+
+                    amountField.setText("");
                 }
+
             } catch (NumberFormatException ex) {
-                JOptionPane.showMessageDialog(this, "Please enter a valid amount.", "Error", JOptionPane.ERROR_MESSAGE);
+
+                JOptionPane.showMessageDialog(
+                        this,
+                        "Please enter a valid amount.",
+                        "Error",
+                        JOptionPane.ERROR_MESSAGE);
+
+                amountField.setText("");
             }
         });
 

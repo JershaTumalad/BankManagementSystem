@@ -168,6 +168,7 @@ public class BuyLoadGUI extends JFrame {
         submitBTN.setBorderPainted(false);
         submitBTN.setOpaque(true);
         submitBTN.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        
         submitBTN.addMouseListener(new MouseAdapter() {
             public void mouseEntered(MouseEvent e) { submitBTN.setBackground(new Color(37, 65, 130)); }
             public void mouseExited (MouseEvent e) { submitBTN.setBackground(new Color(25, 45, 95)); }
@@ -183,10 +184,16 @@ public class BuyLoadGUI extends JFrame {
                 return;
             }
             String phone = phoneField.getText().trim();
-            if (phone.isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Please enter a phone number.", "Error", JOptionPane.ERROR_MESSAGE);
-                return;
-            }
+        
+        if(phone.isEmpty() || phone.equals("0917XXXXXXXX")){
+            JOptionPane.showMessageDialog(this, "Please enter a phone number.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
+        if(!phone.matches("^09[0-9]{9}$")){
+            JOptionPane.showMessageDialog(this, "Invalid phone number.\nMust be 11 digits and start with 09(e.g. 09171234567", "ERROR", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
             //get amount
             double amount = Double.parseDouble(selectedAmountBtn.getText().replace("₱", ""));
             String telco = telcoCombo.getSelectedItem() + " (" + phone + ")";

@@ -1,9 +1,6 @@
 
 package bankmanagementapp;
 
-
-import java.util.*;
-
 public class accCreationPage {
    
 
