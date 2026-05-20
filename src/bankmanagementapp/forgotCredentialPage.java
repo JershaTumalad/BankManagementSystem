@@ -53,7 +53,7 @@ public class forgotCredentialPage extends JFrame {
         lblDesc.setBounds(30, 25, 250, 20);
         card.add(lblDesc);
 
-        btnOpt1 = new frontPage.RoundedButton("1   I forgot my USER ID");
+        btnOpt1 = new JButton("1   I forgot my USER ID");
         btnOpt1.setBounds(25, 70, 290, 50);
         btnOpt1.setFont(new Font("Segoe UI", Font.PLAIN, 14));
         btnOpt1.setBackground(new Color(245, 246, 252));
@@ -65,7 +65,7 @@ public class forgotCredentialPage extends JFrame {
             dispose();
         });
 
-        btnOpt2 = new frontPage.RoundedButton("2   I forgot my password");
+        btnOpt2 = new JButton("2   I forgot my password");
         btnOpt2.setBounds(25, 135, 290, 50);
         btnOpt2.setFont(new Font("Segoe UI", Font.PLAIN, 14));
         btnOpt2.setBackground(new Color(245, 246, 252));
@@ -77,7 +77,7 @@ public class forgotCredentialPage extends JFrame {
             dispose();
         });
 
-        btnOpt3 = new frontPage.RoundedButton("3   I forgot both");
+        btnOpt3 = new JButton("3   I forgot both");
         btnOpt3.setBounds(25, 200, 290, 50);
         btnOpt3.setFont(new Font("Segoe UI", Font.PLAIN, 14));
         btnOpt3.setBackground(new Color(245, 246, 252));
@@ -89,7 +89,7 @@ public class forgotCredentialPage extends JFrame {
             dispose();
         });
 
-        btnBack = new frontPage.RoundedButton("Back to homepage");
+        btnBack = new JButton("Back to homepage");
         btnBack.setBounds(35, 520, 340, 42);
         btnBack.setBackground(new Color(220, 226, 241));
         btnBack.setForeground(new Color(70, 70, 70));

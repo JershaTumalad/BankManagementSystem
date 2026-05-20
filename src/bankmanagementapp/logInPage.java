@@ -8,7 +8,7 @@ import dashboard_transactions.BankAppGUI;
 
 public class logInPage extends JFrame {
 
-    JLabel lblWelcome, lblTitle, lblUser, lblPass, lblCreate;
+    JLabel lblWelcome, lblTitle, lblUser, lblPass;
     JTextField tfUsername;
     JPasswordField tfPassword;
     JButton btnLogin, btnBack,bnCreate;
@@ -84,7 +84,7 @@ public class logInPage extends JFrame {
         tfPassword.setBackground(new Color(245, 246, 252));
         cardPanel.add(tfPassword);
 
-        JButton forgotBtn = new frontPage.RoundedButton("Forgot user ID or password?");
+        JButton forgotBtn = new JButton("Forgot user ID or password?");
         forgotBtn.setBounds(65, 210, 220, 20);
         forgotBtn.setFont(new Font("Segoe UI", Font.PLAIN, 11));
         forgotBtn.setForeground(new Color(90, 110, 180));
@@ -98,7 +98,7 @@ public class logInPage extends JFrame {
             dispose();
         });
 
-        btnLogin = new frontPage.RoundedButton("Log In");
+        btnLogin = new JButton("Log In");
         btnLogin.setBounds(30, 245, 280, 42);
         btnLogin.setBackground(new Color(138, 173, 255));
         btnLogin.setForeground(Color.WHITE);
@@ -135,7 +135,7 @@ public class logInPage extends JFrame {
             }
         });
 
-        btnBack = new frontPage.RoundedButton("Back to homepage");
+        btnBack = new JButton("Back to homepage");
         btnBack.setBounds(35, 510, 340, 42);
         btnBack.setBackground(new Color(220, 226, 241));
         btnBack.setForeground(new Color(70, 70, 70));
@@ -147,7 +147,7 @@ public class logInPage extends JFrame {
             dispose();
         });
 
-        bnCreate = new frontPage.RoundedButton("Don't have an account yet? Create one");
+        bnCreate = new JButton("Don't have an account yet? Create one");
         bnCreate.setFont(new Font("Segoe UI", Font.PLAIN, 12));
         bnCreate.setForeground(new Color(120, 120, 120));
         bnCreate.setBounds(80, 590, 250, 20);
@@ -162,7 +162,7 @@ public class logInPage extends JFrame {
         setVisible(true);
     }
 
-    class RoundedPanel extends JPanel {
+   public class RoundedPanel extends JPanel {
 
         private int radius;
 

@@ -72,7 +72,7 @@ public class forgotPage2 extends JFrame {
         tfEmail.setBackground(new Color(245, 246, 252));
         card.add(tfEmail);
 
-        btnSubmit = new frontPage.RoundedButton("Submit");
+        btnSubmit = new JButton("Submit");
         btnSubmit.setBounds(30, 180, 280, 42);
         btnSubmit.setBackground(new Color(138, 173, 255));
         btnSubmit.setForeground(Color.WHITE);
@@ -98,7 +98,7 @@ public class forgotPage2 extends JFrame {
                 JOptionPane.showMessageDialog(this,
                         "Email Found!");
 
-                new logInPage();
+                new dashboard();
                 dispose();
 
             } else {
@@ -109,7 +109,7 @@ public class forgotPage2 extends JFrame {
             }
         });
 
-        btnBack = new frontPage.RoundedButton("Back to homepage");
+        btnBack = new JButton("Back to homepage");
         btnBack.setBounds(35, 520, 340, 42);
         btnBack.setBackground(new Color(220, 226, 241));
         btnBack.setForeground(new Color(70, 70, 70));
