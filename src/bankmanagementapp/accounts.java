@@ -3,14 +3,13 @@ package bankmanagementapp;
 
 import java.awt.*;
 import javax.swing.*;
-import java.awt.event.*;
 import java.util.*;
 
 
 public class accounts extends JFrame{
     
    JLabel email, userId, pass, firstName, lastName, midName, mobNum, address, idType, idNum;
-    JTextField tfEmail, tfuserId, tfpass, tfFirstName, tfLastName, tfMidName, tfMobNum, tfAddress, tfIdNum;
+    JTextField tfEmail, tfuserId, tfpass, tfFirstName, tfLastName, tfMidName, tfMobNum, tfAddress;
     JButton submit, logInPage;
     JComboBox cbAccType;
      
@@ -185,7 +184,7 @@ public class accounts extends JFrame{
         tfpass.setBorder(null);
         add(tfpass);
 
-        submit = new RoundedButton("CREATE AN ACCOUNT");
+        submit = new frontPage.RoundedButton("CREATE AN ACCOUNT");
         submit.setBounds(100, 580, 230, 35);
         submit.setFont(new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 14));
         submit.setBackground(theme.Light_blue);
@@ -231,7 +230,7 @@ if (!phone.matches("^09[0-9]{9}$")) {
         
         });
         
-        logInPage = new RoundedButton("BACK TO LOGIN PAGE");
+        logInPage = new frontPage.RoundedButton("BACK TO LOGIN PAGE");
         logInPage.setBounds(100, 630, 230, 35);
         logInPage.setFont(new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 14));
         logInPage.setBackground(theme.Light_blue);
