@@ -1,13 +1,10 @@
 
 package bankmanagementapp;
 
-
-import java.util.*;
-
 public class accCreationPage {
    
 
-    //separated lang for storing acc
+    
     
     private String email,userid,pass;
     
