@@ -184,7 +184,7 @@ public class accounts extends JFrame{
         tfpass.setBorder(null);
         add(tfpass);
 
-        submit = new RoundedButton("CREATE AN ACCOUNT");
+        submit = new frontPage.RoundedButton("CREATE AN ACCOUNT");
         submit.setBounds(100, 580, 230, 35);
         submit.setFont(new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 14));
         submit.setBackground(theme.Light_blue);
@@ -230,7 +230,7 @@ if (!phone.matches("^09[0-9]{9}$")) {
         
         });
         
-        logInPage = new RoundedButton("BACK TO LOGIN PAGE");
+        logInPage = new frontPage.RoundedButton("BACK TO LOGIN PAGE");
         logInPage.setBounds(100, 630, 230, 35);
         logInPage.setFont(new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 14));
         logInPage.setBackground(theme.Light_blue);

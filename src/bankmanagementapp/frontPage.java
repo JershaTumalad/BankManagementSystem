@@ -7,11 +7,11 @@ public class frontPage extends JFrame {
 
 
     
-    JPanel  navbar, mainPanel ;//dark blue sa taas,baby blue na bg, white the navbar
+    JPanel  navbar, mainPanel ;
     JPanel  sep ;
-    JButton btnOption1;         // LOG IN btn
-    JButton btnOption2;        // FORGOT USER-ID OR PASSWORD btn
-    JButton btnOption3;          // CREATW btn
+    JButton btnOption1;        
+    JButton btnOption2;        
+    JButton btnOption3;          
     JLabel statement,statemnt1, navTite, appTit, tagLine ,logoLabel;
    
     
@@ -104,7 +104,7 @@ heroCard.add(sep);
 
 
 
-          btnOption1 = new RoundedButton("LOG IN AN ACCOUNT");
+          btnOption1 = new frontPage.RoundedButton("LOG IN AN ACCOUNT");
           btnOption1.setBounds(30, 230, 310, 50);
            btnOption1.setBackground(LIGHT_BLUE);
            btnOption1.setForeground(Color.BLACK);
@@ -116,7 +116,7 @@ heroCard.add(sep);
           
           });
           
-            btnOption2 = new RoundedButton("FORGOT USER-ID OR PASSWORD");
+            btnOption2 = new frontPage.RoundedButton("FORGOT USER-ID OR PASSWORD");
           btnOption2.setBounds(30, 300, 310, 50);
             btnOption2.setBackground(LIGHT_BLUE);
             btnOption2.setForeground(Color.BLACK);
@@ -128,11 +128,15 @@ heroCard.add(sep);
           
           });
           
-          btnOption3 = new RoundedButton("CREATE AN ACCOUNT");
+          btnOption3 = new frontPage.RoundedButton("CREATE AN ACCOUNT");
           btnOption3.setBounds(30, 370, 310, 50);
-btnOption3.setBackground(LIGHT_BLUE);
+            btnOption3.setBackground(LIGHT_BLUE);
         btnOption3.setForeground(Color.BLACK);
-           btnOption3.setFont(new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 14));
+        btnOption3.setFont(new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 14));      
+        btnOption3.setFocusPainted(false);
+
+        btnOption3.setCursor(new Cursor(Cursor.HAND_CURSOR)); 
+ 
           heroCard.add(btnOption3);
           btnOption3.addActionListener(e -> {
           new accounts();
@@ -158,6 +162,29 @@ btnOption3.setBackground(LIGHT_BLUE);
     public static final Color ICON_BG      = new Color(232, 238, 248); // soft blue tint
      
      
+static class RoundedButton extends JButton {
+
+    public RoundedButton(String text) {
+        super(text);
+        setFocusPainted(false);
+        setContentAreaFilled(false);
+        setForeground(Color.BLACK);
+        setBorderPainted(false);
+        setBorder(null);
+    }
+
+    @Override
+    protected void paintComponent(Graphics g) {
+        Graphics2D g2 = (Graphics2D) g;
+
+        g2.setColor(getBackground());
+        g2.fillRoundRect(0, 0, getWidth(), getHeight(), 30, 30);
+
+        super.paintComponent(g);
+    }
+}
+    
+
 
     
        public ImageIcon loadImage(String path, int width, int height) {
@@ -180,9 +207,12 @@ btnOption3.setBackground(LIGHT_BLUE);
         
         
        }
+       
+       
 }
 
-
+       
+       
       
- 
+
    

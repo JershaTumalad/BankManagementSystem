@@ -72,7 +72,7 @@ public class forgotPage1 extends JFrame {
         tfUserid.setBackground(new Color(245, 246, 252));
         card.add(tfUserid);
 
-        btnSubmit = new JButton("Submit");
+        btnSubmit = new frontPage.RoundedButton("Submit");
         btnSubmit.setBounds(30, 180, 280, 42);
         btnSubmit.setBackground(new Color(138, 173, 255));
         btnSubmit.setForeground(Color.WHITE);
@@ -110,7 +110,7 @@ public class forgotPage1 extends JFrame {
 
         });
 
-        btnBack = new JButton("Back to homepage");
+        btnBack = new frontPage.RoundedButton("Back to homepage");
         btnBack.setBounds(35, 520, 340, 42);
         btnBack.setBackground(new Color(220, 226, 241));
         btnBack.setForeground(new Color(70, 70, 70));
