@@ -208,10 +208,10 @@ if (!phone.matches("^09[0-9]{9}$")) {
         "Error", JOptionPane.ERROR_MESSAGE);
     return;
 }
-            //for log in to sya to proceed sa dashboard
+       
             
             
-            //THIS IS FOR THE EMAIL INFO( FOR retrieving accounts )
+            
             String inputedUserId = tfuserId.getText();
              String inputedPass = tfpass.getText();
         String emailInputed = tfEmail.getText();
@@ -225,7 +225,7 @@ if (!phone.matches("^09[0-9]{9}$")) {
             accDatabase.acc.add(newAcc);
       
         JOptionPane.showMessageDialog(this, "Account Created Successfully!");
-        new frontPage().setVisible(true);
+        new frontPage(); //
         this.dispose();
         
         });

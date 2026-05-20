@@ -4,7 +4,7 @@ package bankmanagementapp;
 public class accCreationPage {
    
 
-    //separated lang for storing acc
+
     
     private String email,userid,pass;
     
@@ -19,7 +19,7 @@ public class accCreationPage {
         
     }
     
-    //setting up a getter for extra na protection of the attributes
+   
     
     public String getUserId(){
         return userid;
