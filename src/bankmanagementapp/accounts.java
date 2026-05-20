@@ -3,14 +3,13 @@ package bankmanagementapp;
 
 import java.awt.*;
 import javax.swing.*;
-import java.awt.event.*;
 import java.util.*;
 
 
 public class accounts extends JFrame{
     
    JLabel email, userId, pass, firstName, lastName, midName, mobNum, address, idType, idNum;
-    JTextField tfEmail, tfuserId, tfpass, tfFirstName, tfLastName, tfMidName, tfMobNum, tfAddress, tfIdNum;
+    JTextField tfEmail, tfuserId, tfpass, tfFirstName, tfLastName, tfMidName, tfMobNum, tfAddress;
     JButton submit, logInPage;
     JComboBox cbAccType;
      
