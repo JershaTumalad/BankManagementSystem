@@ -1,4 +1,4 @@
-package project;
+package AccountManagement;
 
 import java.util.ArrayList;
 
@@ -46,5 +46,10 @@ public class AccountFiles {
             total += a.getBalance();
         }
         return total;
+    }
+    
+    public int getAccountCount() {
+    return accounts.size();
+    
     }
 }

@@ -3,7 +3,6 @@ package bankmanagementapp;
 import java.awt.*;
 import javax.swing.*;
 
-public class frontPage extends JFrame {
 
 
     
@@ -65,6 +64,7 @@ public class frontPage extends JFrame {
         navTite.setBounds(90, 34, 300, 36);
         navbar.add(navTite);
 
+<<<<<<< HEAD
         SimpleCard heroCard = new SimpleCard();
         heroCard.setBounds(20, 112, 370, 500);
         heroCard.setLayout(null);
@@ -73,6 +73,16 @@ public class frontPage extends JFrame {
               
        IconCircle logoCircle = new IconCircle(PRIMARY);
         logoCircle.setBounds(40, 38, 52, 52);
+=======
+        heroCard = buildRoundedPanel(20);
+        heroCard.setBounds(20, 112, 370, 500);
+        heroCard.setLayout(null);
+        mainPanel.add(heroCard);
+
+        JPanel logoCircle = new JPanel();
+        logoCircle.setBackground(LIGHT_BLUE);
+        logoCircle.setBounds(40, 40, 52, 52);
+>>>>>>> 872a279136cb6df7a60783f8c0c02f79179e272f
         heroCard.add(logoCircle);
         
                  JLabel icon = new JLabel("🏦");
