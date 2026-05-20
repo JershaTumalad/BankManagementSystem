@@ -3,7 +3,6 @@ package bankmanagementapp;
 import java.awt.*;
 import javax.swing.*;
 import java.util.*;
-import dashboard_transactions.BankAppGUI;
 
 public class forgotPage1 extends JFrame {
 

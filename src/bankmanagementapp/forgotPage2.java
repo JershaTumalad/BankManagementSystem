@@ -98,7 +98,7 @@ public class forgotPage2 extends JFrame {
 
             for (accCreationPage user : acc) {
 
-                if (user.getUserId().equals(userId) && user.getEmail().equals(inputEmail)) {
+                if ((userId.isEmpty() || user.getUserId().equals(userId)) && user.getEmail().equals(inputEmail))  {
 
                     found = true;
                     break;

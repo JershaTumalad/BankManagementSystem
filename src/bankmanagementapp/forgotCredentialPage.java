@@ -61,7 +61,7 @@ public class forgotCredentialPage extends JFrame {
         card.add(btnOpt1);
 
         btnOpt1.addActionListener(e -> {
-            new forgotPage2().setVisible(true);
+            new forgotPage2("").setVisible(true);
             dispose();
         });
 
@@ -85,7 +85,7 @@ public class forgotCredentialPage extends JFrame {
         card.add(btnOpt3);
 
         btnOpt3.addActionListener(e -> {
-            new forgotPage2().setVisible(true);
+            new forgotPage2("").setVisible(true);
             dispose();
         });
 
