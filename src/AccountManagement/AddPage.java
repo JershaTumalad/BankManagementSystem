@@ -1,134 +1,229 @@
-package project;
+package AccountManagement;
 
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
-public class AddPage extends JFrame implements ActionListener {
+public class AddPage extends JFrame implements ActionListener{
 
-    private JTextField txtLast, txtFirst, txtMiddle, txtAccNo, txtBalance;
-    private JComboBox<String> cbType;
-    private JButton btnSave, btnBack;
-    private AccountFiles files;
-    private final Color accent = new Color(0x8bace0);
+    private JTextField txtLast, txtFirst, txtMiddle, txtAccNo, txtIniBal;
+    private JLabel lblLName, lblFName, lblMName, lblAccType, lblAccNo, lblInitial, lblDes, lblInfo, lblSave, lblBack, logoImage, lblStateBank;
+    private JPanel headerPanel, card, card2, cardSave, cardBack;
+    private JComboBox<String> cmbType;
+    private JButton btnAdd, btnBack;
+    AccountFiles files;
 
-    public AddPage(AccountFiles files) {
+    Color primaryBlue = new Color(25, 48, 90);
+    Color lightBlue = new Color (244, 246, 252);
+    Color LIGHTBLUE = new Color(139, 172, 224);
+    Color LIGHTGRAY = new Color(245, 245, 245);
+
+    public AddPage(AccountFiles files){
         this.files = files;
-        setTitle("Add Account");
+
+        setTitle("Bank Account Management");
         setSize(430, 720);
         setLayout(null);
-        getContentPane().setBackground(new Color(200, 210, 230));
+        getContentPane().setBackground(new Color(180, 190, 210)); 
         setLocationRelativeTo(null);
-        setResizable(false);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setResizable(false);
 
-        JPanel pnlHeader = new JPanel();
-        pnlHeader.setBackground(new Color(25, 42, 86));
-        pnlHeader.setBounds(0, 0, 430, 80);
-        pnlHeader.setLayout(null);
-        add(pnlHeader);
+        headerPanel = new JPanel();
+        headerPanel.setBackground(primaryBlue);
+        headerPanel.setBounds(0, 0, 430, 80); 
+        headerPanel.setLayout(null);
+        add(headerPanel);
+        
+        lblStateBank = new JLabel("STATE Bank");
+        lblStateBank.setFont(new Font("Tahoma", Font.BOLD, 21));
+        lblStateBank.setForeground(Color.WHITE);
+        lblStateBank.setBounds(30, 10, 350, 20);
+        headerPanel.add(lblStateBank);
 
-        JLabel lblPage = new JLabel("NEW ACCOUNT");
-        lblPage.setFont(new Font("Segoe UI", Font.BOLD, 20));
-        lblPage.setForeground(Color.WHITE);
-        lblPage.setBounds(30, 25, 250, 30);
-        pnlHeader.add(lblPage);
+        JLabel lblTitle = new JLabel("Add Account");
+        lblTitle.setFont(new Font("Tahoma", Font.BOLD, 32));
+        lblTitle.setForeground(Color.WHITE);
+        lblTitle.setBounds(30, 36, 250, 30);
+        headerPanel.add(lblTitle);
 
-        JPanel pnlForm = new JPanel();
-        pnlForm.setBackground(Color.WHITE);
-        pnlForm.setBounds(27, 100, 360, 540); 
-        pnlForm.setLayout(null);
-        add(pnlForm);
+        card = new JPanel();
+        card.setBackground(Color.WHITE);
+        card.setBounds(25, 100, 370, 201);
+        card.setLayout(null);
+        add(card);
+        
+        card2 = new JPanel();
+        card2.setBackground(Color.WHITE);
+        card2.setBounds(25, 320, 370, 282);
+        card2.setLayout(null);
+        add(card2);
 
-        setupField(pnlForm, "Last Name", txtLast = new JTextField(), 20);
-        setupField(pnlForm, "First Name", txtFirst = new JTextField(), 85);
-        setupField(pnlForm, "Middle Name (Optional)", txtMiddle = new JTextField(), 150);
+        lblDes = new JLabel ("PERSONAL INFORMATION");
+        lblDes.setBounds(20, 10, 300, 20);
+        lblDes.setFont(new Font("Tahoma", Font.BOLD, 14));
+        lblDes.setForeground(Color.DARK_GRAY);
+        card.add(lblDes);
+        
+        lblInfo = new JLabel("LAST NAME");
+        lblInfo.setBounds(20, 45, 120, 20);
+        lblInfo.setFont(new Font("Tahoma", Font.BOLD, 14));
+        lblInfo.setForeground(Color.GRAY);
+        card.add(lblInfo);
 
-        JLabel lblType = new JLabel("Account Type");
-        lblType.setBounds(20, 215, 150, 20);
-        lblType.setFont(new Font("Segoe UI", Font.PLAIN, 14));
-        pnlForm.add(lblType);
+        txtLast = new JTextField();
+        txtLast.setBackground(LIGHTGRAY);
+        txtLast.setBounds(20, 75, 160, 30);
+        card.add(txtLast);
 
-        cbType = new JComboBox<>(new String[]{"Savings Account", "Current Account"});
-        cbType.setBounds(20, 240, 320, 35);
-        pnlForm.add(cbType);
+        lblInfo = new JLabel("FIRST NAME");
+        lblInfo.setBounds(190, 45, 120, 20);
+        lblInfo.setFont(new Font("Tahoma", Font.BOLD, 14));
+        lblInfo.setForeground(Color.GRAY);
+        card.add(lblInfo);
 
-        setupField(pnlForm, "Account Number", txtAccNo = new JTextField(), 290);
-        setupField(pnlForm, "Initial Deposit", txtBalance = new JTextField(), 355);
+        txtFirst = new JTextField();
+        txtFirst.setBackground(LIGHTGRAY);
+        txtFirst.setBounds(190, 75, 160, 30);
+        card.add(txtFirst);
 
-        btnSave = createRoundedBtn("SAVE", 20, 450, 150);
-        btnBack = createRoundedBtn("BACK", 190, 450, 150);
+        lblInfo = new JLabel("MIDDLE NAME (Optional)");
+        lblInfo.setBounds(20, 125, 300, 20);
+        lblInfo.setFont(new Font("Tahoma", Font.BOLD, 14));
+        lblInfo.setForeground(Color.GRAY);
+        card.add(lblInfo);
 
-        pnlForm.add(btnSave);
-        pnlForm.add(btnBack);
+        txtMiddle = new JTextField();
+        txtMiddle.setBackground(LIGHTGRAY);
+        txtMiddle.setBounds(20, 155, 330, 30);
+        card.add(txtMiddle);
 
-        btnSave.addActionListener(this);
+        lblDes = new JLabel ("ACCOUNT DETAILS");
+        lblDes.setBounds(20, 10, 300, 20);
+        lblDes.setFont(new Font("Tahoma", Font.BOLD, 14));
+        lblDes.setForeground(Color.DARK_GRAY);
+        card2.add(lblDes);
+        
+        lblInfo = new JLabel("ACCOUNT TYPE");
+        lblInfo.setBounds(20, 45, 150, 20);
+        lblInfo.setFont(new Font("Tahoma", Font.BOLD, 14));
+        lblInfo.setForeground(Color.GRAY);
+        card2.add(lblInfo);
+
+        cmbType = new JComboBox<>(new String[]{"Savings", "Current"});
+        cmbType.setBounds(20, 75, 330, 30);
+        card2.add(cmbType);
+
+        lblInfo = new JLabel("ACCOUNT NUMBER");
+        lblInfo.setBounds(20, 125, 150, 20);
+        lblInfo.setFont(new Font("Tahoma", Font.BOLD, 14));
+        lblInfo.setForeground(Color.GRAY);
+        card2.add(lblInfo);
+
+        txtAccNo = new JTextField();
+        txtAccNo.setBackground(LIGHTGRAY);
+        txtAccNo.setBounds(20, 155, 330, 30);
+        card2.add(txtAccNo);
+
+        lblInfo = new JLabel("INITIAL BALANCE");
+        lblInfo.setBounds(20, 205, 150, 20);
+        lblInfo.setFont(new Font("Tahoma", Font.BOLD, 14));
+        lblInfo.setForeground(Color.GRAY);
+        card2.add(lblInfo);
+
+        txtIniBal = new JTextField();
+        txtIniBal.setBackground(LIGHTGRAY);
+        txtIniBal.setBounds(20, 235, 330, 30);
+        card2.add(txtIniBal);
+        
+        btnAdd = new JButton("SAVE ACCOUNT");
+        btnAdd.setBorderPainted(false);
+        btnAdd.setBackground(primaryBlue);
+        btnAdd.setForeground(lightBlue);
+        btnAdd.setFont(new Font("Tahoma", Font.BOLD, 14));
+        btnAdd.setBounds(192, 615, 192, 45);
+        add(btnAdd);
+        
+        btnBack = new JButton("BACK");
+        btnBack.setBorderPainted(false);
+        btnBack.setBackground(LIGHTBLUE);
+        btnBack.setForeground(primaryBlue);
+        btnBack.setFont(new Font("Tahoma", Font.BOLD, 14));
+        btnBack.setBounds(25, 615, 140, 45);
+        add(btnBack);
+        
+        btnAdd.addActionListener(this);
         btnBack.addActionListener(this);
+        
     }
 
-    private void setupField(JPanel p, String label, JTextField tf, int y) {
-        JLabel lbl = new JLabel(label);
-        lbl.setBounds(20, y, 200, 20);
-        lbl.setFont(new Font("Segoe UI", Font.PLAIN, 14));
-        p.add(lbl);
-        tf.setBounds(20, y + 25, 320, 35);
-        tf.setBorder(null);
-        tf.setBackground(new Color(240, 242, 245));
-        p.add(tf);
-    }
-
-    private JButton createRoundedBtn(String text, int x, int y, int w) {
-        JButton btn = new JButton(text) {
-            @Override
-            protected void paintComponent(Graphics g) {
-                Graphics2D g2 = (Graphics2D) g.create();
-                g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-                g2.setColor(getBackground());
-                g2.fillRoundRect(0, 0, getWidth(), getHeight(), 30, 30);
-                g2.dispose();
-                super.paintComponent(g);
-            }
-        };
-        btn.setBounds(x, y, w, 45);
-        btn.setBackground(accent);
-        btn.setFont(new Font("Segoe UI", Font.PLAIN, 13));
-        btn.setContentAreaFilled(false);
-        btn.setBorderPainted(false);
-        return btn;
-    }
-
-    public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == btnBack) {
+    @Override
+    public void actionPerformed(ActionEvent e){
+        if(e.getSource() == btnBack){
             dispose();
             new GUI1Frame(files).setVisible(true);
-        } else if (e.getSource() == btnSave) {
-            String last = txtLast.getText().trim();
-            String first = txtFirst.getText().trim();
-            String acc = txtAccNo.getText().trim();
-            String bal = txtBalance.getText().trim();
+        }
+        else if(e.getSource() == btnAdd){
+            try{
+                String last = txtLast.getText().trim().toUpperCase();
+                String first = txtFirst.getText().trim().toUpperCase();
+                String middle = txtMiddle.getText().trim().toUpperCase();
+                String accNo = txtAccNo.getText().trim();
+                String balText = txtIniBal.getText().trim();
 
-            if (last.isEmpty() || first.isEmpty() || acc.isEmpty() || bal.isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Fields cannot be empty!", "Error", JOptionPane.ERROR_MESSAGE);
-                return;
-            }
-            if (!last.matches("^[a-zA-Z\\s]+$") || !first.matches("^[a-zA-Z\\s]+$")) {
-                JOptionPane.showMessageDialog(this, "Invalid input. Letters only for names.", "Error", JOptionPane.ERROR_MESSAGE);
-                return;
-            }
-            if (!acc.matches("^[0-9]+$") || !bal.matches("^[0-9.]+$")) {
-                JOptionPane.showMessageDialog(this, "Invalid input. Numbers only.", "Error", JOptionPane.ERROR_MESSAGE);
-                return;
-            }
+                if(last.isEmpty() || first.isEmpty()){
+                    JOptionPane.showMessageDialog(this, "Last Name and First Name are required.", "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
 
-            double amount = Double.parseDouble(bal);
-            String name = last + ", " + first + " " + txtMiddle.getText().trim();
-            if (files.addAccount(name, (String) cbType.getSelectedItem(), acc, amount)) {
-                JOptionPane.showMessageDialog(this, "Account Created Successfully!");
-                dispose();
-                new GUI1Frame(files).setVisible(true);
-            } else {
-                JOptionPane.showMessageDialog(this, "Account Number already exists!");
+                if(!last.matches("[a-zA-Z ]+") ||
+                   !first.matches("[a-zA-Z ]+") ){
+                    JOptionPane.showMessageDialog(this, "Invalid Input! Names must contain letters only.", "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+
+                if(accNo.isEmpty()){
+                    JOptionPane.showMessageDialog(this, "Account Number is required.", "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+                
+                if (!accNo.matches("\\d+")){
+                    JOptionPane.showMessageDialog(this, "Invalid Input! Account Number must contain numbers only.", "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+
+                if(balText.isEmpty()){
+                    JOptionPane.showMessageDialog(this, "Initial Balance is required.", "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+
+                double balance = Double.parseDouble(balText);
+
+                if(balance < 0){
+                    JOptionPane.showMessageDialog(this, "Invalid Input! Balance cannot be negative.", "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+
+                String fullName = last + ", " + first + " " + middle;
+
+                if(files.addAccount(fullName,
+                        (String) cmbType.getSelectedItem(),
+                        accNo,
+                        balance)){
+
+                    JOptionPane.showMessageDialog(this, "Account Saved.");
+                    dispose();
+                    new GUI1Frame(files).setVisible(true);
+
+                } else {
+                    JOptionPane.showMessageDialog(this, "Account Number already exists.");
+                }
+
+            } catch(NumberFormatException ex){
+                JOptionPane.showMessageDialog(this, "Invalid balance input.", "Error", JOptionPane.ERROR_MESSAGE);
             }
         }
+        
     }
+
 }
