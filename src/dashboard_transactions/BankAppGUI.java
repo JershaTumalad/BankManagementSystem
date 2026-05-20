@@ -4,8 +4,9 @@ import javax.swing.*;
 import javax.swing.border.*;
 import java.awt.*;
 import java.awt.event.*;
-import project.GUI1Frame;
-import project.AccountFiles;
+import AccountManagement.ProjectMain;
+import AccountManagement.AccountFiles;
+import AccountManagement.GUI1Frame;
 import bankmanagementapp.logInPage;
 
 public class BankAppGUI extends JFrame {
@@ -21,7 +22,7 @@ public class BankAppGUI extends JFrame {
     public static final Color TEXT_MUTED = new Color(100, 110, 130);
 
     public BankAppGUI() {
-        setTitle("STATE-Bank App");
+        setTitle("Bank Account Management");
         setSize(400, 700);
         setLayout(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -41,7 +42,7 @@ public class BankAppGUI extends JFrame {
         homeBtn.setForeground(Color.WHITE);
         homeBtn.setBackground(new Color(37, 65, 130));
         homeBtn.setFocusPainted(false);
-        homeBtn.setBorder(BorderFactory.createLineBorder(LIGHT_BLUE, 1)); // no rounding
+        homeBtn.setBorder(BorderFactory.createLineBorder(LIGHT_BLUE, 1)); 
         homeBtn.setCursor(new Cursor(Cursor.HAND_CURSOR));
         header.add(homeBtn);
         homeBtn.addActionListener(e -> { new bankmanagementapp.logInPage().setVisible(true); dispose(); });
@@ -52,7 +53,7 @@ public class BankAppGUI extends JFrame {
         manageBtn.setForeground(Color.WHITE);
         manageBtn.setBackground(new Color(37, 65, 130));
         manageBtn.setFocusPainted(false);
-        manageBtn.setBorder(BorderFactory.createLineBorder(LIGHT_BLUE, 1)); // no rounding
+        manageBtn.setBorder(BorderFactory.createLineBorder(LIGHT_BLUE, 1)); 
         manageBtn.setCursor(new Cursor(Cursor.HAND_CURSOR));
         header.add(manageBtn);
         manageBtn.addActionListener(e -> { AccountFiles files = new AccountFiles(); new GUI1Frame(files).setVisible(true); setVisible(false); });

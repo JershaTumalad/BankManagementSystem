@@ -1,8 +1,6 @@
-
 package bankmanagementapp;
 
     
-
 
 import java.awt.*;
 import javax.swing.*;
@@ -14,6 +12,7 @@ import java.util.*;
     public class accounts extends JFrame {
 
     JTextField tfEmail, tfuserId, tfpass, tfMobNum;
+    JTextField tfFirstName, tfLastName, tfMiddleName, tfAddress;
          JButton submit, logInPage;
     JComboBox cbAccType;
 
@@ -58,12 +57,12 @@ import java.util.*;
         int y = 20, gap = 45;
 
     
-        addField(formCard, "First Name", y + gap * 0, labelX, fieldX, w, h);
-            addField(formCard, "Last Name",  y + gap * 1, labelX, fieldX, w, h);
-        addField(formCard, "Middle Name",y + gap * 2, labelX, fieldX, w, h);
+        tfFirstName  = addField(formCard, "First Name",  y + gap * 0, labelX, fieldX, w, h);
+            tfLastName   = addField(formCard, "Last Name",   y + gap * 1, labelX, fieldX, w, h);
+        tfMiddleName = addField(formCard, "Middle Name", y + gap * 2, labelX, fieldX, w, h);
 
         tfMobNum = addField(formCard, "Mobile No.", y + gap * 3, labelX, fieldX, w, h);
-        addField(formCard, "Address", y + gap * 4, labelX, fieldX, w, h);
+        tfAddress = addField(formCard, "Address", y + gap * 4, labelX, fieldX, w, h);
 
        
         addLabel(formCard, "Account Type", y + gap * 5, labelX);
@@ -98,8 +97,8 @@ import java.util.*;
         formCard.add(day);
             formCard.add(year);
 
-        tfEmail  = addField(formCard, "Email", y + gap * 7, labelX, fieldX, w, h);
-        tfuserId = addField(formCard, "User ID", y + gap * 8, labelX, fieldX, w, h);
+        tfEmail  = addField(formCard, "Email",    y + gap * 7, labelX, fieldX, w, h);
+        tfuserId = addField(formCard, "User ID",  y + gap * 8, labelX, fieldX, w, h);
             tfpass   = addField(formCard, "Password", y + gap * 9, labelX, fieldX, w, h);
 
       
@@ -107,13 +106,134 @@ import java.util.*;
              submit.setBounds(80, 500, 230, 35);
               submit.setBackground(PRIMARY);
         submit.setForeground(Color.WHITE);
+        submit.setFocusPainted(false);
         formCard.add(submit);
+
+        submit.addActionListener(e -> {
+
+            String firstName  = tfFirstName.getText().trim();
+            String lastName   = tfLastName.getText().trim();
+            String middleName = tfMiddleName.getText().trim();
+            String mobNum     = tfMobNum.getText().trim();
+            String address    = tfAddress.getText().trim();
+            String email      = tfEmail.getText().trim();
+            String userId     = tfuserId.getText().trim();
+            String pass       = tfpass.getText().trim();
+
+            
+            if (firstName.isEmpty() || lastName.isEmpty() || middleName.isEmpty() || mobNum.isEmpty() || address.isEmpty() || email.isEmpty() || userId.isEmpty() || pass.isEmpty()) {
+
+                JOptionPane.showMessageDialog(this, "Please fill in all fields.");
+
+                return;
+
+            }
+
+            
+            if (!email.contains("@") || !email.contains(".")) {
+
+                JOptionPane.showMessageDialog(this, "Please enter a valid email address.");
+                tfEmail.setText("");
+                tfEmail.requestFocus();
+
+                return;
+
+            }
+
+            
+            if (!mobNum.matches("\\d+")) {
+
+                JOptionPane.showMessageDialog(this, "Mobile number must contain digits only.");
+                tfMobNum.setText("");
+                tfMobNum.requestFocus();
+
+                return;
+
+            }
+
+            
+            if (pass.length() < 6) {
+
+                JOptionPane.showMessageDialog(this, "Password must be at least 6 characters.");
+                tfpass.setText("");
+                tfpass.requestFocus();
+
+                return;
+
+            }
+
+            
+            boolean userIdTaken = false;
+
+            for (accCreationPage user : accDatabase.acc) {
+
+                if (user.getUserId().equals(userId)) {
+
+                    userIdTaken = true;
+                    break;
+
+                }
+
+            }
+
+            if (userIdTaken) {
+
+                JOptionPane.showMessageDialog(this, "User ID is already taken. Please choose another.");
+                tfuserId.setText("");
+                tfuserId.requestFocus();
+
+                return;
+
+            }
+
+            
+            boolean emailTaken = false;
+
+            for (accCreationPage user : accDatabase.acc) {
+
+                if (user.getEmail().equals(email)) {
+
+                    emailTaken = true;
+                    break;
+
+                }
+
+            }
+
+            if (emailTaken) {
+
+                JOptionPane.showMessageDialog(this, "Email is already registered.");
+                tfEmail.setText("");
+                tfEmail.requestFocus();
+
+                return;
+
+            }
+
+            
+            accCreationPage newAcc = new accCreationPage(userId, email, pass);
+            accDatabase.acc.add(newAcc);
+
+            JOptionPane.showMessageDialog(this, "Account created successfully!");
+
+            new logInPage();
+            dispose();
+
+        });
 
         logInPage = new JButton("BACK TO LOGIN");
              logInPage.setBounds(80, 540, 230, 35);
         logInPage.setBackground(LIGHT_BLUE);
         logInPage.setForeground(PRIMARY);
+        logInPage.setFocusPainted(false);
               formCard.add(logInPage);
+
+        logInPage.addActionListener(e -> {
+
+            new logInPage();
+            dispose();
+
+        });
 
         setVisible(true);
     }

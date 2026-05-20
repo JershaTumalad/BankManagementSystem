@@ -5,6 +5,7 @@ import javax.swing.*;
 
 
 
+public class frontPage extends JFrame {
     
     JPanel  navbar, mainPanel ;
     JPanel  sep ;
@@ -19,7 +20,7 @@ import javax.swing.*;
           
                setSize(430, 720);
           setLocationRelativeTo(null);
-                setTitle("STATE BANK APPLICATION");
+                setTitle("Bank Account Management");
           setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 setLayout(null);
           setResizable(false);
@@ -64,25 +65,13 @@ import javax.swing.*;
         navTite.setBounds(90, 34, 300, 36);
         navbar.add(navTite);
 
-<<<<<<< HEAD
         SimpleCard heroCard = new SimpleCard();
         heroCard.setBounds(20, 112, 370, 500);
         heroCard.setLayout(null);
         mainPanel.add(heroCard);
         
-              
        IconCircle logoCircle = new IconCircle(PRIMARY);
         logoCircle.setBounds(40, 38, 52, 52);
-=======
-        heroCard = buildRoundedPanel(20);
-        heroCard.setBounds(20, 112, 370, 500);
-        heroCard.setLayout(null);
-        mainPanel.add(heroCard);
-
-        JPanel logoCircle = new JPanel();
-        logoCircle.setBackground(LIGHT_BLUE);
-        logoCircle.setBounds(40, 40, 52, 52);
->>>>>>> 872a279136cb6df7a60783f8c0c02f79179e272f
         heroCard.add(logoCircle);
         
                  JLabel icon = new JLabel("🏦");
@@ -245,9 +234,3 @@ heroCard.add(sep);
        
        
 }
-
-       
-       
-      
-
-   

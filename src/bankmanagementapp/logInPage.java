@@ -45,11 +45,12 @@ public class logInPage extends JFrame {
         lblTitle.setFont(new Font("Segoe UI", Font.BOLD, 32));
         lblTitle.setBounds(35, 45, 200, 40);
         navbar.add(lblTitle);
-
-        cardPanel = new RoundedPanel(35);
+        
+        cardPanel = new JPanel();
         cardPanel.setLayout(null);
+        cardPanel.setBounds(20, 140, 370, 320);
         cardPanel.setBackground(Color.WHITE);
-        cardPanel.setBounds(35, 150, 340, 320);
+        cardPanel.setBorder(BorderFactory.createLineBorder(new Color(210, 218, 235), 1));
         bg.add(cardPanel);
 
         JLabel lblCredential = new JLabel("YOUR CREDENTIALS");
@@ -162,30 +163,4 @@ public class logInPage extends JFrame {
         setVisible(true);
     }
 
-   public class RoundedPanel extends JPanel {
-
-        private int radius;
-
-        RoundedPanel(int radius) {
-            this.radius = radius;
-            setOpaque(false);
-        }
-
-        @Override
-        protected void paintComponent(Graphics g) {
-
-            Graphics2D g2 = (Graphics2D) g.create();
-
-            g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
-                    RenderingHints.VALUE_ANTIALIAS_ON);
-
-            g2.setColor(getBackground());
-            g2.fillRoundRect(0, 0, getWidth(), getHeight(),
-                    radius, radius);
-
-            g2.dispose();
-
-            super.paintComponent(g);
-        }
     }
-}

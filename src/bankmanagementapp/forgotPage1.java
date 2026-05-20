@@ -1,9 +1,9 @@
-
 package bankmanagementapp;
 
 import java.awt.*;
 import javax.swing.*;
 import java.util.*;
+import dashboard_transactions.BankAppGUI;
 
 public class forgotPage1 extends JFrame {
 
@@ -47,7 +47,7 @@ public class forgotPage1 extends JFrame {
         lblTitle.setBounds(35, 45, 320, 40);
         navbar.add(lblTitle);
 
-        RoundedPanel card = new RoundedPanel(35);
+        JPanel card = new JPanel();
         card.setLayout(null);
         card.setBackground(Color.WHITE);
         card.setBounds(35, 170, 340, 270);
@@ -81,8 +81,18 @@ public class forgotPage1 extends JFrame {
 
         btnSubmit.addActionListener(e -> {
 
-            String inputUserId = tfUserid.getText();
+            String inputUserId = tfUserid.getText().trim();
             boolean found = false;
+
+            if (inputUserId.isEmpty()) {
+
+                JOptionPane.showMessageDialog(this,
+                        "Please enter your User ID.",
+                        "Input Required",
+                        JOptionPane.WARNING_MESSAGE);
+                return;
+
+            }
 
             for (accCreationPage user : acc) {
 
@@ -98,13 +108,18 @@ public class forgotPage1 extends JFrame {
                 JOptionPane.showMessageDialog(this,
                         "USER ID Found!");
 
-                new dashboard();
+                new forgotPage2(inputUserId).setVisible(true);
                 dispose();
 
             } else {
 
                 JOptionPane.showMessageDialog(this,
-                        "USER ID not registered!");
+                        "USER ID not registered!",
+                        "User ID Not Found",
+                        JOptionPane.ERROR_MESSAGE);
+
+                tfUserid.setText("");
+                tfUserid.requestFocus();
 
             }
 
@@ -125,44 +140,5 @@ public class forgotPage1 extends JFrame {
         });
 
         setVisible(true);
-    }
-
-    class RoundedPanel extends JPanel {
-
-        private int radius;
-
-        RoundedPanel(int radius) {
-
-            this.radius = radius;
-            setOpaque(false);
-
-        }
-
-        @Override
-        protected void paintComponent(Graphics g) {
-
-            Graphics2D g2 = (Graphics2D) g.create();
-
-            g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
-                    RenderingHints.VALUE_ANTIALIAS_ON);
-
-            g2.setColor(getBackground());
-
-            g2.fillRoundRect(0, 0, getWidth(), getHeight(),
-                    radius, radius);
-
-            g2.dispose();
-
-            super.paintComponent(g);
-        }
-    }
-
-    public class theme {
-
-        public static final Color Primary = new Color(25, 42, 86);
-        public static final Color Light_blue = new Color(0x8bace0);
-        public static final Color bg = new Color(230, 235, 245);
-        public static final Color text_d = new Color(40, 40, 40);
-
     }
 }
