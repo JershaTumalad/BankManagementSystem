@@ -4,8 +4,8 @@ import javax.swing.*;
 import javax.swing.border.*;
 import java.awt.*;
 import java.awt.event.*;
-import project.GUI1Frame;
-import project.AccountFiles;
+import AccountManagement.GUI1Frame;
+import AccountManagement.AccountFiles;
 import bankmanagementapp.logInPage;
 
 public class BankAppGUI extends JFrame {
@@ -29,74 +29,70 @@ public class BankAppGUI extends JFrame {
         setResizable(false);
         getContentPane().setBackground(BG);
 
-        // header
         JPanel header = new JPanel(null);
-        header.setBounds(0, 0, 400, 110);
+        header.setBounds(0, 0, 400, 60);
         header.setBackground(PRIMARY);
         add(header);
 
-        JButton homeBtn = new JButton("Log out");
-        homeBtn.setBounds(10, 10, 75, 28);
-        homeBtn.setFont(new Font("Segoe UI", Font.PLAIN, 11));
-        homeBtn.setForeground(Color.WHITE);
-        homeBtn.setBackground(new Color(37, 65, 130));
-        homeBtn.setFocusPainted(false);
-        homeBtn.setBorder(BorderFactory.createLineBorder(LIGHT_BLUE, 1)); // no rounding
-        homeBtn.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        header.add(homeBtn);
-        homeBtn.addActionListener(e -> { new bankmanagementapp.logInPage().setVisible(true); dispose(); });
+        JLabel appTitle = new JLabel("MyBank");
+        appTitle.setBounds(15, 12, 150, 35);
+        appTitle.setFont(new Font("Segoe UI", Font.BOLD, 22));
+        appTitle.setForeground(Color.WHITE);
+        header.add(appTitle);
 
         JButton manageBtn = new JButton("Accounts");
-        manageBtn.setBounds(290, 10, 80, 28);
-        manageBtn.setFont(new Font("Segoe UI", Font.PLAIN, 11));
+        manageBtn.setBounds(215, 14, 85, 30);
+        manageBtn.setFont(new Font("Segoe UI", Font.PLAIN, 12));
         manageBtn.setForeground(Color.WHITE);
-        manageBtn.setBackground(new Color(37, 65, 130));
+        manageBtn.setBackground(PRIMARY);
         manageBtn.setFocusPainted(false);
-        manageBtn.setBorder(BorderFactory.createLineBorder(LIGHT_BLUE, 1)); // no rounding
+        manageBtn.setBorder(BorderFactory.createLineBorder(Color.WHITE, 1));
         manageBtn.setCursor(new Cursor(Cursor.HAND_CURSOR));
         header.add(manageBtn);
         manageBtn.addActionListener(e -> { AccountFiles files = new AccountFiles(); new GUI1Frame(files).setVisible(true); setVisible(false); });
 
-        JLabel appLabel = new JLabel("STATE-BANK APP");
-        appLabel.setBounds(0, 48, 400, 16);
-        appLabel.setFont(new Font("Segoe UI", Font.PLAIN, 14));
-        appLabel.setForeground(LIGHT_BLUE);
-        appLabel.setHorizontalAlignment(SwingConstants.CENTER);
-        header.add(appLabel);
+        JButton homeBtn = new JButton("Log out");
+        homeBtn.setBounds(308, 14, 75, 30);
+        homeBtn.setFont(new Font("Segoe UI", Font.PLAIN, 12));
+        homeBtn.setForeground(Color.WHITE);
+        homeBtn.setBackground(PRIMARY);
+        homeBtn.setFocusPainted(false);
+        homeBtn.setBorder(BorderFactory.createLineBorder(Color.WHITE, 1));
+        homeBtn.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        header.add(homeBtn);
+        homeBtn.addActionListener(e -> { new bankmanagementapp.logInPage().setVisible(true); dispose(); });
 
-        JLabel appTitle = new JLabel("Bank Application");
-        appTitle.setBounds(0, 65, 400, 32);
-        appTitle.setFont(new Font("Segoe UI", Font.BOLD, 22));
-        appTitle.setForeground(Color.WHITE);
-        appTitle.setHorizontalAlignment(SwingConstants.CENTER);
-        header.add(appTitle);
-
-        // balance panel
         JPanel balPanel = new JPanel(null);
-        balPanel.setBounds(14, 120, 355, 65);
+        balPanel.setBounds(14, 72, 355, 90);
         balPanel.setBackground(Color.WHITE);
-        balPanel.setBorder(BorderFactory.createLineBorder(new Color(210, 220, 240), 1)); // no rounding
+        balPanel.setBorder(BorderFactory.createLineBorder(new Color(210, 220, 240), 1));
         add(balPanel);
 
         JLabel balLbl = new JLabel("Current Balance");
-        balLbl.setBounds(15, 10, 300, 16);
+        balLbl.setBounds(15, 12, 300, 16);
         balLbl.setFont(new Font("Segoe UI", Font.PLAIN, 11));
         balLbl.setForeground(TEXT_MUTED);
         balPanel.add(balLbl);
 
-        balanceAmountLBL = new JLabel("PHP 0.00");
-        balanceAmountLBL.setBounds(15, 28, 300, 28);
-        balanceAmountLBL.setFont(new Font("Segoe UI", Font.BOLD, 22));
+        balanceAmountLBL = new JLabel("\u20B1 0.00");
+        balanceAmountLBL.setBounds(15, 30, 310, 32);
+        balanceAmountLBL.setFont(new Font("Segoe UI", Font.BOLD, 26));
         balanceAmountLBL.setForeground(PRIMARY);
         balPanel.add(balanceAmountLBL);
 
+        JLabel welcomeLbl = new JLabel("Welcome, ");
+        welcomeLbl.setBounds(15, 64, 300, 16);
+        welcomeLbl.setFont(new Font("Segoe UI", Font.PLAIN, 11));
+        welcomeLbl.setForeground(TEXT_MUTED);
+        balPanel.add(welcomeLbl);
+
         JPanel actionsPanel = new JPanel(null);
-        actionsPanel.setBounds(14, 200, 355, 395);
+        actionsPanel.setBounds(14, 175, 355, 395);
         actionsPanel.setBackground(Color.WHITE);
         actionsPanel.setBorder(BorderFactory.createLineBorder(new Color(210, 220, 240), 1)); 
         add(actionsPanel);
 
-        JLabel sectionLbl = new JLabel("QUICK ACTIONS");
+        JLabel sectionLbl = new JLabel("Quick actions");
         sectionLbl.setBounds(13, 10, 300, 18);
         sectionLbl.setFont(new Font("Segoe UI", Font.BOLD, 11));
         sectionLbl.setForeground(TEXT_MUTED);
@@ -124,10 +120,9 @@ public class BankAppGUI extends JFrame {
         actionsPanel.add(suppBTN);
 
         hisBTN = makeButton("Transaction History");
-        hisBTN.setBounds(14, 608, 355, 48);
+        hisBTN.setBounds(14, 583, 355, 48);
         add(hisBTN);
 
-        // action listeners
         depBTN  .addActionListener(e -> { new DepositGUI(manager, this);     setVisible(false); });
         witBTN  .addActionListener(e -> { new WithdrawalGUI(manager, this);  setVisible(false); });
         tranBTN .addActionListener(e -> { new TransferGUI(manager, this);    setVisible(false); });
@@ -142,9 +137,9 @@ public class BankAppGUI extends JFrame {
 
     private JButton makeButton(String text) {
         JButton btn = new JButton(text);
-        btn.setFont(new Font("Segoe UI", Font.PLAIN, 18));
-        btn.setBackground(new Color(139, 172, 224));
-        btn.setForeground(new Color(25, 48, 90));
+        btn.setFont(new Font("Segoe UI", Font.BOLD, 14));
+        btn.setBackground(LIGHT_BLUE);
+        btn.setForeground(PRIMARY);
         btn.setFocusPainted(false);
         btn.setCursor(new Cursor(Cursor.HAND_CURSOR));
         btn.setHorizontalAlignment(SwingConstants.CENTER);
@@ -154,7 +149,7 @@ public class BankAppGUI extends JFrame {
 
     public void updateBalance(String type) {
         double bal = manager.getBalance();
-        balanceAmountLBL.setText(String.format("PHP %.2f", bal));
+        balanceAmountLBL.setText(String.format("\u20B1 %.2f", bal));
         balanceAmountLBL.setForeground(
             type.equals("Deposit") ? new Color(30, 160, 90) : PRIMARY
         );
@@ -162,7 +157,4 @@ public class BankAppGUI extends JFrame {
         balanceAmountLBL.repaint();
     }
 
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(BankAppGUI::new);
-    }
 }

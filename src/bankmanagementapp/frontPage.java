@@ -5,6 +5,7 @@ import javax.swing.*;
 
 
 
+public class frontPage extends JFrame {
     
     JPanel  navbar, mainPanel ;
     JPanel  sep ;
@@ -17,28 +18,28 @@ import javax.swing.*;
       public frontPage(){
           
           
-          setSize(430, 720);
+               setSize(430, 720);
           setLocationRelativeTo(null);
-          setTitle("STATE BANK APPLICATION");
+                setTitle("Bank Account Management");
           setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-          setLayout(null);
+                setLayout(null);
           setResizable(false);
           
           
           mainPanel = new JPanel();
-          mainPanel.setLayout(null);
+                    mainPanel.setLayout(null);
           mainPanel.setBackground(BG);
-          setContentPane(mainPanel);// ito main Panel ung baby blue na bg
+          setContentPane(mainPanel);
 
     
           
-         navbar = new JPanel(null);
+              navbar = new JPanel(null);
          navbar.setBounds(0, 0, 430, 90);
-         navbar.setBackground(PRIMARY); // primary blue -- navbar sa taas na may banklogo etc
+         navbar.setBackground(PRIMARY); 
          mainPanel.add(navbar);
          
          
-        logoLabel = new JLabel();        //logo ng bank app
+             logoLabel = new JLabel();        
         logoLabel.setBounds(16, 15, 65, 65);   
         ImageIcon logoIcon = loadImage("/images/bank_logo.png", 70, 70);
         if (logoIcon != null) {
@@ -51,6 +52,7 @@ import javax.swing.*;
         }
            navbar.add(logoLabel);
          
+           
           statement = new JLabel("WELCOME TO STATE-BANK APP ");
           statement.setForeground(LIGHT_BLUE);
           statement.setBounds(90, 18, 300, 16);
@@ -58,20 +60,27 @@ import javax.swing.*;
           navbar.add(statement);
 
         navTite = new JLabel("Good Day!");
-        navTite.setForeground(Color.WHITE);
+             navTite.setForeground(Color.WHITE);
         navTite.setFont(new java.awt.Font("Segoe UI", java.awt.Font.BOLD, 26));
         navTite.setBounds(90, 34, 300, 36);
         navbar.add(navTite);
 
-        heroCard = buildRoundedPanel(20);
+        SimpleCard heroCard = new SimpleCard();
         heroCard.setBounds(20, 112, 370, 500);
         heroCard.setLayout(null);
         mainPanel.add(heroCard);
-
-        JPanel logoCircle = new JPanel();
-        logoCircle.setBackground(LIGHT_BLUE);
-        logoCircle.setBounds(40, 40, 52, 52);
+        
+       IconCircle logoCircle = new IconCircle(PRIMARY);
+        logoCircle.setBounds(40, 38, 52, 52);
         heroCard.add(logoCircle);
+        
+                 JLabel icon = new JLabel("🏦");
+        icon.setHorizontalAlignment(SwingConstants.CENTER);
+        icon.setForeground(Color.WHITE);
+        icon.setFont(new Font("Segoe UI Emoji", Font.PLAIN, 30));
+        logoCircle.setLayout(new BorderLayout());
+        logoCircle.add(icon);
+        
             
         
         appTit = new JLabel("STATE BANK APP");
@@ -87,7 +96,7 @@ import javax.swing.*;
         heroCard.add(tagLine);
 
         
-sep = new JPanel();// ung nag didivide sa white na panel(eme emehan lang)
+sep = new JPanel();
 sep.setBackground(BG);
 sep.setBounds(0, 120, 400, 30);
 heroCard.add(sep);
@@ -100,14 +109,22 @@ heroCard.add(sep);
 
          
 
+          
+          
+          ImageIcon loginIcon = loadImage("/images/login_icon.png", 40, 40);
 
 
-
-          btnOption1 = new frontPage.RoundedButton("LOG IN AN ACCOUNT");
+          btnOption1 = new JButton("LOG IN AN ACCOUNT");
+           btnOption1.setIcon(loginIcon);
+          btnOption1.setHorizontalAlignment(SwingConstants.LEFT);
           btnOption1.setBounds(30, 230, 310, 50);
            btnOption1.setBackground(LIGHT_BLUE);
            btnOption1.setForeground(Color.BLACK);
           btnOption1.setFont(new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 14));
+            btnOption1.setFocusPainted(false);
+
+        btnOption1.setCursor(new Cursor(Cursor.HAND_CURSOR)); 
+
           heroCard.add(btnOption1);
           btnOption1.addActionListener( e -> {
           new logInPage();    
@@ -115,11 +132,17 @@ heroCard.add(sep);
           
           });
           
-            btnOption2 = new frontPage.RoundedButton("FORGOT USER-ID OR PASSWORD");
-          btnOption2.setBounds(30, 300, 310, 50);
+           ImageIcon forgotIcon = loadImage("/images/forgot_icon.png", 40, 40);
+            btnOption2 = new JButton("FORGOT USER-ID OR PASSWORD");
+             btnOption2.setIcon(forgotIcon);
+            btnOption2.setHorizontalAlignment(SwingConstants.LEFT);
+            btnOption2.setBounds(30, 300, 310, 50);
             btnOption2.setBackground(LIGHT_BLUE);
             btnOption2.setForeground(Color.BLACK);
            btnOption2.setFont(new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 14));
+            btnOption2.setFocusPainted(false);
+
+        btnOption2.setCursor(new Cursor(Cursor.HAND_CURSOR)); 
           heroCard.add(btnOption2);
           btnOption2.addActionListener( e -> {
           new forgotCredentialPage();
@@ -127,7 +150,11 @@ heroCard.add(sep);
           
           });
           
-          btnOption3 = new frontPage.RoundedButton("CREATE AN ACCOUNT");
+          
+           ImageIcon createIcon = loadImage("/images/create_icon.png", 40, 40);
+          btnOption3 = new JButton("CREATE AN ACCOUNT");
+           btnOption3.setIcon(createIcon);
+           btnOption3.setHorizontalAlignment(SwingConstants.LEFT);
           btnOption3.setBounds(30, 370, 310, 50);
             btnOption3.setBackground(LIGHT_BLUE);
         btnOption3.setForeground(Color.BLACK);
@@ -153,36 +180,34 @@ heroCard.add(sep);
       
           
     public static final Color PRIMARY      = new Color(25, 48, 90);   // # dark blue
-    public static final Color LIGHT_BLUE   = new Color(139, 172, 224); // #8bace0
+     public static final Color LIGHT_BLUE   = new Color(139, 172, 224); // lightest blue shade
     public  static final Color BG           = new Color(200, 210, 230); // baby blue
     public static final Color CARD_BG      = Color.WHITE; // white sa hero card
-    public static final Color TEXT_DARK    = new Color(25, 48, 90); // app name
-    public static final Color TEXT_MUTED   = new Color(100, 110, 130);// sa tagline & stmnt1
+     public static final Color TEXT_DARK    = new Color(25, 48, 90); // app name
+     public static final Color TEXT_MUTED   = new Color(100, 110, 130);// sa tagline & stmnt1
     public static final Color ICON_BG      = new Color(232, 238, 248); // soft blue tint
      
      
-static class RoundedButton extends JButton {
 
-    public RoundedButton(String text) {
-        super(text);
-        setFocusPainted(false);
-        setContentAreaFilled(false);
-        setForeground(Color.BLACK);
-        setBorderPainted(false);
-        setBorder(null);
-    }
+    public class SimpleCard extends JPanel {
 
-    @Override
-    protected void paintComponent(Graphics g) {
-        Graphics2D g2 = (Graphics2D) g;
+    public SimpleCard() {
+        setBackground(Color.WHITE);
+        setLayout(null);
 
-        g2.setColor(getBackground());
-        g2.fillRoundRect(0, 0, getWidth(), getHeight(), 30, 30);
-
-        super.paintComponent(g);
+        
+        setBorder(BorderFactory.createLineBorder(new Color(210, 218, 235), 1));
     }
 }
-    
+
+
+    class IconCircle extends JPanel {
+
+    public IconCircle(Color bg) {
+        setBackground(bg);
+        setOpaque(true);
+    }
+}
 
 
     
@@ -209,9 +234,3 @@ static class RoundedButton extends JButton {
        
        
 }
-
-       
-       
-      
-
-   

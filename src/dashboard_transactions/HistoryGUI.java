@@ -7,45 +7,56 @@ import java.util.*;
 
 public class HistoryGUI extends JFrame {
 
-    private TransactionManager manager;
-
     public HistoryGUI(TransactionManager manager, BankAppGUI mainWindow) {
-        this.manager = manager;
+
+        final Color PRIMARY    = new Color(25, 48, 90);
+        final Color LIGHT_BLUE = new Color(139, 172, 224);
+        final Color BG         = new Color(200, 210, 230);
+        final Color TEXT_MUTED = new Color(100, 110, 130);
 
         setTitle("Transaction History");
         setSize(430, 720);
         setLayout(null);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        getContentPane().setBackground(new Color(245, 245, 250));
+        getContentPane().setBackground(BG);
 
-        JPanel header = new JPanel(null);
-        header.setBounds(0, 0, 420, 60);
-        header.setBackground(new Color(30, 50, 100));
-        add(header);
+        JPanel navPanel = new JPanel(null);
+        navPanel.setBounds(0, 0, 430, 90);
+        navPanel.setBackground(PRIMARY);
+        add(navPanel);
 
-        JButton backBTN = new JButton("← Back");
-        backBTN.setBounds(8, 12, 80, 30);
-        backBTN.setBackground(new Color(50, 80, 160));
-        backBTN.setForeground(Color.WHITE);
-        backBTN.setFocusPainted(false);
-        backBTN.setFont(new Font("Arial", Font.BOLD, 11));
-        backBTN.setBorderPainted(false);
-        backBTN.setOpaque(true);
-        backBTN.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        header.add(backBTN);
+        JLabel bankName = new JLabel("STATE BANK · HISTORY");
+        bankName.setBounds(0, 18, 430, 16);
+        bankName.setFont(new Font("Segoe UI", Font.PLAIN, 15));
+        bankName.setForeground(LIGHT_BLUE);
+        bankName.setHorizontalAlignment(SwingConstants.CENTER);
+        navPanel.add(bankName);
 
-        JLabel title = new JLabel("Transaction History");
-        title.setForeground(Color.WHITE);
-        title.setFont(new Font("Arial", Font.BOLD, 16));
-        title.setBounds(100, 15, 250, 30);
-        header.add(title);
+        JLabel navTitle = new JLabel("Transactions");
+        navTitle.setBounds(0, 36, 430, 36);
+        navTitle.setFont(new Font("Segoe UI", Font.BOLD, 26));
+        navTitle.setForeground(Color.WHITE);
+        navTitle.setHorizontalAlignment(SwingConstants.CENTER);
+        navPanel.add(navTitle);
 
-        JLabel balLbl = new JLabel("Current Balance: PHP " + String.format("%.2f", manager.getBalance()));
-        balLbl.setBounds(20, 70, 380, 25);
-        balLbl.setFont(new Font("Arial", Font.BOLD, 13));
-        balLbl.setForeground(new Color(30, 50, 100));
-        add(balLbl);
+        JPanel balCard = new JPanel(null);
+        balCard.setBounds(20, 108, 380, 80);
+        balCard.setBackground(PRIMARY);
+        balCard.setBorder(BorderFactory.createLineBorder(LIGHT_BLUE, 1));
+        add(balCard);
+
+        JLabel balLbl = new JLabel("CURRENT BALANCE");
+        balLbl.setBounds(15, 12, 350, 16);
+        balLbl.setFont(new Font("Segoe UI", Font.PLAIN, 10));
+        balLbl.setForeground(LIGHT_BLUE);
+        balCard.add(balLbl);
+
+        JLabel balAmount = new JLabel(String.format("PHP %,.2f", manager.getBalance()));
+        balAmount.setBounds(15, 30, 350, 36);
+        balAmount.setFont(new Font("Segoe UI", Font.BOLD, 26));
+        balAmount.setForeground(Color.WHITE);
+        balCard.add(balAmount);
 
         String[] columns = {"ID", "Type", "Amount", "Date", "Status"};
         DefaultTableModel tableModel = new DefaultTableModel(columns, 0) {
@@ -53,10 +64,14 @@ public class HistoryGUI extends JFrame {
         };
 
         ArrayList<Transaction> list = manager.getTransactionList();
-        for (Transaction t : list) {
-            String amtStr = t.getTransactionType().equals("Deposit")
-                    ? "+PHP " + String.format("%.2f", t.getAmount())
-                    : "-PHP " + String.format("%.2f", t.getAmount());
+        for (int i = 0; i < list.size(); i++) {
+            Transaction t = list.get(i);
+            String amtStr;
+            if (t.getTransactionType().equals("Deposit")) {
+                amtStr = "+PHP " + String.format("%.2f", t.getAmount());
+            } else {
+                amtStr = "-PHP " + String.format("%.2f", t.getAmount());
+            }
             tableModel.addRow(new Object[]{
                 t.getTransactionID(),
                 t.getTransactionType(),
@@ -71,33 +86,35 @@ public class HistoryGUI extends JFrame {
         }
 
         JTable table = new JTable(tableModel);
-        table.setFont(new Font("Arial", Font.PLAIN, 12));
+        table.setFont(new Font("Segoe UI", Font.PLAIN, 12));
         table.setRowHeight(28);
-        table.getTableHeader().setFont(new Font("Arial", Font.BOLD, 12));
-        table.getTableHeader().setBackground(new Color(30, 50, 100));
+        table.setBackground(Color.WHITE);
+        table.setForeground(PRIMARY);
+        table.setGridColor(LIGHT_BLUE);
+        table.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 12));
+        table.getTableHeader().setBackground(PRIMARY);
         table.getTableHeader().setForeground(Color.WHITE);
-        table.setSelectionBackground(new Color(180, 200, 255));
-
-        table.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {
-            public Component getTableCellRendererComponent(JTable tbl, Object value,
-                    boolean isSelected, boolean hasFocus, int row, int col) {
-                Component c = super.getTableCellRendererComponent(tbl, value, isSelected, hasFocus, row, col);
-                if (!isSelected) {
-                    String type = (String) tbl.getValueAt(row, 1);
-                    if (type.equals("Deposit"))         c.setBackground(new Color(230, 255, 230));
-                    else if (type.equals("Withdrawal")) c.setBackground(new Color(255, 230, 230));
-                    else                                c.setBackground(new Color(245, 245, 255));
-                }
-                return c;
-            }
-        });
+        table.setSelectionBackground(LIGHT_BLUE);
+        table.setSelectionForeground(Color.WHITE);
 
         JScrollPane scrollPane = new JScrollPane(table);
-        scrollPane.setBounds(20, 105, 370, 420);
-        scrollPane.setBorder(BorderFactory.createLineBorder(new Color(200, 200, 220)));
+        scrollPane.setBounds(20, 205, 380, 390);
+        scrollPane.setBorder(BorderFactory.createLineBorder(LIGHT_BLUE, 1));
+        scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         add(scrollPane);
 
-        backBTN.addActionListener(e -> { mainWindow.setVisible(true); dispose(); });
+        JButton backDashBTN = new JButton("Back to dashboard");
+        backDashBTN.setBounds(20, 610, 380, 50);
+        backDashBTN.setFont(new Font("Segoe UI", Font.BOLD, 15));
+        backDashBTN.setBackground(Color.WHITE);
+        backDashBTN.setForeground(PRIMARY);
+        backDashBTN.setFocusPainted(false);
+        backDashBTN.setBorder(BorderFactory.createLineBorder(LIGHT_BLUE, 1));
+        backDashBTN.setOpaque(true);
+        backDashBTN.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        add(backDashBTN);
+
+        backDashBTN.addActionListener(e -> { mainWindow.setVisible(true); dispose(); });
 
         setVisible(true);
     }

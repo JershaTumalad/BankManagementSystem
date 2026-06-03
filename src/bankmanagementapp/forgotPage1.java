@@ -1,4 +1,3 @@
-
 package bankmanagementapp;
 
 import java.awt.*;
@@ -47,7 +46,7 @@ public class forgotPage1 extends JFrame {
         lblTitle.setBounds(35, 45, 320, 40);
         navbar.add(lblTitle);
 
-        RoundedPanel card = new RoundedPanel(35);
+        JPanel card = new JPanel();
         card.setLayout(null);
         card.setBackground(Color.WHITE);
         card.setBounds(35, 170, 340, 270);
@@ -72,7 +71,7 @@ public class forgotPage1 extends JFrame {
         tfUserid.setBackground(new Color(245, 246, 252));
         card.add(tfUserid);
 
-        btnSubmit = new frontPage.RoundedButton("Submit");
+        btnSubmit = new JButton("Submit");
         btnSubmit.setBounds(30, 180, 280, 42);
         btnSubmit.setBackground(new Color(138, 173, 255));
         btnSubmit.setForeground(Color.WHITE);
@@ -81,8 +80,18 @@ public class forgotPage1 extends JFrame {
 
         btnSubmit.addActionListener(e -> {
 
-            String inputUserId = tfUserid.getText();
+            String inputUserId = tfUserid.getText().trim();
             boolean found = false;
+
+            if (inputUserId.isEmpty()) {
+
+                JOptionPane.showMessageDialog(this,
+                        "Please enter your User ID.",
+                        "Input Required",
+                        JOptionPane.WARNING_MESSAGE);
+                return;
+
+            }
 
             for (accCreationPage user : acc) {
 
@@ -98,19 +107,24 @@ public class forgotPage1 extends JFrame {
                 JOptionPane.showMessageDialog(this,
                         "USER ID Found!");
 
-                new logInPage();
+                new forgotPage2(inputUserId).setVisible(true);
                 dispose();
 
             } else {
 
                 JOptionPane.showMessageDialog(this,
-                        "USER ID not registered!");
+                        "USER ID not registered!",
+                        "User ID Not Found",
+                        JOptionPane.ERROR_MESSAGE);
+
+                tfUserid.setText("");
+                tfUserid.requestFocus();
 
             }
 
         });
 
-        btnBack = new frontPage.RoundedButton("Back to homepage");
+        btnBack = new JButton("Back to homepage");
         btnBack.setBounds(35, 520, 340, 42);
         btnBack.setBackground(new Color(220, 226, 241));
         btnBack.setForeground(new Color(70, 70, 70));
@@ -125,44 +139,5 @@ public class forgotPage1 extends JFrame {
         });
 
         setVisible(true);
-    }
-
-    class RoundedPanel extends JPanel {
-
-        private int radius;
-
-        RoundedPanel(int radius) {
-
-            this.radius = radius;
-            setOpaque(false);
-
-        }
-
-        @Override
-        protected void paintComponent(Graphics g) {
-
-            Graphics2D g2 = (Graphics2D) g.create();
-
-            g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
-                    RenderingHints.VALUE_ANTIALIAS_ON);
-
-            g2.setColor(getBackground());
-
-            g2.fillRoundRect(0, 0, getWidth(), getHeight(),
-                    radius, radius);
-
-            g2.dispose();
-
-            super.paintComponent(g);
-        }
-    }
-
-    public class theme {
-
-        public static final Color Primary = new Color(25, 42, 86);
-        public static final Color Light_blue = new Color(0x8bace0);
-        public static final Color bg = new Color(230, 235, 245);
-        public static final Color text_d = new Color(40, 40, 40);
-
     }
 }
