@@ -283,16 +283,16 @@ public class frontPage extends JFrame {
         navTite.setBounds(90, 34, 300, 36);
         navbar.add(navTite);
 
-        RoundedCard heroCard = new RoundedCard(20); // ung white panel where lahat andyan(separate method)
+        JPanel heroCard = new JPanel(); // ung white panel where lahat andyan(separate method)
         heroCard.setBounds(20, 112, 370, 500);
         heroCard.setLayout(null);
         mainPanel.add(heroCard);
         
               
-        IconCircle logoCircle = new IconCircle(PRIMARY, LIGHT_BLUE);//bahay na may bilog(naka separate method)
-        logoCircle.setBounds(40, 40, 52, 52);
-        heroCard.add(logoCircle);
-            
+//        IconCircle logoCircle = new IconCircle(PRIMARY, LIGHT_BLUE);//bahay na may bilog(naka separate method)
+//        logoCircle.setBounds(40, 40, 52, 52);
+//        heroCard.add(logoCircle);
+//            
         
         appTit = new JLabel("STATE BANK APP");
         appTit.setBounds(105, 40, 280, 28);
