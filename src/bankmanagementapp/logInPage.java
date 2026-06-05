@@ -2,6 +2,7 @@
 
 package bankmanagementapp;
 
+import static bankmanagementapp.frontPage.LIGHT_BLUE;
 import java.awt.*;
 import javax.swing.*;
 import dashboard_transactions.BankAppGUI;
@@ -25,7 +26,7 @@ public class logInPage extends JFrame {
 
         JPanel bg = new JPanel();
         bg.setLayout(null);
-        bg.setBackground(new Color(220, 226, 241));
+        bg.setBackground(frontPage.LIGHT_BLUE);
         setContentPane(bg);
 
         JPanel navbar = new JPanel();
@@ -33,7 +34,8 @@ public class logInPage extends JFrame {
         navbar.setBounds(0, 0, 430, 120);
         navbar.setBackground(new Color(20, 45, 95));
         bg.add(navbar);
-
+        
+        
         lblWelcome = new JLabel("WELCOME BACK");
         lblWelcome.setForeground(new Color(190, 200, 230));
         lblWelcome.setFont(new Font("Segoe UI", Font.BOLD, 12));
@@ -88,9 +90,7 @@ public class logInPage extends JFrame {
         forgotBtn.setBounds(65, 210, 220, 20);
         forgotBtn.setFont(new Font("Segoe UI", Font.PLAIN, 11));
         forgotBtn.setForeground(new Color(90, 110, 180));
-        forgotBtn.setBorder(null);
-        forgotBtn.setContentAreaFilled(false);
-        forgotBtn.setFocusPainted(false);
+
         cardPanel.add(forgotBtn);
 
         forgotBtn.addActionListener(e -> {
@@ -98,10 +98,11 @@ public class logInPage extends JFrame {
             dispose();
         });
 
-        btnLogin = new frontPage.RoundedButton("Log In");
+        btnLogin = new frontPage.RoundedButton("LOGIN");
         btnLogin.setBounds(30, 245, 280, 42);
-        btnLogin.setBackground(new Color(138, 173, 255));
-        btnLogin.setForeground(Color.WHITE);
+
+    btnLogin.setBackground(LIGHT_BLUE);
+           btnLogin.setForeground(Color.white);
         btnLogin.setFont(new Font("Segoe UI", Font.BOLD, 15));
         cardPanel.add(btnLogin);
 
@@ -135,7 +136,7 @@ public class logInPage extends JFrame {
             }
         });
 
-        btnBack = new frontPage.RoundedButton("Back to homepage");
+        btnBack = new frontPage.RoundedButton("Back to Homepage");
         btnBack.setBounds(35, 510, 340, 42);
         btnBack.setBackground(new Color(220, 226, 241));
         btnBack.setForeground(new Color(70, 70, 70));
