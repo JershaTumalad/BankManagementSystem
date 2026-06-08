@@ -11,7 +11,7 @@ public class accDatabase {
     public static ArrayList<accCreationPage> acc = new ArrayList<>();
 
     // Database connection settings
-    private static final String URL = "jdbc:mysql://localhost:3306/bankmanagement";
+    private static final String URL = "jdbc:mysql://localhost:3306/bank_management";
     private static final String USER = "root";
     private static final String PASSWORD = "";
 
