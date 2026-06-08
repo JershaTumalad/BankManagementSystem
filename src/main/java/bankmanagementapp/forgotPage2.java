@@ -1,6 +1,7 @@
 
 package bankmanagementapp;
 
+import dashboard_transactions.BankAppGUI;
 import java.awt.*;
 import javax.swing.*;
 import java.util.ArrayList;
@@ -15,7 +16,7 @@ public class forgotPage2 extends JFrame {
 
     public forgotPage2() {
 
-        this.acc = accDatabase.acc;
+      
 
         setTitle("Forgot Account Login");
         setSize(430, 720);
@@ -79,35 +80,28 @@ public class forgotPage2 extends JFrame {
         btnSubmit.setFont(new Font("Segoe UI", Font.BOLD, 15));
         card.add(btnSubmit);
 
-        btnSubmit.addActionListener(e -> {
-
-            String inputEmail = tfEmail.getText();
-            boolean found = false;
-
-            for (accCreationPage user : acc) {
-
-                if (user.getEmail().equals(inputEmail)) {
-
-                    found = true;
-                    break;
-                }
-            }
-
-            if (found) {
-
-                JOptionPane.showMessageDialog(this,
-                        "Email Found!");
-
-                new logInPage();
-                dispose();
-
-            } else {
-
-                JOptionPane.showMessageDialog(this,
-                        "Email not registered!");
-
-            }
-        });
+       btnSubmit.addActionListener(e -> {
+    String inputEmail = tfEmail.getText().trim();
+    try {
+        java.sql.Connection con = DBConnection.getConnection();
+        String query = "SELECT * FROM users WHERE email = ?";
+        java.sql.PreparedStatement ps = con.prepareStatement(query);
+        ps.setString(1, inputEmail);
+        java.sql.ResultSet rs = ps.executeQuery();
+        if (rs.next()) {
+            JOptionPane.showMessageDialog(this, "Email Found!");
+            new BankAppGUI();
+            dispose();
+        } else {
+            JOptionPane.showMessageDialog(this, "Email not registered!");
+        }
+        con.close();
+    } catch (java.sql.SQLException ex) {
+        JOptionPane.showMessageDialog(this, "Database error: " + ex.getMessage());
+    } catch (Exception ex) {
+        JOptionPane.showMessageDialog(this, "Unexpected error: " + ex.getMessage());
+    }
+});
 
         btnBack = new frontPage.RoundedButton("Back to homepage");
         btnBack.setBounds(35, 520, 340, 42);

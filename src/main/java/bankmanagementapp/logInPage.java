@@ -105,36 +105,7 @@ public class logInPage extends JFrame {
            btnLogin.setForeground(Color.white);
         btnLogin.setFont(new Font("Segoe UI", Font.BOLD, 15));
         cardPanel.add(btnLogin);
-//
-//        btnLogin.addActionListener(e -> {
-//
-//            boolean found = false;
-//
-//            String id = tfUsername.getText();
-//            String password = String.valueOf(tfPassword.getPassword());
-//
-//            for (accCreationPage user : accDatabase.acc) {
-//
-//                if (user.getUserId().equals(id)
-//                        && user.getPassword().equals(password)) {
-//
-//                    found = true;
-//                    break;
-//                }
-//            }
-//
-//            if (found) {
-//
-//                new BankAppGUI();
-//                dispose();
-//
-//            } else {
-//
-//                JOptionPane.showMessageDialog(this,
-//                        "Incorrect User ID or Password");
-//
-//            }
-//        });
+
 
 
 btnLogin.addActionListener(e -> {

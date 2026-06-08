@@ -90,7 +90,7 @@ public class frontPage extends JFrame {
         tagLine.setForeground(TEXT_MUTED);
         heroCard.add(tagLine);
         
-        ImageIcon bankIcon = loadImage("bank.png", 130, 130);
+        ImageIcon bankIcon = loadImage("/images/bank.png", 130, 130);
         JLabel addImage4 = new JLabel(bankIcon);
         addImage4.setBounds(30, 25, 70, 70);
         heroCard.add(addImage4);
