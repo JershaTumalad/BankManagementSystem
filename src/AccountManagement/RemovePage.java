@@ -1,4 +1,4 @@
-package project;
+package AccountManagement;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -6,103 +6,136 @@ import javax.swing.*;
 
 public class RemovePage extends JFrame implements ActionListener {
 
-    private AccountFiles files;
-    private JTextField txtDel;
-    private JButton btnDel, btnBack;
+    AccountFiles files;
+    private JLabel lblDes, lblInfo, lblStateBank;
+    private JPanel headerPanel, mainPanel, warningPanel;
+    private JTextField accNo;
+    private JButton btnRemove, btnBack;
+    
+    //Customized Colors
+    Color mainColor = new Color(25, 48, 90);
+    Color buttonColor = new Color (244, 246, 252);
+    Color mainButtonColor = new Color(139, 172, 224);
+    Color txtFieldColor = new Color(245, 245, 245);
+    Color warnColor = new Color(255, 214, 214);
+    Color redWarn= new Color(200, 70, 70);
 
     public RemovePage(AccountFiles files) {
         this.files = files;
-        setTitle("Remove Account");
+
+        setTitle("Bank Account Management");
         setSize(430, 720);
         setLayout(null);
+        getContentPane().setBackground(new Color(180, 190, 210)); 
         setLocationRelativeTo(null);
-        setResizable(false);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        getContentPane().setBackground(new Color(200, 210, 230));
+        setResizable(false);
+        
+        headerPanel = new JPanel();
+        headerPanel.setBackground(mainColor); 
+        headerPanel.setBounds(0, 0, 430, 120); 
+        headerPanel.setLayout(null);
+        add(headerPanel);
+        
+        lblStateBank = new JLabel("STATE-BANK");
+        lblStateBank.setFont(new Font("Tahoma", Font.PLAIN, 13));
+        lblStateBank.setForeground(new Color(170, 190, 220)); 
+        lblStateBank.setBounds(30, 20, 350, 25);
+        headerPanel.add(lblStateBank);
+        
+        JLabel title = new JLabel("Remove Account");
+        title.setForeground(Color.WHITE); 
+        title.setFont(new Font("Tahoma", Font.BOLD, 26)); 
+        title.setBounds(30, 45, 350, 45);
+        headerPanel.add(title);
 
-        JPanel pnlHeader = new JPanel();
-        pnlHeader.setBackground(new Color(25, 42, 86));
-        pnlHeader.setBounds(0, 0, 430, 100);
-        pnlHeader.setLayout(null);
-        add(pnlHeader);
+        warningPanel = new JPanel();
+        warningPanel.setBounds(25, 140, 364, 75); 
+        warningPanel.setBackground(warnColor); 
+        warningPanel.setLayout(null);
+        add(warningPanel);
+        
+        lblDes = new JLabel("This action is permanent and");
+        lblDes.setBounds(20, 15, 300, 20);
+        lblDes.setFont(new Font("Tahoma", Font.BOLD, 13));
+        lblDes.setForeground(redWarn); 
+        warningPanel.add(lblDes);
+        
+        lblDes = new JLabel("cannot be undone.");
+        lblDes.setBounds(20, 38, 300, 20);
+        lblDes.setFont(new Font("Tahoma", Font.BOLD, 13));
+        lblDes.setForeground(redWarn);
+        warningPanel.add(lblDes);
 
-        JLabel lblTitle = new JLabel("REMOVE ACCOUNT");
-        lblTitle.setForeground(Color.WHITE);
-        lblTitle.setFont(new Font("Segoe UI", Font.BOLD, 18));
-        lblTitle.setBounds(30, 35, 300, 30);
-        pnlHeader.add(lblTitle);
+        mainPanel = new JPanel();
+        mainPanel.setBounds(25, 235, 364, 120);
+        mainPanel.setBackground(Color.WHITE);
+        mainPanel.setLayout(null);
+        add(mainPanel);
 
-        JPanel pnlCard = new JPanel();
-        pnlCard.setBounds(27, 140, 360, 280); 
-        pnlCard.setBackground(Color.WHITE);
-        pnlCard.setLayout(null);
-        add(pnlCard);
+        lblDes = new JLabel("ACCOUNT TO REMOVE");
+        lblDes.setBounds(20, 10, 300, 20);
+        lblDes.setFont(new Font("Tahoma", Font.BOLD, 13));
+        lblDes.setForeground(new Color(70, 80, 95));
+        mainPanel.add(lblDes);
+        
+        lblInfo = new JLabel("ACCOUNT NUMBER");
+        lblInfo.setBounds(20, 45, 150, 20);
+        lblInfo.setFont(new Font("Tahoma", Font.BOLD, 12));
+        lblInfo.setForeground(Color.GRAY);
+        mainPanel.add(lblInfo);
 
-        JLabel lblHint = new JLabel("Enter Account No. to Delete:");
-        lblHint.setFont(new Font("Segoe UI", Font.PLAIN, 14));
-        lblHint.setBounds(30, 30, 300, 20);
-        pnlCard.add(lblHint);
+        accNo = new JTextField();
+        accNo.setBackground(txtFieldColor); 
+        accNo.setBounds(20, 75, 324, 30); 
+        mainPanel.add(accNo);
 
-        txtDel = new JTextField();
-        txtDel.setFont(new Font("Segoe UI", Font.PLAIN, 16));
-        txtDel.setBounds(30, 60, 300, 45);
-        txtDel.setBorder(null);
-        txtDel.setBackground(new Color(245, 245, 245));
-        pnlCard.add(txtDel);
+        btnRemove = new JButton("Delete Permanently");
+        btnRemove.setBorderPainted(false);
+        btnRemove.setBackground(redWarn); 
+        btnRemove.setForeground(Color.WHITE);
+        btnRemove.setFont(new Font("Tahoma", Font.BOLD, 14));
+        btnRemove.setFocusPainted(false);
+        btnRemove.setBounds(25, 380, 364, 50); 
+        add(btnRemove);
+        
+        btnBack = new JButton("Back");
+        btnBack.setBorderPainted(false);
+        btnBack.setBackground(mainButtonColor); 
+        btnBack.setForeground(mainColor);   
+        btnBack.setFont(new Font("Tahoma", Font.BOLD, 14));
+        btnBack.setFocusPainted(false);
+        btnBack.setBounds(25, 445, 364, 50); 
+        add(btnBack);
 
-        btnDel = createRoundedBtn("DELETE PERMANENTLY", new Color(200, 70, 70), 30, 130, 300);
-        btnBack = createRoundedBtn("BACK", new Color(0x8bace0), 30, 195, 300);
-
-        pnlCard.add(btnDel);
-        pnlCard.add(btnBack);
-
-        btnDel.addActionListener(this);
+        btnRemove.addActionListener(this);
         btnBack.addActionListener(this);
     }
-
-    private JButton createRoundedBtn(String text, Color bg, int x, int y, int w) {
-        JButton btn = new JButton(text) {
-            @Override
-            protected void paintComponent(Graphics g) {
-                Graphics2D g2 = (Graphics2D) g.create();
-                g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-                g2.setColor(getBackground());
-                g2.fillRoundRect(0, 0, getWidth(), getHeight(), 30, 30);
-                g2.dispose();
-                super.paintComponent(g);
-            }
-        };
-        btn.setBounds(x, y, w, 50);
-        btn.setBackground(bg);
-        btn.setForeground(Color.BLACK);
-        btn.setFont(new Font("Segoe UI", Font.PLAIN, 13));
-        btn.setContentAreaFilled(false);
-        btn.setBorderPainted(false);
-        return btn;
-    }
-
-    public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == btnBack) {
+    
+    @Override
+    public void actionPerformed(ActionEvent e){
+        if(e.getSource() == btnBack){
             dispose();
-            new GUI1Frame(files).setVisible(true);
-        } else if (e.getSource() == btnDel) {
-            String id = txtDel.getText().trim();
-            if (id.isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Please enter ID!", "Error", JOptionPane.ERROR_MESSAGE);
+            new dashboardAccMng(files).setVisible(true);
+        }
+        else if(e.getSource() == btnRemove){
+            String input = accNo.getText().trim();
+
+            if(input.isEmpty()){
+                JOptionPane.showMessageDialog(this, "Please enter an account number!", "Error", JOptionPane.ERROR_MESSAGE);
                 return;
             }
-            if (!id.matches("^[0-9]+$")) {
-                JOptionPane.showMessageDialog(this, "Invalid input. Numbers only.", "Error", JOptionPane.ERROR_MESSAGE);
+            
+            if(!input.matches("\\d+")){
+                JOptionPane.showMessageDialog(this, "Invalid input! Account Number must contain numbers only.", "Error", JOptionPane.ERROR_MESSAGE);
                 return;
             }
-            int confirm = JOptionPane.showConfirmDialog(this, "Confirm Deletion?", "Warning", JOptionPane.YES_NO_OPTION);
-            if (confirm == JOptionPane.YES_OPTION) {
-                if (files.removeAccount(id)) {
-                    JOptionPane.showMessageDialog(this, "Account Deleted!");
-                    txtDel.setText("");
-                } else {
-                    JOptionPane.showMessageDialog(this, "Account Not Found!");
-                }
+
+            if(files.removeAccount(input)){
+                JOptionPane.showMessageDialog(this, "Account Deleted.");
+                accNo.setText("");
+            } else {
+                JOptionPane.showMessageDialog(this, "Account Not Found.");
             }
         }
     }
