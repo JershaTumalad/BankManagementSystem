@@ -19,6 +19,7 @@ public class AddPage extends JFrame implements ActionListener{
     Color buttonColor = new Color (244, 246, 252);
     Color mainButtonColor = new Color(139, 172, 224);
     Color txtFieldColor = new Color(245, 245, 245);
+    Color backgroundColor = new Color(200, 210, 230);
 
     private String generateAccountNo(){
         
@@ -34,7 +35,7 @@ public class AddPage extends JFrame implements ActionListener{
         setTitle("Bank Account Management");
         setSize(430, 720);
         setLayout(null);
-        getContentPane().setBackground(new Color(180, 190, 210)); 
+        getContentPane().setBackground(backgroundColor); 
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setResizable(false);
@@ -123,7 +124,7 @@ public class AddPage extends JFrame implements ActionListener{
         lblAccType.setForeground(Color.GRAY);
         accountPanel.add(lblAccType);
 
-        cmbType = new JComboBox<>(new String[]{"Savings", "Current"});
+        cmbType = new JComboBox<>(new String[]{"Savings", "Checking"});
         cmbType.setBounds(20, 75, 330, 30);
         accountPanel.add(cmbType);
 

@@ -11,10 +11,12 @@ public class ViewAccountsPage extends BaseFrame implements ActionListener {
     
     private JButton btnBack;
     private JLabel lblStateBank;
+    private int userId;
 
-    public ViewAccountsPage(AccountFiles files) {
+    public ViewAccountsPage(AccountFiles files, int userId) {
         super("Bank Account Management");
         this.files = files;
+        this.userId = userId;
         initComponents();
     }
 
@@ -26,13 +28,13 @@ public class ViewAccountsPage extends BaseFrame implements ActionListener {
         pnlHeader.setLayout(null);
         add(pnlHeader);
 
-        lblStateBank = new JLabel("STATE-BANK");
+        lblStateBank = new JLabel("STATE Bank");
         lblStateBank.setFont(new Font("Tahoma", Font.PLAIN, 13));
         lblStateBank.setForeground(new Color(170, 190, 220)); 
         lblStateBank.setBounds(30, 20, 350, 25);
         pnlHeader.add(lblStateBank);
         
-        JLabel lblTitle = new JLabel("All Records");
+        JLabel lblTitle = new JLabel("All Accounts");
         lblTitle.setFont(new Font("Tahoma", Font.BOLD, 26)); 
         lblTitle.setForeground(WHITE); 
         lblTitle.setBounds(30, 45, 350, 45);
@@ -44,7 +46,7 @@ public class ViewAccountsPage extends BaseFrame implements ActionListener {
         pnlSummary.setLayout(null);
         add(pnlSummary);
 
-        int count = files.getAccountCount();
+        int count = files.getAccountCount(userId);
         JLabel lblCount = new JLabel(count + " account" + (count != 1 ? "s" : "") + " registered");
         lblCount.setFont(new Font("Tahoma", Font.BOLD, 13));
         lblCount.setForeground(new Color(70, 80, 95));
@@ -57,7 +59,7 @@ public class ViewAccountsPage extends BaseFrame implements ActionListener {
         lblTotalLabel.setBounds(230, 7, 100, 14);
         pnlSummary.add(lblTotalLabel);
 
-        JLabel lblTotal = new JLabel(String.format("P %,.2f", files.getTotalBalance()));
+        JLabel lblTotal = new JLabel(String.format("P %,.2f", files.getTotalBalance(userId)));
         lblTotal.setFont(new Font("Tahoma", Font.BOLD, 15));
         lblTotal.setForeground(NAVY);
         lblTotal.setBounds(230, 24, 130, 20);
@@ -65,7 +67,7 @@ public class ViewAccountsPage extends BaseFrame implements ActionListener {
 
         String[] cols = {"Acc. No.", "Name", "Type", "Balance"};
 
-        DefaultTableModel model = new DefaultTableModel(files.getAccountsData(), cols) {
+        DefaultTableModel model = new DefaultTableModel(files.getAccountsData(userId), cols) {
             @Override
             public boolean isCellEditable(int row, int column) {
                 return false;
@@ -131,7 +133,7 @@ public class ViewAccountsPage extends BaseFrame implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == btnBack) {
             dispose();
-            new dashboardAccMng(files).setVisible(true);
+            new dashboardAccMng(files, userId).setVisible(true);
         }
     }
 }

@@ -1,6 +1,5 @@
 package AccountManagement;
 
-import dashboard_transactions.BankAppGUI;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -12,24 +11,26 @@ public class dashboardAccMng extends JFrame implements ActionListener {
     private JPanel headerPanel, mainPanel;
     private JLabel lblActions, lblDashboard, lblStateBank;
     private JButton btnAdd, btnRemove, btnSearch, btnView, btnExit;
+    private int userId;
     
     Color mainColor = new Color(25, 48, 90);
     Color buttonColor = new Color (244, 246, 252);
     Color mainButtonColor = new Color(139, 172, 224);
     Color txtFieldColor = new Color(245, 245, 245);
-    Color backgroundColor = new Color(180, 190, 210);
+    Color backgroundColor = new Color(200, 210, 230);
 
     AccountFiles files;
 
     
 
-    public dashboardAccMng(AccountFiles files) {
+    public dashboardAccMng(AccountFiles files, int userId) {
         this.files = files;
+        this.userId = userId;
         
         setTitle("Bank Account Management");
         setSize(430, 720);
         setLayout(null);
-        getContentPane().setBackground(new Color(180, 190, 210)); 
+        getContentPane().setBackground(backgroundColor); 
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setResizable(false);
@@ -40,7 +41,7 @@ public class dashboardAccMng extends JFrame implements ActionListener {
         headerPanel.setLayout(null);
         add(headerPanel);
 
-        lblStateBank = new JLabel("WELCOME TO STATE-BANK APP");
+        lblStateBank = new JLabel("STATE BANK");
         lblStateBank.setFont(new Font("Tahoma", Font.PLAIN, 13));
         lblStateBank.setForeground(new Color(170, 190, 220)); 
         lblStateBank.setBounds(30, 20, 350, 25);
@@ -92,7 +93,7 @@ public class dashboardAccMng extends JFrame implements ActionListener {
         btnSearch.setBounds(25, 240, 314, 60);
         mainPanel.add(btnSearch);
         
-        btnView = new JButton("\u2630   VIEW ALL RECORDS");
+        btnView = new JButton("\u2630   VIEW ACCOUNTS");
         btnView.setBackground(mainButtonColor);
         btnView.setForeground(new Color(40, 45, 55));
         btnView.setFont(new Font("Segoe UI Symbol", Font.PLAIN, 14));
@@ -102,13 +103,9 @@ public class dashboardAccMng extends JFrame implements ActionListener {
         mainPanel.add(btnView);
         
         btnExit = new JButton("Back to Dashboard");
-        btnExit.setFont(new Font("Tahoma", Font.PLAIN, 14));
+        btnExit.setFont(new Font("Tahoma", Font.BOLD, 14));
         btnExit.setForeground(new Color(50, 55, 65));
-        btnExit.setBackground(backgroundColor); 
-        btnExit.setOpaque(true);
-        btnExit.setContentAreaFilled(true); 
-        btnExit.setFocusPainted(false);
-        btnExit.setBorder(new LineBorder(Color.GRAY, 1));
+        btnExit.setBackground(mainButtonColor); 
         btnExit.setBounds(25, 605, 364, 50); 
         add(btnExit);
 
@@ -123,18 +120,18 @@ public class dashboardAccMng extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent e){
         if(e.getSource() == btnExit){
             dispose();
-            new BankAppGUI().setVisible(true);
+            
         } else {
             dispose();
 
             if(e.getSource() == btnAdd) 
-                new AddPage(files).setVisible(true);
+                new AddPage(files, userId).setVisible(true);
             if(e.getSource() == btnRemove) 
-                new RemovePage(files).setVisible(true);
+                new RemovePage(files, userId).setVisible(true);
             if(e.getSource() == btnSearch) 
-                new SearchPage(files).setVisible(true);
+                new SearchPage(files, userId).setVisible(true);
             if(e.getSource() == btnView) 
-                new ViewAccountsPage(files).setVisible(true);
+                new ViewAccountsPage(files, userId).setVisible(true);
         }
     }
 }

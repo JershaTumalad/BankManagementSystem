@@ -13,6 +13,7 @@ public class RemovePage extends JFrame implements ActionListener {
     private JButton btnRemove, btnBack;
     
     //Customized Colors
+    Color backgroundColor = new Color (200, 210, 230);
     Color mainColor = new Color(25, 48, 90);
     Color buttonColor = new Color (244, 246, 252);
     Color mainButtonColor = new Color(139, 172, 224);
@@ -26,7 +27,7 @@ public class RemovePage extends JFrame implements ActionListener {
         setTitle("Bank Account Management");
         setSize(430, 720);
         setLayout(null);
-        getContentPane().setBackground(new Color(180, 190, 210)); 
+        getContentPane().setBackground(backgroundColor); 
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setResizable(false);
@@ -37,7 +38,7 @@ public class RemovePage extends JFrame implements ActionListener {
         headerPanel.setLayout(null);
         add(headerPanel);
         
-        lblStateBank = new JLabel("STATE-BANK");
+        lblStateBank = new JLabel("STATE BANK");
         lblStateBank.setFont(new Font("Tahoma", Font.PLAIN, 13));
         lblStateBank.setForeground(new Color(170, 190, 220)); 
         lblStateBank.setBounds(30, 20, 350, 25);
@@ -107,7 +108,7 @@ public class RemovePage extends JFrame implements ActionListener {
         btnBack.setFocusPainted(false);
         btnBack.setBounds(25, 445, 364, 50); 
         add(btnBack);
-
+        
         btnRemove.addActionListener(this);
         btnBack.addActionListener(this);
     }

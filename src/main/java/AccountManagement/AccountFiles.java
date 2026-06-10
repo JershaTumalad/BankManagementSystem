@@ -7,7 +7,7 @@ import java.util.ArrayList;
 public class AccountFiles {
  
     
-    public boolean addAccount(String name, String type, String accNo, double bal) {
+    public boolean addAccount(int userId, String name, String type, String accNo, double bal) {
  
         String checkSQL = "SELECT COUNT(*) FROM accounts WHERE account_no = ?";
         try (Connection con = DBConnection.getConnection();
@@ -25,15 +25,16 @@ public class AccountFiles {
         }
  
         String insertSQL =
-            "INSERT INTO accounts (account_no, name, account_type, balance) "
-          + "VALUES (?, ?, ?, ?)";
+            "INSERT INTO accounts (user_id, account_no, name, account_type, balance) "
+          + "VALUES (?, ?, ?, ?, ?)";
         try (Connection con = DBConnection.getConnection();
              PreparedStatement ps = con.prepareStatement(insertSQL)) {
  
-            ps.setString(1, accNo.trim());
-            ps.setString(2, name.trim());
-            ps.setString(3, type.trim());
-            ps.setDouble(4, bal);
+            ps.setInt(1, userId);
+            ps.setString(2, accNo.trim());
+            ps.setString(3, name.trim());
+            ps.setString(4, type.trim());
+            ps.setDouble(5, bal);
             return ps.executeUpdate() > 0;
  
         } catch (SQLException e) {
@@ -43,16 +44,18 @@ public class AccountFiles {
     }
  
  
-    public Account searchAccount(String accNo) {
+    public Account searchAccount(String accNo, int userId) {
  
         String sql =
             "SELECT account_no, name, account_type, balance "
-          + "FROM accounts WHERE account_no = ?";
+          + "FROM accounts WHERE account_no = ? AND user_id = ?";
  
         try (Connection con = DBConnection.getConnection();
              PreparedStatement ps = con.prepareStatement(sql)) {
  
             ps.setString(1, accNo.trim());
+            ps.setInt(2, userId);
+            
             ResultSet rs = ps.executeQuery();
  
             if (rs.next()) {
@@ -72,14 +75,16 @@ public class AccountFiles {
     }
  
  
-    public boolean removeAccount(String accNo) {
+    public boolean removeAccount(String accNo, int userId) {
  
-        String sql = "DELETE FROM accounts WHERE account_no = ?";
+        String sql = "DELETE FROM accounts WHERE account_no = ? AND user_id = ?";
  
         try (Connection con = DBConnection.getConnection();
              PreparedStatement ps = con.prepareStatement(sql)) {
  
             ps.setString(1, accNo.trim());
+            ps.setInt(2, userId);
+            
             return ps.executeUpdate() > 0;
  
         } catch (SQLException e) {
@@ -89,19 +94,24 @@ public class AccountFiles {
     }
  
  
-    public Object[][] getAccountsData() {
+    public Object[][] getAccountsData(int userId) {
  
         String sql =
             "SELECT account_no, name, account_type, balance "
-          + "FROM accounts ORDER BY id";
+          + "FROM accounts "
+          + "WHERE user_id = ? "
+          + "ORDER BY account_no";
  
         ArrayList<Object[]> rows = new ArrayList<>();
  
         try (Connection con = DBConnection.getConnection();
-             PreparedStatement ps = con.prepareStatement(sql);
-             ResultSet rs = ps.executeQuery()) {
- 
-            while (rs.next()) {
+             PreparedStatement ps = con.prepareStatement(sql)) {
+
+             ps.setInt(1, userId);
+
+             ResultSet rs = ps.executeQuery();
+
+             while (rs.next()) {
                 rows.add(new Object[]{
                     rs.getString("account_no"),
                     rs.getString("name"),
@@ -122,15 +132,21 @@ public class AccountFiles {
     }
  
  
-    public double getTotalBalance() {
+    public double getTotalBalance(int userId) {
  
-        String sql = "SELECT COALESCE(SUM(balance), 0) AS total FROM accounts";
+        String sql = "SELECT COALESCE(SUM(balance), 0) AS total "
+                + "FROM accounts " 
+                + "WHERE user_id = ?";
  
         try (Connection con = DBConnection.getConnection();
-             PreparedStatement ps = con.prepareStatement(sql);
-             ResultSet rs = ps.executeQuery()) {
- 
-            if (rs.next()) return rs.getDouble("total");
+             PreparedStatement ps = con.prepareStatement(sql)) {
+
+             ps.setInt(1, userId);
+
+             ResultSet rs = ps.executeQuery();
+
+             if (rs.next())
+                 return rs.getDouble("total");
  
         } catch (SQLException e) {
             dbError("calculating total balance", e);
@@ -141,15 +157,21 @@ public class AccountFiles {
  
  
  
-    public int getAccountCount() {
+    public int getAccountCount(int userId) {
  
-        String sql = "SELECT COUNT(*) AS cnt FROM accounts";
+        String sql = "SELECT COUNT(*) AS cnt "
+                + "FROM accounts "
+                + "WHERE user_id = ?";
  
         try (Connection con = DBConnection.getConnection();
-             PreparedStatement ps = con.prepareStatement(sql);
-             ResultSet rs = ps.executeQuery()) {
- 
-            if (rs.next()) return rs.getInt("cnt");
+             PreparedStatement ps = con.prepareStatement(sql)) {
+
+             ps.setInt(1, userId);
+
+             ResultSet rs = ps.executeQuery();
+
+            if (rs.next())
+                return rs.getInt("cnt");
  
         } catch (SQLException e) {
             dbError("counting accounts", e);
@@ -158,31 +180,6 @@ public class AccountFiles {
         return 0;
     }
  
-
-    public boolean updateAccount(String accNo,
-                                  String newName,
-                                  String newType,
-                                  double newBalance) {
- 
-        String sql =
-            "UPDATE accounts "
-          + "SET name = ?, account_type = ?, balance = ? "
-          + "WHERE account_no = ?";
- 
-        try (Connection con = DBConnection.getConnection();
-             PreparedStatement ps = con.prepareStatement(sql)) {
- 
-            ps.setString(1, newName.trim());
-            ps.setString(2, newType.trim());
-            ps.setDouble(3, newBalance);
-            ps.setString(4, accNo.trim());
-            return ps.executeUpdate() > 0;
- 
-        } catch (SQLException e) {
-            dbError("updating account", e);
-            return false;
-        }
-    }
  
  
     private void dbError(String operation, SQLException e) {

@@ -12,10 +12,12 @@ public class SearchPage extends BaseFrame implements ActionListener {
 
     private JPanel pnlResult;
     private JLabel lblResultName, lblResultType, lblResultAccNo, lblResultBal, lblStateBank;
+    private int userId;
 
-    public SearchPage(AccountFiles files) {
+    public SearchPage(AccountFiles files, int userId) {
         super("Bank Account Management");
         this.files = files;
+        this.userId = userId;
         initComponents();
     }
 
@@ -28,7 +30,7 @@ public class SearchPage extends BaseFrame implements ActionListener {
         pnlHeader.setLayout(null);
         add(pnlHeader);
         
-        lblStateBank = new JLabel("STATE-BANK");
+        lblStateBank = new JLabel("STATE Bank");
         lblStateBank.setFont(new Font("Tahoma", Font.PLAIN, 13));
         lblStateBank.setForeground(new Color(170, 190, 220)); 
         lblStateBank.setBounds(30, 20, 350, 25);
@@ -141,7 +143,7 @@ public class SearchPage extends BaseFrame implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == btnBack) {
             dispose();
-            new dashboardAccMng(files).setVisible(true);
+            new dashboardAccMng(files, userId).setVisible(true);
         } else if (e.getSource() == btnSearch) {
             doSearch();
         }
@@ -162,7 +164,7 @@ public class SearchPage extends BaseFrame implements ActionListener {
             return;
         }
 
-        Account found = files.searchAccount(input);
+        Account found = files.searchAccount(input, userId);
 
         if (found != null) {
             lblResultName.setText(found.getName());

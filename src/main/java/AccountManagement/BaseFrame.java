@@ -16,13 +16,13 @@ public abstract class BaseFrame extends JFrame {
     public final Color RED_BTN = new Color(200, 70, 70);
     public final Color CARD_BG = new Color(235, 240, 252);
     public final Color PINK_WARN = new Color(255, 214, 214);
-    public final Color BG_COLOR = new Color(180, 190, 210);
+    public final Color backgroundColor = new Color(200, 210, 230);
 
     public BaseFrame(String title) {
         setTitle(title);
         setSize(430, 720);
         setLayout(null);
-        getContentPane().setBackground(BG_COLOR); 
+        getContentPane().setBackground(backgroundColor); 
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setResizable(false);

@@ -11,6 +11,7 @@ public class RemovePage extends JFrame implements ActionListener {
     private JPanel headerPanel, mainPanel, warningPanel;
     private JTextField accNo;
     private JButton btnRemove, btnBack;
+    private int userId;
     
     //Customized Colors
     Color mainColor = new Color(25, 48, 90);
@@ -19,14 +20,16 @@ public class RemovePage extends JFrame implements ActionListener {
     Color txtFieldColor = new Color(245, 245, 245);
     Color warnColor = new Color(255, 214, 214);
     Color redWarn= new Color(200, 70, 70);
+    Color backgroundColor = new Color(200, 210, 230);
 
-    public RemovePage(AccountFiles files) {
+    public RemovePage(AccountFiles files, int userId) {
         this.files = files;
+        this.userId = userId;
 
         setTitle("Bank Account Management");
         setSize(430, 720);
         setLayout(null);
-        getContentPane().setBackground(new Color(180, 190, 210)); 
+        getContentPane().setBackground(backgroundColor); 
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setResizable(false);
@@ -37,7 +40,7 @@ public class RemovePage extends JFrame implements ActionListener {
         headerPanel.setLayout(null);
         add(headerPanel);
         
-        lblStateBank = new JLabel("STATE-BANK");
+        lblStateBank = new JLabel("STATE Bank");
         lblStateBank.setFont(new Font("Tahoma", Font.PLAIN, 13));
         lblStateBank.setForeground(new Color(170, 190, 220)); 
         lblStateBank.setBounds(30, 20, 350, 25);
@@ -116,7 +119,7 @@ public class RemovePage extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent e){
         if(e.getSource() == btnBack){
             dispose();
-            new dashboardAccMng(files).setVisible(true);
+            new dashboardAccMng(files, userId).setVisible(true);
         }
         else if(e.getSource() == btnRemove){
             String input = accNo.getText().trim();
@@ -131,7 +134,7 @@ public class RemovePage extends JFrame implements ActionListener {
                 return;
             }
 
-            if(files.removeAccount(input)){
+            if(files.removeAccount(input, userId)){
                 JOptionPane.showMessageDialog(this, "Account Deleted.");
                 accNo.setText("");
             } else {

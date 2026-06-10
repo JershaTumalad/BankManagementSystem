@@ -12,6 +12,7 @@ public class AddPage extends JFrame implements ActionListener{
     private JPanel headerPanel, personalPanel, accountPanel;
     private JComboBox<String> cmbType;
     private JButton btnSave, btnBack;
+    private int userId;
     AccountFiles files;
 
     //Customized Colors
@@ -19,6 +20,7 @@ public class AddPage extends JFrame implements ActionListener{
     Color buttonColor = new Color (244, 246, 252);
     Color mainButtonColor = new Color(139, 172, 224);
     Color txtFieldColor = new Color(245, 245, 245);
+    Color backgroundColor = new Color(200, 210, 230);
 
     private String generateAccountNo(){
         
@@ -28,13 +30,14 @@ public class AddPage extends JFrame implements ActionListener{
         return String.valueOf(accountNo);
     }
 
-    public AddPage(AccountFiles files){
+    public AddPage(AccountFiles files, int userId){
         this.files = files;
+        this.userId = userId;
 
         setTitle("Bank Account Management");
         setSize(430, 720);
         setLayout(null);
-        getContentPane().setBackground(new Color(180, 190, 210)); 
+        getContentPane().setBackground(backgroundColor); 
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setResizable(false);
@@ -42,33 +45,33 @@ public class AddPage extends JFrame implements ActionListener{
         //Header Panel with Bank Name and Page Name
         headerPanel = new JPanel();
         headerPanel.setBackground(mainColor);
-        headerPanel.setBounds(0, 0, 430, 80); 
+        headerPanel.setBounds(0, 0, 430, 90); 
         headerPanel.setLayout(null);
         add(headerPanel);
         
         lblStateBank = new JLabel("STATE Bank");
-        lblStateBank.setFont(new Font("Tahoma", Font.BOLD, 21));
-        lblStateBank.setForeground(Color.WHITE);
-        lblStateBank.setBounds(30, 10, 350, 20);
+        lblStateBank.setFont(new Font("Tahoma", Font.PLAIN, 13));
+        lblStateBank.setForeground(new Color(170, 190, 220)); 
+        lblStateBank.setBounds(30, 20, 350, 25);
         headerPanel.add(lblStateBank);
 
         JLabel lblTitle = new JLabel("Add Account");
-        lblTitle.setFont(new Font("Tahoma", Font.BOLD, 32));
+        lblTitle.setFont(new Font("Tahoma", Font.BOLD, 26));
         lblTitle.setForeground(Color.WHITE);
-        lblTitle.setBounds(30, 36, 250, 30);
+        lblTitle.setBounds(30, 48, 250, 30);
         headerPanel.add(lblTitle);
 
         //Personal Information Panel
         personalPanel = new JPanel();
         personalPanel.setBackground(Color.WHITE);
-        personalPanel.setBounds(25, 100, 370, 201);
+        personalPanel.setBounds(25, 110, 370, 201);
         personalPanel.setLayout(null);
         add(personalPanel);
         
         //Account Details Panel
         accountPanel = new JPanel();
         accountPanel.setBackground(Color.WHITE);
-        accountPanel.setBounds(25, 320, 370, 282);
+        accountPanel.setBounds(25, 330, 370, 282);
         accountPanel.setLayout(null);
         add(accountPanel);
 
@@ -157,7 +160,7 @@ public class AddPage extends JFrame implements ActionListener{
         btnSave.setBackground(mainColor);
         btnSave.setForeground(buttonColor);
         btnSave.setFont(new Font("Tahoma", Font.BOLD, 14));
-        btnSave.setBounds(192, 615, 192, 45);
+        btnSave.setBounds(192, 625, 192, 45);
         add(btnSave);
         
         //Back button going to Account Management Page
@@ -166,7 +169,7 @@ public class AddPage extends JFrame implements ActionListener{
         btnBack.setBackground(mainButtonColor);
         btnBack.setForeground(mainColor);
         btnBack.setFont(new Font("Tahoma", Font.BOLD, 14));
-        btnBack.setBounds(25, 615, 140, 45);
+        btnBack.setBounds(25, 625, 140, 45);
         add(btnBack);
         
         btnSave.addActionListener(this);
@@ -178,7 +181,7 @@ public class AddPage extends JFrame implements ActionListener{
     public void actionPerformed(ActionEvent e){
         if(e.getSource() == btnBack){
             dispose();
-            new dashboardAccMng(files).setVisible(true);
+            new dashboardAccMng(files, userId).setVisible(true);
         }
         else if(e.getSource() == btnSave){
             try{
@@ -194,7 +197,7 @@ public class AddPage extends JFrame implements ActionListener{
                 }
 
                 if(!last.matches("[a-zA-Z ]+") ||
-                   !first.matches("[a-zA-Z ]+") ){
+                   !first.matches("[a-zA-Z ]+") || !middle.matches("[a-zA-Z ]+") ){
                     JOptionPane.showMessageDialog(this, "Invalid Input! Names must contain letters only.", "Error", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
@@ -223,14 +226,14 @@ public class AddPage extends JFrame implements ActionListener{
 
                 String fullName = last + ", " + first + " " + middle;
 
-                if(files.addAccount(fullName,
+                if(files.addAccount(userId, fullName,
                         (String) cmbType.getSelectedItem(),
                         accNo,
                         balance)){
 
                     JOptionPane.showMessageDialog(this, "Account Saved.");
                     dispose();
-                    new dashboardAccMng(files).setVisible(true);
+                    new dashboardAccMng(files, userId).setVisible(true);
 
                 } else {
                     JOptionPane.showMessageDialog(this, "Account Number already exists.");

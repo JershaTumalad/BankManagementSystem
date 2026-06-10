@@ -11,6 +11,7 @@ public class ViewAccountsPage extends BaseFrame implements ActionListener {
     
     private JButton btnBack;
     private JLabel lblStateBank;
+    private JList<String> list,tbl;
 
     public ViewAccountsPage(AccountFiles files) {
         super("Bank Account Management");
@@ -20,12 +21,14 @@ public class ViewAccountsPage extends BaseFrame implements ActionListener {
 
     @Override
     protected void initComponents() {
+        //JLIST FOR THE NAMES: DO YOU WANT TO OPEN THIS ACC. IF YES, GO TO LOGIN. (USING JOPTIONPANE)
         JPanel pnlHeader = new JPanel();
         pnlHeader.setBackground(NAVY); 
         pnlHeader.setBounds(0, 0, 430, 120); 
         pnlHeader.setLayout(null);
         add(pnlHeader);
 
+        //list = new JList<>(model);
         lblStateBank = new JLabel("STATE-BANK");
         lblStateBank.setFont(new Font("Tahoma", Font.PLAIN, 13));
         lblStateBank.setForeground(new Color(170, 190, 220)); 
@@ -65,21 +68,15 @@ public class ViewAccountsPage extends BaseFrame implements ActionListener {
 
         String[] cols = {"Acc. No.", "Name", "Type", "Balance"};
 
-        DefaultTableModel model = new DefaultTableModel(files.getAccountsData(), cols) {
-            @Override
-            public boolean isCellEditable(int row, int column) {
-                return false;
-            }
-        };
 
-        JTable tbl = new JTable(model);
-        tbl.setRowHeight(38);
-        tbl.setFont(new Font("Tahoma", Font.PLAIN, 12));
-        tbl.setShowGrid(false);
-        tbl.setIntercellSpacing(new Dimension(0, 0));
-        tbl.getTableHeader().setReorderingAllowed(false);
-        tbl.setSelectionBackground(new Color(220, 230, 250));
-        tbl.setSelectionForeground(NAVY);
+        //list = new JList<>(model);
+        //tbl.setRowHeight(38);
+//        tbl.setFont(new Font("Tahoma", Font.PLAIN, 12));
+//        tbl.setShowGrid(false);
+//        tbl.setIntercellSpacing(new Dimension(0, 0));
+//        tbl.getTableHeader().setReorderingAllowed(false);
+//        tbl.setSelectionBackground(new Color(220, 230, 250));
+//        tbl.setSelectionForeground(NAVY);
 
         DefaultTableCellRenderer renderer = new DefaultTableCellRenderer() {
             @Override
@@ -96,19 +93,19 @@ public class ViewAccountsPage extends BaseFrame implements ActionListener {
                 return c;
             }
         };
-        tbl.setDefaultRenderer(Object.class, renderer);
-
-        JTableHeader head = tbl.getTableHeader();
-        head.setBackground(NAVY);
-        head.setForeground(WHITE);
-        head.setFont(new Font("Tahoma", Font.BOLD, 12));
-        head.setPreferredSize(new Dimension(head.getWidth(), 38));
-
-        TableColumnModel colModel = tbl.getColumnModel();
-        colModel.getColumn(0).setPreferredWidth(69);
-        colModel.getColumn(1).setPreferredWidth(135);
-        colModel.getColumn(2).setPreferredWidth(80);
-        colModel.getColumn(3).setPreferredWidth(80);
+//        tbl.setDefaultRenderer(Object.class, renderer);
+//
+//        JTableHeader head = tbl.getTableHeader();
+//        head.setBackground(NAVY);
+//        head.setForeground(WHITE);
+//        head.setFont(new Font("Tahoma", Font.BOLD, 12));
+//        head.setPreferredSize(new Dimension(head.getWidth(), 38));
+//
+//        TableColumnModel colModel = tbl.getColumnModel();
+//        colModel.getColumn(0).setPreferredWidth(69);
+//        colModel.getColumn(1).setPreferredWidth(135);
+//        colModel.getColumn(2).setPreferredWidth(80);
+//        colModel.getColumn(3).setPreferredWidth(80);
 
         JScrollPane sp = new JScrollPane(tbl);
         sp.setBounds(25, 212, 364, 375); 
