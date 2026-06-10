@@ -119,10 +119,11 @@ public class dashboardAccMng extends JFrame implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e){
-        if(e.getSource() == btnExit){
-            dispose();
-            new BankAppGUI().setVisible(true);
-        } else {
+  if(e.getSource() == btnExit){
+    dispose();
+    new BankAppGUI(userId).setVisible(true);
+}
+        else {
             dispose();
 
             if(e.getSource() == btnAdd) 

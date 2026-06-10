@@ -126,7 +126,7 @@ public class AddPage extends JFrame implements ActionListener{
         lblAccType.setForeground(Color.GRAY);
         accountPanel.add(lblAccType);
 
-        cmbType = new JComboBox<>(new String[]{"Savings", "Current"});
+       cmbType = new JComboBox<>(new String[]{"SAVINGS ACCOUNT", "CHECKING ACCOUNT"});
         cmbType.setBounds(20, 75, 330, 30);
         accountPanel.add(cmbType);
 
