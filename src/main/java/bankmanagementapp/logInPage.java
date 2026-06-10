@@ -9,7 +9,7 @@ import dashboard_transactions.BankAppGUI;
 
 public class logInPage extends JFrame {
 
-    JLabel lblWelcome, lblTitle, lblUser, lblPass, lblCreate;
+    JLabel lblWelcome, lblTitle, lblUser, lblPass;
     JTextField tfUsername;
     JPasswordField tfPassword;
     JButton btnLogin, btnBack,bnCreate;
