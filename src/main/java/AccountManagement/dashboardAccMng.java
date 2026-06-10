@@ -1,5 +1,6 @@
 package AccountManagement;
 
+import dashboard_transactions.BankAppGUI;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -120,7 +121,7 @@ public class dashboardAccMng extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent e){
         if(e.getSource() == btnExit){
             dispose();
-            
+            new BankAppGUI().setVisible(true);
         } else {
             dispose();
 

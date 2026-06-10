@@ -47,7 +47,7 @@ public class AccountFiles {
     public Account searchAccount(String accNo, int userId) {
  
         String sql =
-            "SELECT account_no, name, account_type, balance "
+            "SELECT user_id, account_no, name, account_type, balance "
           + "FROM accounts WHERE account_no = ? AND user_id = ?";
  
         try (Connection con = DBConnection.getConnection();
@@ -60,6 +60,7 @@ public class AccountFiles {
  
             if (rs.next()) {
                 return new Account(
+                    rs.getInt("user_id"), 
                     rs.getString("name"),
                     rs.getString("account_type"),
                     rs.getString("account_no"),
