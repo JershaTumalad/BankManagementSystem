@@ -90,7 +90,8 @@ public class forgotPage1 extends JFrame {
         java.sql.ResultSet rs = ps.executeQuery();
         if (rs.next()) {
             JOptionPane.showMessageDialog(this, "USER ID Found!");
-            new BankAppGUI();
+            int accountNumber = rs.getInt("account_number");
+new BankAppGUI(accountNumber);
             dispose();
         } else {
             JOptionPane.showMessageDialog(this, "USER ID not registered!");

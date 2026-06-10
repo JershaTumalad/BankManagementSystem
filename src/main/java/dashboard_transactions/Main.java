@@ -6,7 +6,8 @@ public class Main{
 
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-        TransactionManager manager = new TransactionManager();
+//        TransactionManager manager = new TransactionManager();
+TransactionManager manager = new TransactionManager(0);
         int choice = 1;
 
         while (choice == 1) {
@@ -133,10 +134,9 @@ public class Main{
             choice = sc.nextInt();
             sc.nextLine();
 
-            if (choice == 0) {
-                manager.displayAllTransaction();
-                System.out.println("\nExiting program. Goodbye!");
-            }
+         if (choice == 0) {
+    System.out.println("\nExiting program. Goodbye!");
+}
         }
 
     }

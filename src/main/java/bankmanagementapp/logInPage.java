@@ -121,9 +121,10 @@ btnLogin.addActionListener(e -> {
         java.sql.ResultSet rs = ps.executeQuery();
 
         if (rs.next()) {
-            new BankAppGUI();
-            dispose();
-        } else {
+    int accountNumber = rs.getInt("account_number");
+    new BankAppGUI(accountNumber);
+    dispose();
+} else {
             JOptionPane.showMessageDialog(this, "Incorrect User ID or Password");
         }
         con.close();

@@ -16,9 +16,12 @@ public class BankAppGUI extends JFrame {
     private JLabel header, balanceLBL, balanceAmountLBL;
     private JButton depBTN, witBTN, tranBTN, billsBTN, loadBTN, suppBTN, hisBTN;
 
-    TransactionManager manager = new TransactionManager();
+   TransactionManager manager;
+private int accountNumber;
 
-    public BankAppGUI() {
+public BankAppGUI(int accountNumber) {
+    this.accountNumber = accountNumber;
+    this.manager = new TransactionManager(accountNumber);
         setTitle("Bank Application");
         setSize(400, 700);
         setLayout(null);
@@ -132,9 +135,9 @@ public class BankAppGUI extends JFrame {
         loadBTN .addActionListener(e -> { new BuyLoadGUI(manager, this);     setVisible(false); });
         suppBTN .addActionListener(e -> { JOptionPane.showMessageDialog(this, "Support & Help\nEmail: support@bankapp.com\nHotline: 1800-BANK-APP"); });
         hisBTN  .addActionListener(e -> { new HistoryGUI(manager, this);     setVisible(false); });
-       manageBtn.addActionListener(e -> {
+      manageBtn.addActionListener(e -> {
     AccountFiles files = new AccountFiles();
-    new dashboardAccMng(files, 0).setVisible(true);
+    new dashboardAccMng(files, accountNumber).setVisible(true);
     setVisible(false);
 });
 
@@ -167,7 +170,9 @@ public class BankAppGUI extends JFrame {
         balanceAmountLBL.repaint();
     }
 
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(BankAppGUI::new);
-    }
+//    public static void main(String[] args) {
+//        SwingUtilities.invokeLater(BankAppGUI::new);
+//    }
+    
+   
 }
