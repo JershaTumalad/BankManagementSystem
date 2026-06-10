@@ -4,8 +4,10 @@ import javax.swing.*;
 import javax.swing.border.*;
 import java.awt.*;
 import java.awt.event.*;
-import project.GUI1Frame;    
-import project.AccountFiles; 
+//import project.GUI1Frame;    
+//import project.AccountFiles; 
+import AccountManagement.AccountFiles;
+import AccountManagement.dashboardAccMng;
 import bankmanagementapp.logInPage;
 
 public class BankAppGUI extends JFrame {
@@ -130,7 +132,10 @@ public class BankAppGUI extends JFrame {
         loadBTN .addActionListener(e -> { new BuyLoadGUI(manager, this);     setVisible(false); });
         suppBTN .addActionListener(e -> { JOptionPane.showMessageDialog(this, "Support & Help\nEmail: support@bankapp.com\nHotline: 1800-BANK-APP"); });
         hisBTN  .addActionListener(e -> { new HistoryGUI(manager, this);     setVisible(false); });
-        manageBtn.addActionListener(e -> {AccountFiles files = new AccountFiles();new GUI1Frame(files).setVisible(true);setVisible(false);
+       manageBtn.addActionListener(e -> {
+    AccountFiles files = new AccountFiles();
+    new dashboardAccMng(files, 0).setVisible(true);
+    setVisible(false);
 });
 
         setVisible(true);
