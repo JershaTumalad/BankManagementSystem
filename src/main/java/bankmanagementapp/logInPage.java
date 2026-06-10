@@ -9,7 +9,7 @@ import dashboard_transactions.BankAppGUI;
 
 public class logInPage extends JFrame {
 
-    JLabel lblWelcome, lblTitle, lblUser, lblPass, lblCreate;
+    JLabel lblWelcome, lblTitle, lblUser, lblPass;
     JTextField tfUsername;
     JPasswordField tfPassword;
     JButton btnLogin, btnBack,bnCreate;
@@ -106,35 +106,31 @@ public class logInPage extends JFrame {
         btnLogin.setFont(new Font("Segoe UI", Font.BOLD, 15));
         cardPanel.add(btnLogin);
 
-        btnLogin.addActionListener(e -> {
 
-            boolean found = false;
 
-            String id = tfUsername.getText();
-            String password = String.valueOf(tfPassword.getPassword());
+btnLogin.addActionListener(e -> {
+    String id = tfUsername.getText();
+    String password = String.valueOf(tfPassword.getPassword());
 
-            for (accCreationPage user : accDatabase.acc) {
+    try {
+        java.sql.Connection con = accDatabase.getConnection();
+        String query = "SELECT * FROM users WHERE user_id_str = ? AND password = ?";
+        java.sql.PreparedStatement ps = con.prepareStatement(query);
+        ps.setString(1, id);
+        ps.setString(2, password);
+        java.sql.ResultSet rs = ps.executeQuery();
 
-                if (user.getUserId().equals(id)
-                        && user.getPassword().equals(password)) {
-
-                    found = true;
-                    break;
-                }
-            }
-
-            if (found) {
-
-                new BankAppGUI();
-                dispose();
-
-            } else {
-
-                JOptionPane.showMessageDialog(this,
-                        "Incorrect User ID or Password");
-
-            }
-        });
+        if (rs.next()) {
+            new BankAppGUI();
+            dispose();
+        } else {
+            JOptionPane.showMessageDialog(this, "Incorrect User ID or Password");
+        }
+        con.close();
+    } catch (Exception ex) {
+        JOptionPane.showMessageDialog(this, "Database error: " + ex.getMessage());
+    }
+});
 
         btnBack = new frontPage.RoundedButton("Back to Homepage");
         btnBack.setBounds(35, 510, 340, 42);

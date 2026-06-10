@@ -12,6 +12,7 @@ public class accounts extends JFrame{
     JTextField tfEmail, tfuserId, tfpass, tfFirstName, tfLastName, tfMidName, tfMobNum, tfAddress;
     JButton submit, logInPage;
     JComboBox cbAccType;
+    JComboBox<String> cbMonth, cbDay, cbYear;
      
     public accounts(){
          
@@ -119,32 +120,27 @@ public class accounts extends JFrame{
         
 
 
-        String[] months = {
-            "Jan", "Feb", "Mar", "Apr", "May", "Jun",
-            "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
-        };
-        JComboBox<String> cbMonth = new JComboBox<>(months);
+     String[] months = {"Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"};
+        cbMonth = new JComboBox<>(months);
         cbMonth.setBounds(fieldX, startY + (spacing * 6), 80, 30);
-        add(cbMonth);
+    add(cbMonth);
 
-
-        String[] days = new String[31];
+    String[] days = new String[31];
         for (int i = 1; i <= 31; i++) {
-            days[i - 1] = String.valueOf(i);
+    days[i - 1] = String.valueOf(i);
         }
-        JComboBox<String> cbDay = new JComboBox<>(days);
+        cbDay = new JComboBox<>(days);
         cbDay.setBounds(fieldX + 90, startY + (spacing * 6), 60, 30);
         add(cbDay);
-
 
         String[] years = new String[100];
         int currentYear = Calendar.getInstance().get(Calendar.YEAR);
         for (int i = 0; i < 100; i++) {
-            years[i] = String.valueOf(currentYear - i);
+        years[i] = String.valueOf(currentYear - i);
         }
-        JComboBox<String> cbYear = new JComboBox<>(years);
-        cbYear.setBounds(fieldX + 160, startY + (spacing * 6), 80, 30);
-        cbYear.setBorder(null);
+        cbYear = new JComboBox<>(years);
+    cbYear.setBounds(fieldX + 160, startY + (spacing * 6), 80, 30);
+    cbYear.setBorder(null);
         add(cbYear);
 
 
@@ -221,12 +217,28 @@ if (!phone.matches("^09[0-9]{9}$")) {
             return;
         }
          
-            accCreationPage newAcc = new accCreationPage (inputedUserId,emailInputed, inputedPass);
-            accDatabase.acc.add(newAcc);
-      
-        JOptionPane.showMessageDialog(this, "Account Created Successfully!");
-        new frontPage(); //
-        this.dispose();
+           try {
+    java.sql.Connection con = DBConnection.getConnection();
+    String query = "INSERT INTO users (user_id_str, password, email, first_name, last_name, middle_name, mobile_number, address, account_type, birthdate) VALUES (?,?,?,?,?,?,?,?,?,?)";
+    java.sql.PreparedStatement ps = con.prepareStatement(query);
+    ps.setString(1, inputedUserId);
+    ps.setString(2, inputedPass);
+    ps.setString(3, emailInputed);
+    ps.setString(4, tfFirstName.getText());
+    ps.setString(5, tfLastName.getText());
+    ps.setString(6, tfMidName.getText());
+    ps.setString(7, tfMobNum.getText());
+    ps.setString(8, tfAddress.getText());
+    ps.setString(9, (String) cbAccType.getSelectedItem());
+    ps.setString(10, cbYear.getSelectedItem() + "-" + (cbMonth.getSelectedIndex()+1) + "-" + cbDay.getSelectedItem());
+    ps.executeUpdate();
+    con.close();
+    JOptionPane.showMessageDialog(this, "Account Created Successfully!");
+    new frontPage();
+    this.dispose();
+} catch (Exception ex) {
+    JOptionPane.showMessageDialog(this, "Error creating account: " + ex.getMessage());
+}
         
         });
         

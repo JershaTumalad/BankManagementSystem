@@ -1,41 +1,48 @@
 
 package bankmanagementapp;
 
+import dashboard_transactions.BankAppGUI;
 import java.awt.*;
 import javax.swing.*;
+import java.util.ArrayList;
 
-public class forgotCredentialPage extends JFrame {
+public class forgotPage2 extends JFrame {
 
-    JLabel lblMiniTitle, lblTitle, lblDesc;
-    JButton btnOpt1, btnOpt2, btnOpt3, btnBack;
+    ArrayList<accCreationPage> acc;
 
-    public forgotCredentialPage() {
+    JLabel lblMiniTitle, lblTitle, lblDesc, lblEmail;
+    JTextField tfEmail;
+    JButton btnSubmit, btnBack;
 
-        setTitle("Forgot Credentials");
+    public forgotPage2() {
+
+      
+
+        setTitle("Forgot Account Login");
         setSize(430, 720);
         setLocationRelativeTo(null);
+        setLayout(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setResizable(false);
-        setLayout(null);
 
         JPanel bg = new JPanel();
-        bg.setLayout(null);
         bg.setBackground(new Color(220, 226, 241));
+        bg.setLayout(null);
         setContentPane(bg);
 
         JPanel navbar = new JPanel();
         navbar.setBounds(0, 0, 430, 120);
-        navbar.setLayout(null);
         navbar.setBackground(new Color(20, 45, 95));
+        navbar.setLayout(null);
         bg.add(navbar);
 
-        lblMiniTitle = new JLabel("NEED HELP?");
+        lblMiniTitle = new JLabel("ACCOUNT RECOVERY");
         lblMiniTitle.setForeground(new Color(190, 200, 230));
         lblMiniTitle.setFont(new Font("Segoe UI", Font.BOLD, 12));
-        lblMiniTitle.setBounds(35, 25, 200, 20);
+        lblMiniTitle.setBounds(35, 25, 250, 20);
         navbar.add(lblMiniTitle);
 
-        lblTitle = new JLabel("Account Recovery");
+        lblTitle = new JLabel("Forgot Login");
         lblTitle.setForeground(Color.WHITE);
         lblTitle.setFont(new Font("Segoe UI", Font.BOLD, 28));
         lblTitle.setBounds(35, 45, 320, 40);
@@ -43,51 +50,58 @@ public class forgotCredentialPage extends JFrame {
 
         RoundedPanel card = new RoundedPanel(35);
         card.setLayout(null);
-        card.setBackground(theme.Light_blue);
-        card.setBounds(35, 160, 340, 300);
+        card.setBackground(Color.WHITE);
+        card.setBounds(35, 170, 340, 270);
         bg.add(card);
 
-        lblDesc = new JLabel("Select What You Need Help With");
+        lblDesc = new JLabel("Enter your registered email address");
         lblDesc.setFont(new Font("Segoe UI", Font.PLAIN, 13));
         lblDesc.setForeground(new Color(100, 100, 100));
-        lblDesc.setBounds(30, 25, 250, 20);
+        lblDesc.setBounds(30, 30, 260, 20);
         card.add(lblDesc);
 
-        btnOpt1 = new frontPage.RoundedButton("1   I Forgot My USER ID");
-        btnOpt1.setBounds(25, 70, 290, 50);
-        btnOpt1.setFont(new Font("Segoe UI", Font.PLAIN, 14));
-        btnOpt1.setBackground(new Color(245, 246, 252));
-        btnOpt1.setForeground(new Color(40, 40, 40));
-        card.add(btnOpt1);
+        lblEmail = new JLabel("EMAIL ADDRESS");
+        lblEmail.setFont(new Font("Segoe UI", Font.BOLD, 12));
+        lblEmail.setForeground(new Color(110, 110, 110));
+        lblEmail.setBounds(30, 75, 150, 20);
+        card.add(lblEmail);
 
-        btnOpt1.addActionListener(e -> {
-            new forgotPage2().setVisible(true);
+        tfEmail = new JTextField();
+        tfEmail.setBounds(30, 100, 280, 42);
+        tfEmail.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+        tfEmail.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
+        tfEmail.setBackground(new Color(245, 246, 252));
+        card.add(tfEmail);
+
+        btnSubmit = new frontPage.RoundedButton("Submit");
+        btnSubmit.setBounds(30, 180, 280, 42);
+        btnSubmit.setBackground(new Color(138, 173, 255));
+        btnSubmit.setForeground(Color.WHITE);
+        btnSubmit.setFont(new Font("Segoe UI", Font.BOLD, 15));
+        card.add(btnSubmit);
+
+       btnSubmit.addActionListener(e -> {
+    String inputEmail = tfEmail.getText().trim();
+    try {
+        java.sql.Connection con = DBConnection.getConnection();
+        String query = "SELECT * FROM users WHERE email = ?";
+        java.sql.PreparedStatement ps = con.prepareStatement(query);
+        ps.setString(1, inputEmail);
+        java.sql.ResultSet rs = ps.executeQuery();
+        if (rs.next()) {
+            JOptionPane.showMessageDialog(this, "Email Found!");
+            new BankAppGUI();
             dispose();
-        });
-
-        btnOpt2 = new frontPage.RoundedButton("2   I Forgot My Password");
-        btnOpt2.setBounds(25, 135, 290, 50);
-        btnOpt2.setFont(new Font("Segoe UI", Font.PLAIN, 14));
-        btnOpt2.setBackground(new Color(245, 246, 252));
-        btnOpt2.setForeground(new Color(40, 40, 40));
-        card.add(btnOpt2);
-
-        btnOpt2.addActionListener(e -> {
-            new forgotPage1().setVisible(true);
-            dispose();
-        });
-
-        btnOpt3 = new frontPage.RoundedButton("3   I Forgot Both");
-        btnOpt3.setBounds(25, 200, 290, 50);
-        btnOpt3.setFont(new Font("Segoe UI", Font.PLAIN, 14));
-        btnOpt3.setBackground(new Color(245, 246, 252));
-        btnOpt3.setForeground(new Color(40, 40, 40));
-        card.add(btnOpt3);
-
-        btnOpt3.addActionListener(e -> {
-            new forgotPage2().setVisible(true);
-            dispose();
-        });
+        } else {
+            JOptionPane.showMessageDialog(this, "Email not registered!");
+        }
+        con.close();
+    } catch (java.sql.SQLException ex) {
+        JOptionPane.showMessageDialog(this, "Database error: " + ex.getMessage());
+    } catch (Exception ex) {
+        JOptionPane.showMessageDialog(this, "Unexpected error: " + ex.getMessage());
+    }
+});
 
         btnBack = new frontPage.RoundedButton("Back to homepage");
         btnBack.setBounds(35, 520, 340, 42);
@@ -111,8 +125,10 @@ public class forgotCredentialPage extends JFrame {
         private int radius;
 
         RoundedPanel(int radius) {
+
             this.radius = radius;
             setOpaque(false);
+
         }
 
         @Override
@@ -124,6 +140,7 @@ public class forgotCredentialPage extends JFrame {
                     RenderingHints.VALUE_ANTIALIAS_ON);
 
             g2.setColor(getBackground());
+
             g2.fillRoundRect(0, 0, getWidth(), getHeight(),
                     radius, radius);
 
