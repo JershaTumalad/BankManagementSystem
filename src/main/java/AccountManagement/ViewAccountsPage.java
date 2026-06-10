@@ -1,85 +1,129 @@
-package project;
+package AccountManagement;
 
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.JTableHeader;
-import javax.swing.table.TableColumnModel;
+import javax.swing.table.*;
 
-public class ViewAccountsPage extends JFrame implements ActionListener {
+public class ViewAccountsPage extends BaseFrame implements ActionListener {
 
     private AccountFiles files;
+    
     private JButton btnBack;
+    private JLabel lblStateBank;
+    private int userId;
 
-    public ViewAccountsPage(AccountFiles files) {
+    public ViewAccountsPage(AccountFiles files, int userId) {
+        super("Bank Account Management");
         this.files = files;
-        setTitle("Account Records");
-        setSize(430, 720);
-        setLayout(null);
-        setResizable(false);
-        setLocationRelativeTo(null);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        getContentPane().setBackground(new Color(200, 210, 230));
+        this.userId = userId;
+        initComponents();
+    }
 
+    @Override
+    protected void initComponents() {
         JPanel pnlHeader = new JPanel();
-        pnlHeader.setBackground(new Color(25, 42, 86));
-        pnlHeader.setBounds(0, 0, 430, 100);
+        pnlHeader.setBackground(NAVY); 
+        pnlHeader.setBounds(0, 0, 430, 120); 
         pnlHeader.setLayout(null);
         add(pnlHeader);
 
-        JLabel lblTitle = new JLabel("ALL ACCOUNT RECORDS");
-        lblTitle.setForeground(Color.WHITE);
-        lblTitle.setFont(new Font("Segoe UI", Font.BOLD, 18));
-        lblTitle.setBounds(30, 35, 300, 30);
+        lblStateBank = new JLabel("STATE Bank");
+        lblStateBank.setFont(new Font("Tahoma", Font.PLAIN, 13));
+        lblStateBank.setForeground(new Color(170, 190, 220)); 
+        lblStateBank.setBounds(30, 20, 350, 25);
+        pnlHeader.add(lblStateBank);
+        
+        JLabel lblTitle = new JLabel("All Accounts");
+        lblTitle.setFont(new Font("Tahoma", Font.BOLD, 26)); 
+        lblTitle.setForeground(WHITE); 
+        lblTitle.setBounds(30, 45, 350, 45);
         pnlHeader.add(lblTitle);
 
-        String[] cols = {"Acc No.", "Name", "Acc Type", "Balance"};
-        
-        DefaultTableModel model = new DefaultTableModel(files.getAccountsData(), cols) {
+        JPanel pnlSummary = new JPanel();
+        pnlSummary.setBackground(CARD_BG); 
+        pnlSummary.setBounds(25, 140, 364, 57); 
+        pnlSummary.setLayout(null);
+        add(pnlSummary);
+
+        int count = files.getAccountCount(userId);
+        JLabel lblCount = new JLabel(count + " account" + (count != 1 ? "s" : "") + " registered");
+        lblCount.setFont(new Font("Tahoma", Font.BOLD, 13));
+        lblCount.setForeground(new Color(70, 80, 95));
+        lblCount.setBounds(15, 18, 200, 20);
+        pnlSummary.add(lblCount);
+
+        JLabel lblTotalLabel = new JLabel("Total Balance");
+        lblTotalLabel.setFont(new Font("Tahoma", Font.PLAIN, 11));
+        lblTotalLabel.setForeground(Color.GRAY);
+        lblTotalLabel.setBounds(230, 7, 100, 14);
+        pnlSummary.add(lblTotalLabel);
+
+        JLabel lblTotal = new JLabel(String.format("P %,.2f", files.getTotalBalance(userId)));
+        lblTotal.setFont(new Font("Tahoma", Font.BOLD, 15));
+        lblTotal.setForeground(NAVY);
+        lblTotal.setBounds(230, 24, 130, 20);
+        pnlSummary.add(lblTotal);
+
+        String[] cols = {"Acc. No.", "Name", "Type", "Balance"};
+
+        DefaultTableModel model = new DefaultTableModel(files.getAccountsData(userId), cols) {
             @Override
             public boolean isCellEditable(int row, int column) {
-                return false; 
+                return false;
             }
         };
 
         JTable tbl = new JTable(model);
-        tbl.setRowHeight(35);
-        tbl.setFont(new Font("Segoe UI", Font.PLAIN, 12));
+        tbl.setRowHeight(38);
+        tbl.setFont(new Font("Tahoma", Font.PLAIN, 12));
+        tbl.setShowGrid(false);
+        tbl.setIntercellSpacing(new Dimension(0, 0));
         tbl.getTableHeader().setReorderingAllowed(false);
+        tbl.setSelectionBackground(new Color(220, 230, 250));
+        tbl.setSelectionForeground(NAVY);
 
-        tbl.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
-        TableColumnModel columnModel = tbl.getColumnModel();
-        columnModel.getColumn(0).setPreferredWidth(70);
-        columnModel.getColumn(1).setPreferredWidth(130);
-        columnModel.getColumn(2).setPreferredWidth(100);
-        columnModel.getColumn(3).setPreferredWidth(80);
-
-        JTableHeader head = tbl.getTableHeader();
-        head.setBackground(new Color(0x8bace0));
-        head.setFont(new Font("Segoe UI", Font.BOLD, 13));
-
-        JScrollPane sp = new JScrollPane(tbl);
-        sp.setBounds(27, 120, 360, 440);
-        sp.setBorder(BorderFactory.createLineBorder(Color.GRAY));
-        add(sp);
-
-        btnBack = new JButton("BACK") {
+        DefaultTableCellRenderer renderer = new DefaultTableCellRenderer() {
             @Override
-            protected void paintComponent(Graphics g) {
-                Graphics2D g2 = (Graphics2D) g.create();
-                g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-                g2.setColor(getBackground());
-                g2.fillRoundRect(0, 0, getWidth(), getHeight(), 30, 30);
-                g2.dispose();
-                super.paintComponent(g);
+            public Component getTableCellRendererComponent(JTable table, Object value,
+                    boolean isSelected, boolean hasFocus, int row, int column) {
+                Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+                if (!isSelected) {
+                    if (row % 2 == 0) {
+                        c.setBackground(WHITE);
+                    } else {
+                        c.setBackground(new Color(245, 248, 255));
+                    }
+                }
+                return c;
             }
         };
-        btnBack.setBounds(27, 590, 360, 50);
-        btnBack.setBackground(new Color(0x8bace0));
-        btnBack.setFont(new Font("Segoe UI", Font.PLAIN, 14)); 
-        btnBack.setContentAreaFilled(false);
+        tbl.setDefaultRenderer(Object.class, renderer);
+
+        JTableHeader head = tbl.getTableHeader();
+        head.setBackground(NAVY);
+        head.setForeground(WHITE);
+        head.setFont(new Font("Tahoma", Font.BOLD, 12));
+        head.setPreferredSize(new Dimension(head.getWidth(), 38));
+
+        TableColumnModel colModel = tbl.getColumnModel();
+        colModel.getColumn(0).setPreferredWidth(69);
+        colModel.getColumn(1).setPreferredWidth(135);
+        colModel.getColumn(2).setPreferredWidth(80);
+        colModel.getColumn(3).setPreferredWidth(80);
+
+        JScrollPane sp = new JScrollPane(tbl);
+        sp.setBounds(25, 212, 364, 375); 
+        sp.setBorder(BorderFactory.createLineBorder(new Color(215, 225, 240)));
+        add(sp);
+
+        btnBack = new JButton("Back");
+        btnBack.setBounds(25, 605, 364, 50); 
         btnBack.setBorderPainted(false);
+        btnBack.setBackground(ACCENT);  
+        btnBack.setForeground(NAVY);     
+        btnBack.setFont(new Font("Tahoma", Font.BOLD, 14));
+        btnBack.setFocusPainted(false);
         add(btnBack);
 
         btnBack.addActionListener(this);
@@ -89,7 +133,7 @@ public class ViewAccountsPage extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == btnBack) {
             dispose();
-            new GUI1Frame(files).setVisible(true);
+            new dashboardAccMng(files, userId).setVisible(true);
         }
     }
 }
