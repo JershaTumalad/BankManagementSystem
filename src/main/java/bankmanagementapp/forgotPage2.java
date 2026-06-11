@@ -90,7 +90,7 @@ public class forgotPage2 extends JFrame {
         java.sql.ResultSet rs = ps.executeQuery();
         if (rs.next()) {
             JOptionPane.showMessageDialog(this, "Email Found!");
-           int accountNumber = rs.getInt("account_number");
+        int accountNumber = rs.getInt("account_number");
 new BankAppGUI(accountNumber);
             dispose();
         } else {

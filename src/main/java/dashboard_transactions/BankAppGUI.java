@@ -14,7 +14,7 @@ public class BankAppGUI extends JFrame {
 
     private JPanel buttonPanel;
     private JLabel header, balanceLBL, balanceAmountLBL;
-    private JButton depBTN, witBTN, tranBTN, billsBTN, loadBTN, suppBTN, hisBTN;
+    private JButton depBTN, witBTN, tranBTN, billsBTN, autoPayBTN, loadBTN, suppBTN, hisBTN;
 
    TransactionManager manager;
 private int accountNumber;
@@ -106,6 +106,8 @@ public BankAppGUI(int accountNumber) {
         tranBTN  = makeButton("[->]  Transfer money");
         billsBTN = makeButton("[$]  Pay bills");
         loadBTN  = makeButton("[#]  Buy load");
+        autoPayBTN = makeButton("[R]  Auto Payment");
+buttonPanel.add(autoPayBTN);
         suppBTN  = makeButton("[?]  Support / Help");
 
         buttonPanel.add(depBTN);
@@ -114,13 +116,13 @@ public BankAppGUI(int accountNumber) {
         buttonPanel.add(billsBTN);
         buttonPanel.add(loadBTN);
         buttonPanel.add(suppBTN);
-        
-        depBTN.setBounds(5, 8, 350, 45);
-        witBTN.setBounds(5, 63, 350, 45);
-        tranBTN.setBounds(5, 118, 350, 45);
-        billsBTN.setBounds(5, 173, 350, 45);
-        loadBTN.setBounds(5, 228, 350, 45);
-        suppBTN.setBounds(5, 283, 350, 45);
+depBTN    .setBounds(5, 8,   350, 42);
+witBTN    .setBounds(5, 55,  350, 42);
+tranBTN   .setBounds(5, 102, 350, 42);
+billsBTN  .setBounds(5, 149, 350, 42);
+autoPayBTN.setBounds(5, 196, 350, 42);
+loadBTN   .setBounds(5, 243, 350, 42);
+suppBTN   .setBounds(5, 290, 350, 42);
 
         //trnasaction history
         hisBTN = makeButton("[=]  Transaction History");
@@ -133,6 +135,7 @@ public BankAppGUI(int accountNumber) {
         tranBTN .addActionListener(e -> { new TransferGUI(manager, this);    setVisible(false); });
         billsBTN.addActionListener(e -> { new BillPaymentGUI(manager, this); setVisible(false); });
         loadBTN .addActionListener(e -> { new BuyLoadGUI(manager, this);     setVisible(false); });
+        autoPayBTN.addActionListener(e -> { new AutoPaymentGUI(manager, this); setVisible(false); });
         suppBTN .addActionListener(e -> { JOptionPane.showMessageDialog(this, "Support & Help\nEmail: support@bankapp.com\nHotline: 1800-BANK-APP"); });
         hisBTN  .addActionListener(e -> { new HistoryGUI(manager, this);     setVisible(false); });
       manageBtn.addActionListener(e -> {
@@ -141,7 +144,8 @@ public BankAppGUI(int accountNumber) {
     setVisible(false);
 });
 
-        setVisible(true);
+       updateBalance("None");
+setVisible(true);
     }
 
     private JButton makeButton(String text) {

@@ -1,75 +1,4 @@
-//package dashboard_transactions;
-//
-//import java.util.*;
-//
-//public class TransactionManager {
-//    private ArrayList<Transaction> transactionList = new ArrayList<>();
-//    private int nextID = 0;
-//    private double balance = 0.0;
-//    
-//    public String addTransaction( String type, double amount, String date, String extra) {
-//        Transaction newTransaction;
-//        int id = nextID++;
-//        
-//        if (!type.equals("Deposit") && amount > balance) {
-//            return "❌ Insufficient balance. Current balance: PHP " + String.format("%.2f", balance);
-//            
-//        }
-//        
-//        
-//        
-//        switch(type){
-//            case "Deposit":
-//                newTransaction = new Deposit(id, amount, date);
-//                break;
-//            case "Withdrawal":
-//                newTransaction = new Withdrawal(id, amount, date);
-//                break;
-//            case "Transfer":
-//                newTransaction = new Transfer(id, amount, date, extra);
-//                break;
-//            case "Bills Payment":
-//                newTransaction = new BillsPayment(id, amount, date, extra);
-//                break;
-//            case "Buy Load":
-//                newTransaction = new BuyLoad(id, amount, date, extra);
-//                break;
-//            default:
-//                return "Invalid transaction type.";
-//                
-//        }
-//        
-//        if(type.equals("Deposit")){
-//            balance += amount;
-//        }else{
-//            balance -= amount;
-//        }
-//        
-//        transactionList.add(newTransaction);
-//        return "SUCCESS";
-//    }
-//    
-//    public double getBalance(){
-//        return balance;
-//    }
-//    
-//    public ArrayList<Transaction> getTransactionList(){
-//        return transactionList;
-//    }
-//    
-//    public void displayAllTransaction(){
-//        if(transactionList.isEmpty()){
-//            System.out.println("No transaction found.");
-//        }else{
-//            System.out.println("ALL TRANSACTIONS");
-//            for(Transaction t : transactionList){
-//                t.displayTransaction();
-//            }
-//            
-//            
-//        }
-//    }
-//}
+
 
 
 package dashboard_transactions;
@@ -158,20 +87,37 @@ public class TransactionManager {
         ps.executeUpdate();
     }
 
+//    public double getBalance() {
+//        try {
+//            Connection con = DBConnection.getConnection();
+//            String sql = "SELECT balance FROM accounts WHERE account_number = ?";
+//            PreparedStatement ps = con.prepareStatement(sql);
+//            ps.setInt(1, accountNumber);
+//            ResultSet rs = ps.executeQuery();
+//            if (rs.next()) return rs.getDouble("balance");
+//            con.close();
+//        } catch (SQLException ex) {
+//            System.out.println("Error getting balance: " + ex.getMessage());
+//        }
+//        return 0.0;
+//    }
+    
     public double getBalance() {
-        try {
-            Connection con = DBConnection.getConnection();
-            String sql = "SELECT balance FROM accounts WHERE account_number = ?";
-            PreparedStatement ps = con.prepareStatement(sql);
-            ps.setInt(1, accountNumber);
-            ResultSet rs = ps.executeQuery();
-            if (rs.next()) return rs.getDouble("balance");
-            con.close();
-        } catch (SQLException ex) {
-            System.out.println("Error getting balance: " + ex.getMessage());
-        }
-        return 0.0;
+    try {
+        Connection con = DBConnection.getConnection();
+        String sql = "SELECT balance FROM accounts WHERE account_number = ?";
+        PreparedStatement ps = con.prepareStatement(sql);
+        ps.setInt(1, accountNumber);
+        ResultSet rs = ps.executeQuery();
+        double balance = 0.0;
+        if (rs.next()) balance = rs.getDouble("balance");
+        con.close(); // ← now properly closes
+        return balance;
+    } catch (SQLException ex) {
+        System.out.println("Error getting balance: " + ex.getMessage());
     }
+    return 0.0;
+}
 
     public ArrayList<Transaction> getTransactionList() {
         ArrayList<Transaction> list = new ArrayList<>();
@@ -197,4 +143,25 @@ public class TransactionManager {
         }
         return list;
     }
-}
+    
+    // Required by AutoPaymentGUI
+    public int getAccountNumber() {
+        return accountNumber;
+    }
+
+    // Required by AutoPaymentGUI
+    public void deductBalance(double amount) {
+        try {
+            Connection con = DBConnection.getConnection();
+            String sql = "UPDATE accounts SET balance = balance - ? WHERE account_number = ?";
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setDouble(1, amount);
+            ps.setInt(2, accountNumber);
+            ps.executeUpdate();
+            con.close();
+        } catch (SQLException ex) {
+            System.out.println("Error deducting balance: " + ex.getMessage());
+        }
+    }
+
+} 

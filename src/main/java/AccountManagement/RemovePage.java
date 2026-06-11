@@ -133,6 +133,10 @@ public class RemovePage extends JFrame implements ActionListener {
                 JOptionPane.showMessageDialog(this, "Invalid input! Account Number must contain numbers only.", "Error", JOptionPane.ERROR_MESSAGE);
                 return;
             }
+            if(input.length() != 10){
+    JOptionPane.showMessageDialog(this, "Invalid input! Account Number must be exactly 10 digits.", "Error", JOptionPane.ERROR_MESSAGE);
+    return;
+}
 
             if(files.removeAccount(input, userId)){
                 JOptionPane.showMessageDialog(this, "Account Deleted.");
