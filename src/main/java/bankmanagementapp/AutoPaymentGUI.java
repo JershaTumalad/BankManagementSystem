@@ -1,4 +1,4 @@
-package dashboard_transactions;
+package bankmanagementapp;
 
 import javax.swing.*;
 import javax.swing.border.*;
@@ -183,7 +183,7 @@ public class AutoPaymentGUI extends JFrame {
 
         // Save to database
         try {
-            Connection con = bankmanagementapp.DBConnection.getConnection();
+            Connection con = bankmanagementapp.DBConnection1.getConnection();
 
             String sql = "INSERT INTO auto_payment (account_number, biller, amount, frequency, description, status) "
                        + "VALUES (?, ?, ?, ?, ?, 'Successful')";
@@ -220,7 +220,7 @@ public class AutoPaymentGUI extends JFrame {
     // ── VIEW SCHEDULED PAYMENTS ──
     private void viewScheduled() {
         try {
-            Connection con = bankmanagementapp.DBConnection.getConnection();
+            Connection con = bankmanagementapp.DBConnection1.getConnection();
             String sql = "SELECT biller, amount, frequency, date, status, description "
                        + "FROM auto_payment WHERE account_number = ? ORDER BY date DESC";
             PreparedStatement ps = con.prepareStatement(sql);

@@ -218,7 +218,7 @@ if (!phone.matches("^09[0-9]{9}$")) {
         }
          
            try {
-    java.sql.Connection con = DBConnection.getConnection();
+    java.sql.Connection con = DBConnection1.getConnection();
     String query = "INSERT INTO users (user_id_str, password, email, first_name, last_name, middle_name, mobile_number, address, account_type, birthdate) VALUES (?,?,?,?,?,?,?,?,?,?)";
     java.sql.PreparedStatement ps = con.prepareStatement(query);
     ps.setString(1, inputedUserId);

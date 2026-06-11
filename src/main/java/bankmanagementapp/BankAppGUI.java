@@ -1,4 +1,4 @@
-package dashboard_transactions;
+package bankmanagementapp;
 
 import javax.swing.*;
 import javax.swing.border.*;
@@ -6,8 +6,6 @@ import java.awt.*;
 import java.awt.event.*;
 //import project.GUI1Frame;    
 //import project.AccountFiles; 
-import AccountManagement.AccountFiles;
-import AccountManagement.dashboardAccMng;
 import bankmanagementapp.logInPage;
 
 public class BankAppGUI extends JFrame {
