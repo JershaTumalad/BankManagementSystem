@@ -63,6 +63,8 @@ public class TransactionManager {
                 case "Buy Load":
                     insertSpecific("INSERT INTO buy_load (account_number, load_name, amount, date, status) VALUES (?, ?, ?, ?, 'Successful')", amount, date, extra, con);
                     break;
+                    
+                   
             }
 
             con.close();
@@ -72,7 +74,49 @@ public class TransactionManager {
             return "Database error: " + ex.getMessage();
         }
     }
+public String addAutoPayment(String biller, double amount, String frequency, String description) {
+    if (amount > getBalance()) {
+        return "Insufficient balance. Current balance: PHP " + String.format("%.2f", getBalance());
+    }
+    try {
+        Connection con = DBConnection1.getConnection();
+        String date = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+                          .format(new java.util.Date());
 
+        // Insert into transaction_history
+        String insertTxn = "INSERT INTO transaction_history (account_number, transaction_type, amount, date, description, status) "
+                         + "VALUES (?, 'Auto Payment', ?, ?, ?, 'Successful')";
+        PreparedStatement ps = con.prepareStatement(insertTxn);
+        ps.setInt(1, accountNumber);
+        ps.setDouble(2, amount);
+        ps.setString(3, date);
+        ps.setString(4, description.isEmpty() ? biller : description);
+        ps.executeUpdate();
+
+        // Insert into auto_payment table
+        String insertAuto = "INSERT INTO auto_payment (account_number, biller, amount, frequency, description, status) "
+                          + "VALUES (?, ?, ?, ?, ?, 'Successful')";
+        PreparedStatement ps2 = con.prepareStatement(insertAuto);
+        ps2.setInt(1, accountNumber);
+        ps2.setString(2, biller);
+        ps2.setDouble(3, amount);
+        ps2.setString(4, frequency);
+        ps2.setString(5, description.isEmpty() ? null : description);
+        ps2.executeUpdate();
+
+        // Deduct balance
+        String updateBal = "UPDATE accounts SET balance = balance - ? WHERE account_number = ?";
+        PreparedStatement ps3 = con.prepareStatement(updateBal);
+        ps3.setDouble(1, amount);
+        ps3.setInt(2, accountNumber);
+        ps3.executeUpdate();
+
+        con.close();
+        return "SUCCESS";
+    } catch (SQLException ex) {
+        return "Database error: " + ex.getMessage();
+    }
+}
     private void insertSpecific(String sql, double amount, String date, String extra, Connection con) throws SQLException {
         PreparedStatement ps = con.prepareStatement(sql);
         ps.setInt(1, accountNumber);
@@ -87,20 +131,7 @@ public class TransactionManager {
         ps.executeUpdate();
     }
 
-//    public double getBalance() {
-//        try {
-//            Connection con = DBConnection.getConnection();
-//            String sql = "SELECT balance FROM accounts WHERE account_number = ?";
-//            PreparedStatement ps = con.prepareStatement(sql);
-//            ps.setInt(1, accountNumber);
-//            ResultSet rs = ps.executeQuery();
-//            if (rs.next()) return rs.getDouble("balance");
-//            con.close();
-//        } catch (SQLException ex) {
-//            System.out.println("Error getting balance: " + ex.getMessage());
-//        }
-//        return 0.0;
-//    }
+
     
     public double getBalance() {
     try {

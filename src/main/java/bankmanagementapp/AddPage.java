@@ -103,7 +103,7 @@ public class AddPage extends JFrame implements ActionListener{
         txtFirstName.setBounds(190, 75, 160, 30);
         personalPanel.add(txtFirstName);
 
-        lblMName = new JLabel("MIDDLE NAME (Optional)");
+        lblMName = new JLabel("MIDDLE NAME ");
         lblMName.setBounds(20, 125, 300, 20);
         lblMName.setFont(new Font("Tahoma", Font.BOLD, 14));
         lblMName.setForeground(Color.GRAY);

@@ -140,14 +140,14 @@ public class AutoPaymentGUI extends JFrame {
             dispose();
         });
 
-        btnSubmit.addActionListener(e -> schedulePayment());
+        btnSubmit.addActionListener(e -> addAutoPayment());
         btnViewScheduled.addActionListener(e -> viewScheduled());
 
         setVisible(true);
     }
 
     // ── SCHEDULE PAYMENT ──
-    private void schedulePayment() {
+    private void addAutoPayment() {
         String biller      = tfBiller.getText().trim();
         String amountText  = tfAmount.getText().trim();
         String frequency   = (String) cbFrequency.getSelectedItem();
@@ -182,39 +182,23 @@ public class AutoPaymentGUI extends JFrame {
         }
 
         // Save to database
-        try {
-            Connection con = bankmanagementapp.DBConnection1.getConnection();
+// Use manager.addAutoPayment() which handles both tables
+String result = manager.addAutoPayment(biller, amount, frequency, description);
 
-            String sql = "INSERT INTO auto_payment (account_number, biller, amount, frequency, description, status) "
-                       + "VALUES (?, ?, ?, ?, ?, 'Successful')";
-            PreparedStatement ps = con.prepareStatement(sql);
-            ps.setInt(1, manager.getAccountNumber());
-            ps.setString(2, biller);
-            ps.setDouble(3, amount);
-            ps.setString(4, frequency);
-            ps.setString(5, description.isEmpty() ? null : description);
-            ps.executeUpdate();
-
-            // Deduct balance
-            manager.deductBalance(amount);
-            parent.updateBalance("AutoPay");
-
-            JOptionPane.showMessageDialog(this,
-                "Auto payment scheduled!\n" +
-                "Biller: " + biller + "\n" +
-                "Amount: PHP " + String.format("%,.2f", amount) + "\n" +
-                "Frequency: " + frequency,
-                "Success", JOptionPane.INFORMATION_MESSAGE);
-
-            // Clear fields
-            tfBiller.setText("");
-            tfAmount.setText("");
-            tfDescription.setText("");
-            con.close();
-
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(this, "Database error: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-        }
+if (result.equals("SUCCESS")) {
+    parent.updateBalance("AutoPay");
+    JOptionPane.showMessageDialog(this,
+        "Auto payment scheduled!\n" +
+        "Biller: " + biller + "\n" +
+        "Amount: PHP " + String.format("%,.2f", amount) + "\n" +
+        "Frequency: " + frequency,
+        "Success", JOptionPane.INFORMATION_MESSAGE);
+    tfBiller.setText("");
+    tfAmount.setText("");
+    tfDescription.setText("");
+} else {
+    JOptionPane.showMessageDialog(this, result, "Error", JOptionPane.ERROR_MESSAGE);
+}
     }
 
     // ── VIEW SCHEDULED PAYMENTS ──
