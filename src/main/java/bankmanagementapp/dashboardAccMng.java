@@ -1,6 +1,5 @@
-package AccountManagement;
+package bankmanagementapp;
 
-import dashboard_transactions.BankAppGUI;
 
 import java.awt.*;
 import java.awt.event.*;

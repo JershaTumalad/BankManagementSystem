@@ -1,4 +1,4 @@
-package AccountManagement;
+package bankmanagementapp;
 
 import java.sql.*;
 import java.util.ArrayList;

@@ -1,7 +1,6 @@
 
 package bankmanagementapp;
 
-import dashboard_transactions.BankAppGUI;
 import java.awt.*;
 import javax.swing.*;
 import java.util.*;
@@ -83,7 +82,7 @@ public class forgotPage1 extends JFrame {
       btnSubmit.addActionListener(e -> {
     String inputUserId = tfUserid.getText().trim();
     try {
-        java.sql.Connection con = DBConnection.getConnection();
+        java.sql.Connection con = DBConnection1.getConnection();
         String query = "SELECT * FROM users WHERE user_id_str = ?";
         java.sql.PreparedStatement ps = con.prepareStatement(query);
         ps.setString(1, inputUserId);

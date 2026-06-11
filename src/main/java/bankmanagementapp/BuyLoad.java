@@ -1,4 +1,4 @@
-package dashboard_transactions;
+package bankmanagementapp;
 
 public class BuyLoad extends Transaction{
     private String loadName;

@@ -1,4 +1,4 @@
-package dashboard_transactions;
+package bankmanagementapp;
 
 public class BillsPayment extends Transaction{
     private String billerName;

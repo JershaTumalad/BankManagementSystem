@@ -1,5 +1,5 @@
 
-package AccountManagement;
+package bankmanagementapp;
 
 import java.awt.*;
 import javax.swing.*;
