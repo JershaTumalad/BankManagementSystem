@@ -1,4 +1,4 @@
-package dashboard_transactions;
+package bankmanagementapp;
 
 import javax.swing.*;
 import javax.swing.table.*;

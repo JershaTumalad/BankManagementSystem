@@ -5,7 +5,6 @@ package bankmanagementapp;
 import static bankmanagementapp.frontPage.LIGHT_BLUE;
 import java.awt.*;
 import javax.swing.*;
-import dashboard_transactions.BankAppGUI;
 
 public class logInPage extends JFrame {
 

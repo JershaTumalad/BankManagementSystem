@@ -1,9 +1,9 @@
 
 
 
-package dashboard_transactions;
+package bankmanagementapp;
 
-import bankmanagementapp.DBConnection;
+import bankmanagementapp.DBConnection1;
 import java.sql.*;
 import java.util.ArrayList;
 
@@ -22,7 +22,7 @@ public class TransactionManager {
         }
 
         try {
-            Connection con = DBConnection.getConnection();
+            Connection con = DBConnection1.getConnection();
 
             // Insert into transaction_history
             String insertTxn = "INSERT INTO transaction_history (account_number, transaction_type, amount, date, description, status) VALUES (?, ?, ?, ?, ?, 'Successful')";
@@ -104,7 +104,7 @@ public class TransactionManager {
     
     public double getBalance() {
     try {
-        Connection con = DBConnection.getConnection();
+        Connection con = DBConnection1.getConnection();
         String sql = "SELECT balance FROM accounts WHERE account_number = ?";
         PreparedStatement ps = con.prepareStatement(sql);
         ps.setInt(1, accountNumber);
@@ -122,7 +122,7 @@ public class TransactionManager {
     public ArrayList<Transaction> getTransactionList() {
         ArrayList<Transaction> list = new ArrayList<>();
         try {
-            Connection con = DBConnection.getConnection();
+            Connection con = DBConnection1.getConnection();
             String sql = "SELECT * FROM transaction_history WHERE account_number = ? ORDER BY date DESC";
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setInt(1, accountNumber);
@@ -152,7 +152,7 @@ public class TransactionManager {
     // Required by AutoPaymentGUI
     public void deductBalance(double amount) {
         try {
-            Connection con = DBConnection.getConnection();
+            Connection con = DBConnection1.getConnection();
             String sql = "UPDATE accounts SET balance = balance - ? WHERE account_number = ?";
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setDouble(1, amount);

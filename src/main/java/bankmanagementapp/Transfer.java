@@ -1,4 +1,4 @@
-package dashboard_transactions;
+package bankmanagementapp;
 
 public class Transfer extends Transaction{
     private String recipient;
