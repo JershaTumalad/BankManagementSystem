@@ -34,6 +34,8 @@ public class AddPage extends JFrame implements ActionListener{
         this.files = files;
         this.userId = userId;
 
+        
+         // Basic window configuration
         setTitle("Bank Account Management");
         setSize(430, 720);
         setLayout(null);
@@ -126,6 +128,8 @@ public class AddPage extends JFrame implements ActionListener{
         lblAccType.setForeground(Color.GRAY);
         accountPanel.add(lblAccType);
 
+        
+        // Dropdown for choosing Savings or Current account type
        cmbType = new JComboBox<>(new String[]{"SAVINGS ACCOUNT", "CHECKING ACCOUNT"});
         cmbType.setBounds(20, 75, 330, 30);
         accountPanel.add(cmbType);
@@ -136,6 +140,8 @@ public class AddPage extends JFrame implements ActionListener{
         lblAccNo.setForeground(Color.GRAY);
         accountPanel.add(lblAccNo);
 
+        
+        // Auto-generated account number — read-only, user cannot edit it
         txtAccNo = new JTextField();
         txtAccNo.setBackground(txtFieldColor);
         txtAccNo.setBounds(20, 155, 330, 30);
@@ -177,6 +183,8 @@ public class AddPage extends JFrame implements ActionListener{
         
     }
 
+    
+     //  Handles button clicks.
     @Override
     public void actionPerformed(ActionEvent e){
         if(e.getSource() == btnBack){

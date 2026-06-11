@@ -14,6 +14,8 @@ public class dashboardAccMng extends JFrame implements ActionListener {
     private JButton btnAdd, btnRemove, btnSearch, btnView, btnExit;
     private int userId;
     
+    
+     // Shared color palette used throughout the dashboard
     Color mainColor = new Color(25, 48, 90);
     Color buttonColor = new Color (244, 246, 252);
     Color mainButtonColor = new Color(139, 172, 224);
@@ -23,11 +25,13 @@ public class dashboardAccMng extends JFrame implements ActionListener {
     AccountFiles files;
 
     
-
+// Builds the dashboard window.
     public dashboardAccMng(AccountFiles files, int userId) {
         this.files = files;
         this.userId = userId;
         
+        
+         // Basic window configuration
         setTitle("Bank Account Management");
         setSize(430, 720);
         setLayout(null);
@@ -36,6 +40,8 @@ public class dashboardAccMng extends JFrame implements ActionListener {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setResizable(false);
         
+        
+        // Header Panel: displays bank name and page title 
         headerPanel = new JPanel();
         headerPanel.setBackground(mainColor); 
         headerPanel.setBounds(0, 0, 430, 120);
@@ -54,6 +60,8 @@ public class dashboardAccMng extends JFrame implements ActionListener {
         lblDashboard.setBounds(30, 45, 350, 45);
         headerPanel.add(lblDashboard);
 
+        
+        // Main Panel: contains the action buttons 
         mainPanel = new JPanel();
         mainPanel.setBackground(Color.WHITE);
         mainPanel.setBounds(25, 145, 364, 440); 
@@ -67,6 +75,8 @@ public class dashboardAccMng extends JFrame implements ActionListener {
         mainPanel.add(lblActions);
         
         
+        
+          // Navigation buttons for each account operation
         btnAdd = new JButton("\u2795   ADD ACCOUNT");
         btnAdd.setBackground(mainButtonColor); 
         btnAdd.setForeground(new Color(40, 45, 55));
@@ -103,6 +113,8 @@ public class dashboardAccMng extends JFrame implements ActionListener {
         btnView.setBounds(25, 325, 314, 60);
         mainPanel.add(btnView);
         
+        
+        // Returns the user to the main bank dashboard
         btnExit = new JButton("Back to Dashboard");
         btnExit.setFont(new Font("Tahoma", Font.BOLD, 14));
         btnExit.setForeground(new Color(50, 55, 65));
@@ -110,6 +122,8 @@ public class dashboardAccMng extends JFrame implements ActionListener {
         btnExit.setBounds(25, 605, 364, 50); 
         add(btnExit);
 
+        
+        // Register all buttons with the action listener
         btnAdd.addActionListener(this);
         btnRemove.addActionListener(this);
         btnSearch.addActionListener(this);
@@ -117,6 +131,8 @@ public class dashboardAccMng extends JFrame implements ActionListener {
         btnExit.addActionListener(this);
     }
 
+    
+    // Handles button clicks.
     @Override
     public void actionPerformed(ActionEvent e){
   if(e.getSource() == btnExit){
