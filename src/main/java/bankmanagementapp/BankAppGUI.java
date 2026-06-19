@@ -4,8 +4,7 @@ import javax.swing.*;
 import javax.swing.border.*;
 import java.awt.*;
 import java.awt.event.*;
-//import project.GUI1Frame;    
-//import project.AccountFiles; 
+
 import bankmanagementapp.logInPage;
 
 public class BankAppGUI extends JFrame {
@@ -143,6 +142,10 @@ suppBTN   .setBounds(5, 290, 350, 42);
 });
 
        updateBalance("None");
+       
+       // Run scheduler on login
+SwingUtilities.invokeLater(() ->
+    AutoPayScheduler.processDuePayments(accountNumber, this));
 setVisible(true);
     }
 
@@ -172,9 +175,9 @@ setVisible(true);
         balanceAmountLBL.repaint();
     }
 
-//    public static void main(String[] args) {
-//        SwingUtilities.invokeLater(BankAppGUI::new);
-//    }
+public void refreshDateIndicator() {
+    updateBalance("None");
+}
     
    
 }

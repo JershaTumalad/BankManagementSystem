@@ -134,11 +134,12 @@ public TransferGUI(TransactionManager manager, BankAppGUI mainWindow) {
                 return;
             }
 
-            String result = manager.transferMoney(
-                    amount,
-                    dateField.getText(),
-                    recipient
-            );
+          String result = manager.addTransaction(
+    "Transfer",
+    amount,
+    dateField.getText(),
+    recipient
+);
 
             if (result.equals("SUCCESS")) {
 
