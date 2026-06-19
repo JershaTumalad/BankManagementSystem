@@ -7,9 +7,9 @@ import java.util.ArrayList;
 
 public class TransactionManager {
 
-    private int accountNumber;
+    private long accountNumber;
 
-    public TransactionManager(int accountNumber) {
+    public TransactionManager(long accountNumber) {
         this.accountNumber = accountNumber;
     }
 
@@ -23,7 +23,7 @@ public class TransactionManager {
 
             String insertTxn = "INSERT INTO transaction_history (account_number, transaction_type, amount, date, description, status) VALUES (?, ?, ?, ?, ?, 'Successful')";
             PreparedStatement ps = con.prepareStatement(insertTxn);
-            ps.setInt(1, accountNumber);
+            ps.setLong(1, accountNumber);
             ps.setString(2, type);
             ps.setDouble(3, amount);
             ps.setString(4, date);
@@ -38,7 +38,7 @@ public class TransactionManager {
             }
             PreparedStatement ps2 = con.prepareStatement(updateBalance);
             ps2.setDouble(1, amount);
-            ps2.setInt(2, accountNumber);
+            ps2.setLong(2, accountNumber);
             ps2.executeUpdate();
 
             switch (type) {
@@ -48,9 +48,10 @@ public class TransactionManager {
                 case "Withdrawal":
                     insertSpecific("INSERT INTO withdrawal (account_number, amount, date, status) VALUES (?, ?, ?, 'Successful')", amount, date, extra, con);
                     break;
-                case "Transfer":
-                    insertSpecific("INSERT INTO transfer (account_number, recipient_account, amount, date, status) VALUES (?, ?, ?, ?, 'Successful')", amount, date, extra, con);
-                    break;
+                // NOTE: "Transfer" case removed on purpose.
+                // Transfers now go through transferMoney() below, which
+                // properly credits the receiver too. Do NOT route transfers
+                // through this method anymore.
                 case "Bills Payment":
                     insertSpecific("INSERT INTO bills_payment (account_number, biller_name, amount, date, status) VALUES (?, ?, ?, ?, 'Successful')", amount, date, extra, con);
                     break;
@@ -67,29 +68,105 @@ public class TransactionManager {
         }
     }
 
-    // ── NEW METHOD: Schedule auto payment (NO immediate deduction) ────────────
-    /**
-     * Schedules an auto payment. Balance is NOT deducted now.
-     * AutoPayScheduler will deduct on the next_run_date (first due date).
-     *
-     * @param biller      biller name
-     * @param amount      amount to deduct per cycle
-     * @param frequency   Daily / Weekly / Monthly / Yearly
-     * @param description optional note
-     * @return "SUCCESS" or error message
-     */
+    // ── TRANSFER: properly deducts sender AND credits receiver ───────────────
+    public String transferMoney(double amount, String date, String recipientAccountStr) {
+        if (amount <= 0) return "Invalid transfer amount.";
+
+        String recipientTrimmed = recipientAccountStr == null ? "" : recipientAccountStr.trim();
+        if (recipientTrimmed.isEmpty()) return "Recipient account number is required.";
+
+        long recipientAccountNumber;
+        try {
+            recipientAccountNumber = Long.parseLong(recipientTrimmed);
+        } catch (NumberFormatException ex) {
+            return "Recipient account number must be numeric.";
+        }
+
+        if (recipientAccountNumber == accountNumber)
+            return "You cannot transfer to your own account.";
+
+        if (amount > getBalance())
+            return "Insufficient balance. Current balance: PHP " + String.format("%.2f", getBalance());
+
+        Connection con = null;
+        try {
+            con = DBConnection1.getConnection();
+            con.setAutoCommit(false); // all steps succeed or all roll back
+
+            // 1. Check recipient exists
+            PreparedStatement checkPs = con.prepareStatement(
+                "SELECT account_number FROM accounts WHERE account_number = ?");
+            checkPs.setLong(1, recipientAccountNumber);
+            ResultSet rs = checkPs.executeQuery();
+            if (!rs.next()) { con.rollback(); con.close(); return "Recipient account does not exist."; }
+            rs.close(); checkPs.close();
+
+            // 2. Deduct from sender
+            PreparedStatement deductPs = con.prepareStatement(
+                "UPDATE accounts SET balance = balance - ? WHERE account_number = ?");
+            deductPs.setDouble(1, amount);
+            deductPs.setLong(2, accountNumber);
+            deductPs.executeUpdate(); deductPs.close();
+
+            // 3. Credit receiver
+            PreparedStatement creditPs = con.prepareStatement(
+                "UPDATE accounts SET balance = balance + ? WHERE account_number = ?");
+            creditPs.setDouble(1, amount);
+            creditPs.setLong(2, recipientAccountNumber);
+            creditPs.executeUpdate(); creditPs.close();
+
+            // 4. Log for sender
+            PreparedStatement txnSenderPs = con.prepareStatement(
+                "INSERT INTO transaction_history (account_number, transaction_type, amount, date, description, status) "
+              + "VALUES (?, 'Transfer', ?, ?, ?, 'Successful')");
+            txnSenderPs.setLong(1, accountNumber);
+            txnSenderPs.setDouble(2, amount);
+            txnSenderPs.setString(3, date);
+            txnSenderPs.setString(4, "Transfer to " + recipientAccountNumber);
+            txnSenderPs.executeUpdate(); txnSenderPs.close();
+
+            // 5. Log for receiver
+            PreparedStatement txnReceiverPs = con.prepareStatement(
+                "INSERT INTO transaction_history (account_number, transaction_type, amount, date, description, status) "
+              + "VALUES (?, 'Transfer Received', ?, ?, ?, 'Successful')");
+            txnReceiverPs.setLong(1, recipientAccountNumber);
+            txnReceiverPs.setDouble(2, amount);
+            txnReceiverPs.setString(3, date);
+            txnReceiverPs.setString(4, "Transfer from " + accountNumber);
+            txnReceiverPs.executeUpdate(); txnReceiverPs.close();
+
+            // 6. Log into transfer table
+            PreparedStatement transferPs = con.prepareStatement(
+                "INSERT INTO transfer (account_number, recipient_account, amount, date, status) "
+              + "VALUES (?, ?, ?, ?, 'Successful')");
+            transferPs.setLong(1, accountNumber);
+            transferPs.setLong(2, recipientAccountNumber);
+            transferPs.setDouble(3, amount);
+            transferPs.setString(4, date);
+            transferPs.executeUpdate(); transferPs.close();
+
+            con.commit();
+            con.close();
+            return "SUCCESS";
+
+        } catch (SQLException ex) {
+            try { if (con != null) { con.rollback(); con.close(); } } catch (SQLException ignored) {}
+            return "Database error: " + ex.getMessage();
+        }
+    }
+
+    // ── Schedule auto payment (NO immediate deduction) ────────────────────────
     public String scheduleAutoPayment(String biller, double amount, String frequency, String description) {
         try {
             Connection con = DBConnection1.getConnection();
 
-            // Calculate first due date based on frequency
             LocalDate firstRun = calculateNextRun(AppClock.today(), frequency);
 
             String sql = "INSERT INTO auto_payment "
                        + "(account_number, biller, amount, frequency, description, status, next_run_date, is_active) "
                        + "VALUES (?, ?, ?, ?, ?, 'Scheduled', ?, 1)";
             PreparedStatement ps = con.prepareStatement(sql);
-            ps.setInt(1, accountNumber);
+            ps.setLong(1, accountNumber);
             ps.setString(2, biller);
             ps.setDouble(3, amount);
             ps.setString(4, frequency);
@@ -98,16 +175,14 @@ public class TransactionManager {
             ps.executeUpdate();
 
             con.close();
-            return "SUCCESS:" + firstRun.toString(); // return first run date for display
+            return "SUCCESS:" + firstRun.toString();
         } catch (SQLException ex) {
             return "Database error: " + ex.getMessage();
         }
     }
 
-    // ── KEPT for backward compatibility (old immediate-deduct version) ────────
-    // You can remove this once everything is migrated to scheduleAutoPayment()
+    // Kept for backward compatibility — redirects to scheduleAutoPayment
     public String addAutoPayment(String biller, double amount, String frequency, String description) {
-        // Redirect to the new scheduled version
         return scheduleAutoPayment(biller, amount, frequency, description);
     }
 
@@ -118,7 +193,7 @@ public class TransactionManager {
             PreparedStatement ps = con.prepareStatement(
                 "UPDATE auto_payment SET is_active = 0 WHERE transaction_id = ? AND account_number = ?");
             ps.setInt(1, transactionId);
-            ps.setInt(2, accountNumber);
+            ps.setLong(2, accountNumber);
             ps.executeUpdate();
             con.close();
             return "SUCCESS";
@@ -138,12 +213,12 @@ public class TransactionManager {
         }
     }
 
-    // ── Existing methods unchanged ────────────────────────────────────────────
+    // ── Private helpers ───────────────────────────────────────────────────────
 
     private void insertSpecific(String sql, double amount, String date, String extra, Connection con) throws SQLException {
         PreparedStatement ps = con.prepareStatement(sql);
-        ps.setInt(1, accountNumber);
-        if (sql.contains("recipient_account") || sql.contains("biller_name") || sql.contains("load_name")) {
+        ps.setLong(1, accountNumber);
+        if (sql.contains("biller_name") || sql.contains("load_name")) {
             ps.setString(2, extra.isEmpty() ? "N/A" : extra);
             ps.setDouble(3, amount);
             ps.setString(4, date);
@@ -159,7 +234,7 @@ public class TransactionManager {
             Connection con = DBConnection1.getConnection();
             String sql = "SELECT balance FROM accounts WHERE account_number = ?";
             PreparedStatement ps = con.prepareStatement(sql);
-            ps.setInt(1, accountNumber);
+            ps.setLong(1, accountNumber);
             ResultSet rs = ps.executeQuery();
             double balance = 0.0;
             if (rs.next()) balance = rs.getDouble("balance");
@@ -177,7 +252,7 @@ public class TransactionManager {
             Connection con = DBConnection1.getConnection();
             String sql = "SELECT * FROM transaction_history WHERE account_number = ? ORDER BY date DESC";
             PreparedStatement ps = con.prepareStatement(sql);
-            ps.setInt(1, accountNumber);
+            ps.setLong(1, accountNumber);
             ResultSet rs = ps.executeQuery();
             int id = 0;
             while (rs.next()) {
@@ -196,7 +271,7 @@ public class TransactionManager {
         return list;
     }
 
-    public int getAccountNumber() {
+    public long getAccountNumber() {
         return accountNumber;
     }
 
@@ -206,7 +281,7 @@ public class TransactionManager {
             String sql = "UPDATE accounts SET balance = balance - ? WHERE account_number = ?";
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setDouble(1, amount);
-            ps.setInt(2, accountNumber);
+            ps.setLong(2, accountNumber);
             ps.executeUpdate();
             con.close();
         } catch (SQLException ex) {

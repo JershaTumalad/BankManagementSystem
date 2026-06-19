@@ -224,7 +224,7 @@ public class AutoPaymentGUI extends JFrame {
             String sql = "SELECT biller, amount, frequency, date, next_run_date, status, description, is_active "
                        + "FROM auto_payment WHERE account_number = ? ORDER BY date DESC";
             PreparedStatement ps = con.prepareStatement(sql);
-            ps.setInt(1, manager.getAccountNumber());
+            ps.setLong(1, manager.getAccountNumber());
             ResultSet rs = ps.executeQuery();
 
             String[] columns = {"Biller", "Amount", "Frequency", "Next Run", "Status"};
